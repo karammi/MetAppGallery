@@ -1,5 +1,6 @@
 package com.asad.metappgallery.core.data
 
+import org.json.JSONArray
 import org.json.JSONObject
 
 /**
@@ -10,7 +11,19 @@ import org.json.JSONObject
 fun JSONObject.getStringNullable(name: String): String? {
     if (!this.has(name)) return null
 
+    if (this.isNull(name)) return null
+
     if (this.getString(name) == "null") return null
 
     return this.getString(name)
+}
+
+fun JSONObject.getArrayNullable(name: String): JSONArray? {
+    if (!this.has(name)) return null
+
+    if (this.isNull(name)) return null
+
+    if (this.getString(name) == "null") return null
+
+    return this.getJSONArray(name)
 }

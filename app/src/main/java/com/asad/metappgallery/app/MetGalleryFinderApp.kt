@@ -9,16 +9,16 @@ import androidx.navigation.navArgument
 import com.asad.metappgallery.app.navigation.NavArgs
 import com.asad.metappgallery.app.navigation.Screen
 import com.asad.metappgallery.core.data.NetworkRequester
-import com.asad.metappgallery.galleryDetail.dataSource.adapter.ArtObjectJsonAdapter
-import com.asad.metappgallery.galleryDetail.dataSource.adapter.ConstituentJsonAdapter
-import com.asad.metappgallery.galleryDetail.dataSource.adapter.TagJsonAdapter
-import com.asad.metappgallery.galleryDetail.dataSource.dataSource.GalleryDetailRemoteDataSourceImpl
-import com.asad.metappgallery.galleryDetail.presentation.screen.GalleryDetailScreen
-import com.asad.metappgallery.galleryDetail.presentation.viewModel.GalleryDetailViewModel
-import com.asad.metappgallery.galleryFinder.data.adapter.ObjectIDSJsonAdapter
-import com.asad.metappgallery.galleryFinder.data.dataSource.GalleryFinderRemoteDataSourceImpl
-import com.asad.metappgallery.galleryFinder.presentation.screen.GalleryFinderScreen
-import com.asad.metappgallery.galleryFinder.presentation.viewModel.GalleryFinderViewModel
+import com.asad.metappgallery.detailScreen.dataSource.adapter.ObjectModelJsonAdapter
+import com.asad.metappgallery.detailScreen.dataSource.adapter.ConstituentJsonAdapter
+import com.asad.metappgallery.detailScreen.dataSource.adapter.TagJsonAdapter
+import com.asad.metappgallery.detailScreen.dataSource.dataSource.ObjectDetailRemoteDataSourceImpl
+import com.asad.metappgallery.detailScreen.presentation.screen.DetailScreen
+import com.asad.metappgallery.detailScreen.presentation.viewModel.ObjectDetailViewModel
+import com.asad.metappgallery.searchScreen.data.adapter.MetSearchResponseJsonAdapter
+import com.asad.metappgallery.searchScreen.data.dataSource.MetSearchRemoteDataSourceImpl
+import com.asad.metappgallery.searchScreen.presentation.screen.ObjectSearchScreen
+import com.asad.metappgallery.searchScreen.presentation.viewModel.MetSearchViewModel
 
 @Composable
 fun MetGalleryFinderApp() {
@@ -27,60 +27,60 @@ fun MetGalleryFinderApp() {
     // Dependencies
     val networkRequester = NetworkRequester()
 
-    val objectIDSJsonAdapter = ObjectIDSJsonAdapter()
+    val metSearchResponseJsonAdapter = MetSearchResponseJsonAdapter()
     val dataSource =
-        GalleryFinderRemoteDataSourceImpl(networkRequester, objectIDSJsonAdapter)
-    val galleryFinderViewModel = GalleryFinderViewModel(dataSource)
+        MetSearchRemoteDataSourceImpl(networkRequester, metSearchResponseJsonAdapter)
+    val metSearchViewModel = MetSearchViewModel(dataSource)
 
     val tagJsonAdapter = TagJsonAdapter()
     val constituentJsonAdapter = ConstituentJsonAdapter()
-    val artObjectJsonAdapter = ArtObjectJsonAdapter(
+    val objectModelJsonAdapter = ObjectModelJsonAdapter(
         constituentJsonAdapter = constituentJsonAdapter,
         tagJsonAdapter = tagJsonAdapter,
     )
 
-    val galleryDetailRemoteDataSource = GalleryDetailRemoteDataSourceImpl(
+    val objectDetailRemoteDataSource = ObjectDetailRemoteDataSourceImpl(
         networkRequester = networkRequester,
-        artObjectJsonAdapter = artObjectJsonAdapter,
+        objectModelJsonAdapter = objectModelJsonAdapter,
     )
 
-    val galleryDetailViewModel = GalleryDetailViewModel(
-        galleryDetailRemoteDataSource = galleryDetailRemoteDataSource,
+    val objectDetailViewModel = ObjectDetailViewModel(
+        objectDetailRemoteDataSource = objectDetailRemoteDataSource,
     )
 
     /**
-     * This callback must be passed to [GalleryFinderScreen] so that
-     * it would be able to navigate to [GalleryDetailScreen]
+     * This callback must be passed to [ObjectSearchScreen] so that
+     * it would be able to navigate to [DetailScreen]
      * */
-    val onNavigationToGalleryDetail: (Int) -> Unit = { objectId ->
-        navController.navigate(route = Screen.GalleryDetailScreen.createRoute(objectId.toString()))
+    val onNavigationToDetailScreen: (Int) -> Unit = { objectId ->
+        navController.navigate(route = Screen.DetailScreen.createRoute(objectId.toString()))
     }
 
     val onNavigationBack: () -> Unit = {
         navController.navigateUp()
     }
 
-    NavHost(navController = navController, startDestination = Screen.GalleryFinderScreen.route) {
-        composable(Screen.GalleryFinderScreen.route) {
-            GalleryFinderScreen(
-                viewModel = galleryFinderViewModel,
-                onNavigationToGalleryDetail = onNavigationToGalleryDetail,
+    NavHost(navController = navController, startDestination = Screen.SearchScreen.route) {
+        composable(Screen.SearchScreen.route) {
+            ObjectSearchScreen(
+                viewModel = metSearchViewModel,
+                onNavigationToObjectDetail = onNavigationToDetailScreen,
             )
         }
 
         composable(
-            Screen.GalleryDetailScreen.route,
+            Screen.DetailScreen.route,
             arguments = listOf(
-                navArgument(name = NavArgs.GalleryObjectId) {
+                navArgument(name = NavArgs.ObjectId) {
                     nullable = false
                     type = NavType.StringType
                 },
             ),
         ) { entry ->
-            val objectId = entry.arguments?.getString(NavArgs.GalleryObjectId)
+            val objectId = entry.arguments?.getString(NavArgs.ObjectId)
 
-            GalleryDetailScreen(
-                viewModel = galleryDetailViewModel,
+            DetailScreen(
+                viewModel = objectDetailViewModel,
                 currentObjectId = objectId!!,
                 onNavigationBack = onNavigationBack,
             )
