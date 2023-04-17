@@ -2,8 +2,10 @@ package com.asad.metappgallery.detailScreen.presentation.screen
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +15,9 @@ import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -37,6 +41,8 @@ import com.asad.metappgallery.detailScreen.presentation.viewModel.ObjectDetailVi
 import com.asad.metappgallery.searchScreen.presentation.component.CustomAppBar
 import com.asad.metappgallery.searchScreen.presentation.component.TouchableScale
 
+private const val TAG = "DetailScreen"
+
 @Composable
 fun DetailScreen(
     viewModel: ObjectDetailViewModel,
@@ -59,7 +65,8 @@ fun DetailScreen(
     val scrollState = rememberScrollState()
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(color = MaterialTheme.colors.surface),
         contentAlignment = Alignment.Center,
     ) {
@@ -239,7 +246,13 @@ fun DetailScreen(
                             .padding(horizontal = 24.dp, vertical = 12.dp),
                     )
 
-                    data.tagModels?.let { TagsContent(tags = it) }
+                    data.tagModels?.let {
+                        TagsContent(tags = it)
+                    }
+
+                    data.additionalImages?.let {
+                        ObjectAdditionalImageContent(images = it, surfaceColor)
+                    }
 
                     Spacer(
                         modifier = Modifier
@@ -257,5 +270,31 @@ fun DetailScreen(
             onNavigateUp = onNavigationBack,
             isTransparent = true,
         )
+    }
+}
+
+@Composable
+fun ObjectAdditionalImageContent(images: List<String>, backgroundColor: Color) {
+    val horizontalScrollState = rememberScrollState()
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .requiredHeight(200.dp)
+            .background(backgroundColor)
+            .horizontalScroll(state = horizontalScrollState)
+            .padding(horizontal = 24.dp),
+    ) {
+        images.map {
+            Card(
+                modifier = Modifier.requiredSize(200.dp)
+                    .padding(8.dp),
+                shape = RoundedCornerShape(12.dp),
+                elevation = 4.dp,
+                backgroundColor = Color.LightGray,
+            ) {
+                NetworkImage(url = it, contentScale = ContentScale.FillBounds)
+            }
+        }
     }
 }

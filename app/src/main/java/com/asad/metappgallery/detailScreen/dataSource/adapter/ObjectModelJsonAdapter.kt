@@ -1,8 +1,10 @@
 package com.asad.metappgallery.detailScreen.dataSource.adapter
 
 import com.asad.metappgallery.core.data.JsonAdapter
-import com.asad.metappgallery.detailScreen.dataSource.model.ObjectModel
+import com.asad.metappgallery.core.data.getArrayNullable
+import com.asad.metappgallery.core.data.getStringNullable
 import com.asad.metappgallery.detailScreen.dataSource.model.ConstituentModel
+import com.asad.metappgallery.detailScreen.dataSource.model.ObjectModel
 import com.asad.metappgallery.detailScreen.dataSource.model.TagModel
 import org.json.JSONArray
 import org.json.JSONObject
@@ -18,25 +20,25 @@ class ObjectModelJsonAdapter constructor(
     override fun createEntityFromJson(json: JSONObject): ObjectModel {
         // Deserialize JSONArray into List<String> of AdditionalImages
         val additionalImagesList =
-            deserializeAdditionalImages(json.getJSONArray("additionalImages"))
+            deserializeAdditionalImages(json.getArrayNullable("additionalImages"))
 
         // Deserialize JSONArray into List<Constituent>
-        val constituentsList = deserializeConstituentList(json.getJSONArray("constituents"))
+        val constituentsList = deserializeConstituentList(json.getArrayNullable("constituents"))
 
         // Deserialize JSONArray into List<Tag>
-        val tagsList = deserializeTagList(json.getJSONArray("tags"))
+        val tagsList = deserializeTagList(json.getArrayNullable("tags"))
 
         return ObjectModel(
             objectID = json.getInt("objectID"),
             isHighlight = json.getBoolean("isHighlight"),
             isPublicDomain = json.getBoolean("isPublicDomain"),
-            primaryImage = json.getString("primaryImage"),
-            primaryImageSmall = json.getString("primaryImageSmall"),
+            primaryImage = json.getStringNullable("primaryImage"),
+            primaryImageSmall = json.getStringNullable("primaryImageSmall"),
             additionalImages = additionalImagesList,
-            department = json.getString("department"),
-            objectName = json.getString("objectName"),
-            title = json.getString("title"),
-            culture = json.getString("culture"),
+            department = json.getStringNullable("department"),
+            objectName = json.getStringNullable("objectName"),
+            title = json.getStringNullable("title"),
+            culture = json.getStringNullable("culture"),
             portfolio = json.getString("portfolio"),
             artistDisplayName = json.getString("artistDisplayName"),
             artistDisplayBio = json.getString("artistDisplayBio"),
