@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -287,13 +288,20 @@ fun ObjectAdditionalImageContent(images: List<String>, backgroundColor: Color) {
     ) {
         images.map {
             Card(
-                modifier = Modifier.requiredSize(200.dp)
+                modifier = Modifier
+                    .requiredHeight(200.dp)
                     .padding(8.dp),
                 shape = RoundedCornerShape(12.dp),
                 elevation = 4.dp,
                 backgroundColor = Color.LightGray,
             ) {
-                NetworkImage(url = it, contentScale = ContentScale.FillBounds)
+                NetworkImage(
+                    url = it,
+                    contentScale = ContentScale.Fit,
+                    imageModifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(4.dp)),
+                )
             }
         }
     }
