@@ -3,9 +3,11 @@ package com.asad.metappgallery.app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.lightColors
 import androidx.compose.ui.graphics.Color
+
 import com.asad.metappgallery.app.theme.MetAppGalleryTheme
 
 class MainActivity : ComponentActivity() {
@@ -33,4 +35,3 @@ val lightThemeColors = lightColors(
     onSurface = Color.White,
     onError = Color.White,
 )
-
