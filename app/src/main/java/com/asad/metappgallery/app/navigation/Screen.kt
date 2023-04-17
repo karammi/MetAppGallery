@@ -6,12 +6,12 @@ sealed class Screen(val route: String) {
         return route
     }
 
-    object GalleryFinderScreen : Screen(route = ScreenName.GalleryFinderScreen)
+    object SearchScreen : Screen(route = ScreenName.SearchScreen)
 
-    object GalleryDetailScreen :
-        Screen(route = "${ScreenName.GalleryDetailScreen}/{${NavArgs.GalleryObjectId}}") {
+    object DetailScreen :
+        Screen(route = "${ScreenName.DetailScreen}/{${NavArgs.ObjectId}}") {
         override fun createRoute(vararg args: String): String {
-            return "${ScreenName.GalleryDetailScreen}/${args[0]}"
+            return "${ScreenName.DetailScreen}/${args[0]}"
         }
     }
 }
