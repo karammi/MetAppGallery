@@ -1,4 +1,4 @@
-package com.asad.metappgallery.ui.theme
+package com.asad.metappgallery.app.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
