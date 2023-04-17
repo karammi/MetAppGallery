@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.asad.metappgallery.app.UiState
 import com.asad.metappgallery.core.presentation.NetworkImage
 import com.asad.metappgallery.core.util.ComposeUtil
+import com.asad.metappgallery.detailScreen.presentation.ObjectDetailScreen
 import com.asad.metappgallery.detailScreen.presentation.viewModel.ObjectDetailViewModel
 import com.asad.metappgallery.searchScreen.presentation.component.CustomAppBar
 import com.asad.metappgallery.searchScreen.presentation.component.TouchableScale
@@ -54,6 +55,8 @@ fun DetailScreen(
     val uiState = ComposeUtil.rememberStateWithLifecycle(stateFlow = viewModel.uiState)
 
     val configuration = LocalConfiguration.current
+
+    val scrollState = rememberScrollState()
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -86,6 +89,7 @@ fun DetailScreen(
                     )
                 }
             }
+
             UiState.Loading -> {
                 CircularProgressIndicator(
                     modifier = Modifier
@@ -95,8 +99,9 @@ fun DetailScreen(
                     strokeWidth = 4.dp,
                 )
             }
+
             is UiState.Success -> {
-                val data = uiState.value.objectDetailState.data
+                val data = uiState.value.objectDetailState.data!!
 
                 (data?.primaryImageSmall ?: data?.primaryImage)?.let {
                     NetworkImage(
@@ -129,7 +134,7 @@ fun DetailScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .verticalScroll(rememberScrollState()),
+                        .verticalScroll(scrollState),
                 ) {
                     Box(
                         modifier = Modifier
@@ -154,9 +159,9 @@ fun DetailScreen(
                         )
 
                         Text(
-                            text = data?.objectName ?: data?.artistDisplayName ?: "",
+                            text = data.objectName ?: data.artistDisplayName,
                             style = MaterialTheme.typography.h6.copy(
-                                color = MaterialTheme.colors.onSurface,
+                                color = MaterialTheme.colors.onSecondary,
                             ),
                             modifier = Modifier
                                 .align(Alignment.BottomStart)
@@ -171,6 +176,71 @@ fun DetailScreen(
                             .background(surfaceColor),
                     )
 
+                    Text(
+                        text = ObjectDetailScreen.artistDisplayName(data.artistDisplayName),
+                        style = MaterialTheme.typography.body2.copy(
+                            color = MaterialTheme.colors.onSecondary,
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(surfaceColor)
+                            .padding(horizontal = 24.dp, vertical = 12.dp),
+                    )
+
+                    Text(
+                        text = ObjectDetailScreen.department(data.department),
+                        style = MaterialTheme.typography.body2.copy(
+                            color = MaterialTheme.colors.onSecondary,
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = surfaceColor)
+                            .padding(horizontal = 24.dp, vertical = 12.dp),
+                    )
+
+                    Text(
+                        text = ObjectDetailScreen.classification(data.classification),
+                        style = MaterialTheme.typography.body2.copy(
+                            color = MaterialTheme.colors.onSecondary,
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = surfaceColor)
+                            .padding(horizontal = 24.dp, vertical = 12.dp),
+                    )
+                    Text(
+                        text = ObjectDetailScreen.culture(data.culture),
+                        style = MaterialTheme.typography.body2.copy(
+                            color = MaterialTheme.colors.onSecondary,
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = surfaceColor)
+                            .padding(horizontal = 24.dp, vertical = 12.dp),
+                    )
+                    Text(
+                        text = ObjectDetailScreen.portfolio(data.portfolio),
+                        style = MaterialTheme.typography.body2.copy(
+                            color = MaterialTheme.colors.onSecondary,
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = surfaceColor)
+                            .padding(horizontal = 24.dp, vertical = 12.dp),
+                    )
+                    Text(
+                        text = ObjectDetailScreen.objectDate(data.objectDate),
+                        style = MaterialTheme.typography.body2.copy(
+                            color = MaterialTheme.colors.onSecondary,
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = surfaceColor)
+                            .padding(horizontal = 24.dp, vertical = 12.dp),
+                    )
+
+                    data.tagModels?.let { TagsContent(tags = it) }
+
                     Spacer(
                         modifier = Modifier
                             .requiredHeight(configuration.screenWidthDp.dp - 100.dp)
@@ -180,6 +250,7 @@ fun DetailScreen(
                 }
             }
         }
+
         CustomAppBar(
             title = uiState.value.objectDetailState.data?.title
                 ?: uiState.value.objectDetailState.data?.objectName ?: "Details",
