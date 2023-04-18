@@ -3,9 +3,9 @@ package com.asad.metappgallery.searchScreen.presentation.viewModel
 import androidx.compose.ui.text.input.TextFieldValue
 import app.cash.turbine.test
 import com.asad.metappgallery.app.UiState
-import com.asad.metappgallery.searchScreen.data.dataSource.FakeMetSearchRemoteDataSourceImpl
-import com.asad.metappgallery.searchScreen.data.dataSource.MetSearchRemoteDataSource
-import com.asad.metappgallery.searchScreen.data.model.MetSearchResponse
+import com.asad.metappgallery.searchScreen.data.dataSource.FakeGalleryRemoteDataSourceImpl
+import com.asad.metappgallery.searchScreen.data.dataSource.GalleryRemoteDataSource
+import com.asad.metappgallery.searchScreen.data.model.GalleryResponse
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,19 +17,19 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class MetSearchViewModelTest {
+class GallerySearchViewModelTest {
 
     private val mainThread = newSingleThreadContext("UI thread")
 
-    private lateinit var metSearchRemoteDataSource: MetSearchRemoteDataSource
+    private lateinit var galleryRemoteDataSource: GalleryRemoteDataSource
 
-    private lateinit var metSearchViewModel: MetSearchViewModel
+    private lateinit var gallerySearchViewModel: GallerySearchViewModel
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher = mainThread)
-        metSearchRemoteDataSource = FakeMetSearchRemoteDataSourceImpl()
-        metSearchViewModel = MetSearchViewModel(metSearchRemoteDataSource)
+        galleryRemoteDataSource = FakeGalleryRemoteDataSourceImpl()
+        gallerySearchViewModel = GallerySearchViewModel(galleryRemoteDataSource)
     }
 
     @After
@@ -40,20 +40,20 @@ class MetSearchViewModelTest {
 
     @Test
     fun initialUiState() = runBlocking {
-        metSearchViewModel.uiState.test {
+        gallerySearchViewModel.uiState.test {
             val emission = awaitItem()
 
             assertThat(emission.isSearching).isEqualTo(false)
             assertThat(emission.searchResult).isEqualTo(UiState.Empty)
-            assertThat(emission.searchedText).isEqualTo(TextFieldValue(""))
+            assertThat(emission.searchQuery).isEqualTo(TextFieldValue(""))
         }
     }
 
     @Test
     fun resetUiState_whenDifferentWithCurrentState_thenUpdateUiState() = runBlocking {
-        if (metSearchViewModel.uiState.value != metSearchViewModel.initialState) {
+        if (gallerySearchViewModel.uiState.value != gallerySearchViewModel.initialState) {
             val job = launch(Dispatchers.Main) {
-                metSearchViewModel.uiState.test {
+                gallerySearchViewModel.uiState.test {
                     skipItems(1)
 
                     val emission = awaitItem()
@@ -64,7 +64,7 @@ class MetSearchViewModelTest {
                 }
             }
 
-            metSearchViewModel.resetUiState()
+            gallerySearchViewModel.resetUiState()
 
             job.join()
             job.cancel()
@@ -75,9 +75,9 @@ class MetSearchViewModelTest {
     fun setIsSearching_whenDifferentWithCurrentState_thenUpdateUiState() = runBlocking {
         val newState = true
 
-        if (metSearchViewModel.uiState.value.isSearching != newState) {
+        if (gallerySearchViewModel.uiState.value.isSearching != newState) {
             val job = launch(Dispatchers.Main) {
-                metSearchViewModel.uiState.test {
+                gallerySearchViewModel.uiState.test {
                     skipItems(1)
 
                     val emission = awaitItem()
@@ -87,7 +87,7 @@ class MetSearchViewModelTest {
                 }
             }
 
-            metSearchViewModel.setIsSearching(newState)
+            gallerySearchViewModel.setIsSearching(newState)
 
             job.join()
             job.cancel()
@@ -97,10 +97,10 @@ class MetSearchViewModelTest {
     @Test
     fun setSearchResult_thenUpdateUiState() = runBlocking {
         val queryString = "sunflower"
-        val searchResult = metSearchRemoteDataSource.fetchObjects(query = queryString)
+        val searchResult = galleryRemoteDataSource.fetchList(query = queryString)
 
         val job = launch(Dispatchers.Main) {
-            metSearchViewModel.uiState.test {
+            gallerySearchViewModel.uiState.test {
                 // skip two state
                 skipItems(2)
 
@@ -111,7 +111,7 @@ class MetSearchViewModelTest {
             }
         }
 
-        metSearchViewModel.fetchObjects(queryString)
+        gallerySearchViewModel.fetchGalleryList(queryString)
 
         job.join()
         job.cancel()
@@ -122,17 +122,17 @@ class MetSearchViewModelTest {
         val searchedText = TextFieldValue("sunflower")
 
         val job = launch(Dispatchers.Main) {
-            metSearchViewModel.uiState.test {
+            gallerySearchViewModel.uiState.test {
                 skipItems(2)
 
                 val emission = awaitItem()
-                assertThat(emission.searchedText).isEqualTo(searchedText)
+                assertThat(emission.searchQuery).isEqualTo(searchedText)
 
                 cancelAndConsumeRemainingEvents()
             }
         }
 
-        metSearchViewModel.setSearchText(searchedText)
+        gallerySearchViewModel.setSearchText(searchedText)
 
         job.join()
         job.cancel()
@@ -142,14 +142,14 @@ class MetSearchViewModelTest {
     fun fetchObjectsWhichContainsQuery_thenUpdateUiState() = runBlocking {
         val searchedQueryText = "sunflower"
         val response = UiState.Success(
-            MetSearchResponse(
+            GalleryResponse(
                 total = 10,
                 objectIDs = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
             ),
         )
 
         val job = launch(Dispatchers.Main) {
-            metSearchViewModel.uiState.test {
+            gallerySearchViewModel.uiState.test {
                 skipItems(1)
 
                 val firstEmission = awaitItem()
@@ -168,7 +168,7 @@ class MetSearchViewModelTest {
             }
         }
 
-        metSearchViewModel.fetchObjects(queryString = searchedQueryText)
+        gallerySearchViewModel.fetchGalleryList(queryString = searchedQueryText)
 
         job.join()
         job.cancel()
@@ -180,7 +180,7 @@ class MetSearchViewModelTest {
         val response = UiState.Empty
 
         val job = launch(Dispatchers.Main) {
-            metSearchViewModel.uiState.test {
+            gallerySearchViewModel.uiState.test {
                 skipItems(1)
 
                 val firstEmission = awaitItem()
@@ -195,7 +195,7 @@ class MetSearchViewModelTest {
             }
         }
 
-        metSearchViewModel.fetchObjects(queryString = searchedQueryText)
+        gallerySearchViewModel.fetchGalleryList(queryString = searchedQueryText)
 
         job.join()
         job.cancel()

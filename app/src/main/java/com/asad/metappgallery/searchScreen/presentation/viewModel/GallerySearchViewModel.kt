@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asad.metappgallery.app.UiState
 import com.asad.metappgallery.core.data.DataResult
-import com.asad.metappgallery.searchScreen.data.dataSource.MetSearchRemoteDataSource
-import com.asad.metappgallery.searchScreen.data.model.MetSearchResponse
-import com.asad.metappgallery.searchScreen.presentation.model.MetSearchUiState
+import com.asad.metappgallery.searchScreen.data.dataSource.GalleryRemoteDataSource
+import com.asad.metappgallery.searchScreen.data.model.GalleryResponse
+import com.asad.metappgallery.searchScreen.presentation.model.GallerySearchUiState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
@@ -18,11 +18,11 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "GalleryFinder"
 
-class MetSearchViewModel constructor(
-    private val metSearchRemoteDataSource: MetSearchRemoteDataSource,
+class GallerySearchViewModel constructor(
+    private val galleryRemoteDataSource: GalleryRemoteDataSource,
 ) : ViewModel() {
 
-    val initialState = MetSearchUiState()
+    val initialState = GallerySearchUiState()
     val uiState = MutableStateFlow(initialState)
 
     private var fetchObjectsSearchJob: Job? = null
@@ -32,15 +32,15 @@ class MetSearchViewModel constructor(
     }
 
     private fun observedSearchText() = viewModelScope.launch {
-        uiState.distinctUntilChanged { old, new -> old.searchedText.text == new.searchedText.text }
+        uiState.distinctUntilChanged { old, new -> old.searchQuery.text == new.searchQuery.text }
             .collectLatest {
                 fetchObjectsSearchJob?.cancel()
-                if (it.searchedText.text.isBlank()) {
+                if (it.searchQuery.text.isBlank()) {
                     resetUiState()
                 } else {
                     delay(600)
 
-                    fetchObjectsSearchJob = fetchObjects(it.searchedText.text)
+                    fetchObjectsSearchJob = fetchGalleryList(it.searchQuery.text)
                 }
             }
     }
@@ -51,7 +51,7 @@ class MetSearchViewModel constructor(
     fun resetUiState() {
         viewModelScope.launch {
             val newState = uiState.value.copy(
-                searchedText = TextFieldValue(""),
+                searchQuery = TextFieldValue(""),
                 searchResult = UiState.Empty,
                 isSearching = false,
             )
@@ -66,7 +66,7 @@ class MetSearchViewModel constructor(
         }
     }
 
-    fun setSearchResponse(value: DataResult<MetSearchResponse>) {
+    fun setSearchResponse(value: DataResult<GalleryResponse>) {
         viewModelScope.launch {
             when (value) {
                 is DataResult.Error -> {
@@ -89,7 +89,7 @@ class MetSearchViewModel constructor(
 
     fun setSearchText(value: TextFieldValue) {
         viewModelScope.launch {
-            val newState = uiState.value.copy(searchedText = value)
+            val newState = uiState.value.copy(searchQuery = value)
             uiState.emit(newState)
         }
     }
@@ -97,11 +97,11 @@ class MetSearchViewModel constructor(
     /**
      * This method requests server to fetch the collection which contains current [queryString].
      * */
-    fun fetchObjects(queryString: String): Job =
+    fun fetchGalleryList(queryString: String): Job =
         viewModelScope.launch {
             setIsSearching(true)
             ensureActive() // This ensures that the coroutine is not cancelled
-            val result = metSearchRemoteDataSource.fetchObjects(queryString)
+            val result = galleryRemoteDataSource.fetchList(queryString)
             ensureActive() // This ensures that the coroutine is not cancelled
             setSearchResponse(result)
             setIsSearching(false)

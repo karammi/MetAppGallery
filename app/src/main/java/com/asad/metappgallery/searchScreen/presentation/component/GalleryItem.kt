@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MetObjectItem(title: String, onItemClicked: (Int) -> Unit) {
+fun GalleryItem(title: String, onItemClicked: (Int) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

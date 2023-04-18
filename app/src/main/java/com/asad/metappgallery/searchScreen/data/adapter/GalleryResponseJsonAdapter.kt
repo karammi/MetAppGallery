@@ -1,15 +1,15 @@
 package com.asad.metappgallery.searchScreen.data.adapter
 
 import com.asad.metappgallery.core.data.JsonAdapter
-import com.asad.metappgallery.searchScreen.data.model.MetSearchResponse
+import com.asad.metappgallery.searchScreen.data.model.GalleryResponse
 import org.json.JSONObject
 
-class MetSearchResponseJsonAdapter : JsonAdapter<MetSearchResponse> {
-    override fun createEntityFromJson(json: JSONObject): MetSearchResponse {
-        val jsonTotal = json.getInt(MetSearchString.Total)
+class GalleryResponseJsonAdapter : JsonAdapter<GalleryResponse> {
+    override fun createEntityFromJson(json: JSONObject): GalleryResponse {
+        val jsonTotal = json.getInt(GalleryResponseConstant.Total)
         // Retrieve the JSONArray associated with the key "objectIDs"
-        val jsonArray = if (!json.isNull(MetSearchString.ObjectIDs)) {
-            json.getJSONArray(MetSearchString.ObjectIDs)
+        val jsonArray = if (!json.isNull(GalleryResponseConstant.ObjectIDs)) {
+            json.getJSONArray(GalleryResponseConstant.ObjectIDs)
         } else {
             null
         }
@@ -22,7 +22,7 @@ class MetSearchResponseJsonAdapter : JsonAdapter<MetSearchResponse> {
                 .toList()
         }
 
-        return MetSearchResponse(
+        return GalleryResponse(
             total = jsonTotal,
             objectIDs = objectIDsList,
         )

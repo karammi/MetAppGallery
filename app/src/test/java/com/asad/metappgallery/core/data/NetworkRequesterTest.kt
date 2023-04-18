@@ -1,25 +1,16 @@
 package com.asad.metappgallery.core.data
 
-import com.asad.metappgallery.searchScreen.data.adapter.MetSearchString
-import com.google.common.truth.Truth.assertThat
+import com.asad.metappgallery.searchScreen.data.adapter.GalleryResponseConstant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.json.JSONObject
 import org.junit.After
 import org.junit.Before
-import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.Mockito.`when`
 import org.robolectric.RobolectricTestRunner
-import java.io.ByteArrayInputStream
-import java.io.InputStream
 import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
 @RunWith(RobolectricTestRunner::class)
 class NetworkRequesterTest {
@@ -41,7 +32,7 @@ class NetworkRequesterTest {
 //        mockConnection = Mockito.mock(HttpsURLConnection::class.java)
 
         val query = "sunflower"
-        url = URL(MetSearchString.MetCollectionApi(query))
+        url = URL(GalleryResponseConstant.GalleryCollectionApi(query))
         sut = NetworkRequester()
     }
 

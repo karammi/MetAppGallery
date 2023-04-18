@@ -23,13 +23,13 @@ import com.asad.metappgallery.searchScreen.presentation.component.CustomAppBar
 import com.asad.metappgallery.searchScreen.presentation.component.CustomBottomSearchBar
 import com.asad.metappgallery.searchScreen.presentation.component.EmptyResultContent
 import com.asad.metappgallery.searchScreen.presentation.component.ErrorResultContent
-import com.asad.metappgallery.searchScreen.presentation.component.MetObjectItem
-import com.asad.metappgallery.searchScreen.presentation.viewModel.MetSearchViewModel
+import com.asad.metappgallery.searchScreen.presentation.component.GalleryItem
+import com.asad.metappgallery.searchScreen.presentation.viewModel.GallerySearchViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun ObjectSearchScreen(
-    viewModel: MetSearchViewModel,
+fun GallerySearchScreen(
+    viewModel: GallerySearchViewModel,
     onNavigationToObjectDetail: (Int) -> Unit,
 ) {
     SystemUiUtil.ConfigStatusBar(color = MaterialTheme.colors.primaryVariant)
@@ -45,7 +45,7 @@ fun ObjectSearchScreen(
     }
 
     val onRetiredFetchingData: () -> Unit = {
-        viewModel.fetchObjects(uiState.searchedText.text)
+        viewModel.fetchGalleryList(uiState.searchQuery.text)
     }
 
     Box(
@@ -67,7 +67,7 @@ fun ObjectSearchScreen(
                             }
                         } else {
                             items(uiState.searchResult.data?.objectIDs?.size ?: 0) { index ->
-                                MetObjectItem(
+                                GalleryItem(
                                     title = uiState.searchResult.data?.objectIDs?.get(
                                         index,
                                     ).toString(),
@@ -104,7 +104,7 @@ fun ObjectSearchScreen(
 
         // Bottom Search Bar
         CustomBottomSearchBar(
-            searchedValue = uiState.searchedText,
+            searchedValue = uiState.searchQuery,
             onSearchedValueChanged = onSearchedValueChanged,
         )
     }
