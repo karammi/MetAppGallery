@@ -7,6 +7,7 @@ import com.asad.metappgallery.app.UiState
 import com.asad.metappgallery.core.data.DataResult
 import com.asad.metappgallery.searchScreen.data.dataSource.MetSearchRemoteDataSource
 import com.asad.metappgallery.searchScreen.data.model.MetSearchResponse
+import com.asad.metappgallery.searchScreen.presentation.model.MetSearchUiState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive

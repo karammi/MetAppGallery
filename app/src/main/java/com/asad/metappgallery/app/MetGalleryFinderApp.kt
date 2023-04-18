@@ -9,10 +9,10 @@ import androidx.navigation.navArgument
 import com.asad.metappgallery.app.navigation.NavArgs
 import com.asad.metappgallery.app.navigation.Screen
 import com.asad.metappgallery.core.data.NetworkRequester
-import com.asad.metappgallery.detailScreen.dataSource.adapter.ObjectModelJsonAdapter
-import com.asad.metappgallery.detailScreen.dataSource.adapter.ConstituentJsonAdapter
-import com.asad.metappgallery.detailScreen.dataSource.adapter.TagJsonAdapter
-import com.asad.metappgallery.detailScreen.dataSource.dataSource.ObjectDetailRemoteDataSourceImpl
+import com.asad.metappgallery.detailScreen.data.adapter.ConstituentJsonAdapter
+import com.asad.metappgallery.detailScreen.data.adapter.ObjectModelJsonAdapter
+import com.asad.metappgallery.detailScreen.data.adapter.TagJsonAdapter
+import com.asad.metappgallery.detailScreen.data.dataSource.ObjectDetailRemoteDataSourceImpl
 import com.asad.metappgallery.detailScreen.presentation.screen.DetailScreen
 import com.asad.metappgallery.detailScreen.presentation.viewModel.ObjectDetailViewModel
 import com.asad.metappgallery.searchScreen.data.adapter.MetSearchResponseJsonAdapter

@@ -23,6 +23,7 @@ import com.asad.metappgallery.searchScreen.presentation.component.CustomAppBar
 import com.asad.metappgallery.searchScreen.presentation.component.CustomBottomSearchBar
 import com.asad.metappgallery.searchScreen.presentation.component.EmptyResultContent
 import com.asad.metappgallery.searchScreen.presentation.component.ErrorResultContent
+import com.asad.metappgallery.searchScreen.presentation.component.MetObjectItem
 import com.asad.metappgallery.searchScreen.presentation.viewModel.MetSearchViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")

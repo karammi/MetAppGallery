@@ -1,6 +1,5 @@
 package com.asad.metappgallery.core.data
 
-import android.util.Log
 import com.asad.metappgallery.core.CoreString
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +23,7 @@ import javax.net.ssl.HttpsURLConnection
  * */
 
 private const val TAG = "NetworkRequester"
+
 class NetworkRequester {
 
     suspend fun invoke(
@@ -44,21 +44,25 @@ class NetworkRequester {
                         val responseString =
                             String(responseStream.readBytes(), charset = StandardCharsets.UTF_8)
                         ensureActive()
-                        Log.d(TAG, "invoke: $responseString")
                         DataResult.Success(JSONObject(responseString))
                     }
+
                     304 -> {
                         DataResult.Error(CustomNetworkException(CoreString.HTTP_304_ERROR_MESSAGE))
                     }
+
                     404 -> {
                         DataResult.Error(CustomNetworkException(CoreString.HTTP_404_ERROR_MESSAGE))
                     }
+
                     422 -> {
                         DataResult.Error(CustomNetworkException(CoreString.HTTP_422_ERROR_MESSAGE))
                     }
+
                     503 -> {
                         DataResult.Error(CustomNetworkException(CoreString.HTTP_503_ERROR_MESSAGE))
                     }
+
                     else -> {
                         DataResult.Error(CustomNetworkException(CoreString.HTTP_UNKNOWN_ERROR_MESSAGE))
                     }

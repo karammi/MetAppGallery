@@ -35,7 +35,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.asad.metappgallery.searchScreen.presentation.screen.UiConstant.HEADER_DEFAULT_HEIGHT
+import com.asad.metappgallery.searchScreen.presentation.util.UiConstant.HEADER_DEFAULT_HEIGHT
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

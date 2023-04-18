@@ -5,6 +5,7 @@ import com.asad.metappgallery.searchScreen.data.model.MetSearchResponse
 
 class FakeMetSearchRemoteDataSourceImpl : MetSearchRemoteDataSource {
 
+    //TODO should remove condition from fetch function, just i put it for testing the state
     override suspend fun fetchObjects(query: String): DataResult<MetSearchResponse> {
         return if (query == "") {
             DataResult.Success(value = MetSearchResponse(total = 0, objectIDs = null))

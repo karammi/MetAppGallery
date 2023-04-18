@@ -37,7 +37,8 @@ import androidx.compose.ui.unit.dp
 import com.asad.metappgallery.app.UiState
 import com.asad.metappgallery.core.presentation.NetworkImage
 import com.asad.metappgallery.core.util.ComposeUtil
-import com.asad.metappgallery.detailScreen.presentation.ObjectDetailScreen
+import com.asad.metappgallery.detailScreen.presentation.component.TagsContent
+import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailScreen
 import com.asad.metappgallery.detailScreen.presentation.viewModel.ObjectDetailViewModel
 import com.asad.metappgallery.searchScreen.presentation.component.CustomAppBar
 import com.asad.metappgallery.searchScreen.presentation.component.TouchableScale
