@@ -46,7 +46,7 @@ import com.asad.metappgallery.searchScreen.presentation.component.TouchableScale
 private const val TAG = "DetailScreen"
 
 @Composable
-fun DetailScreen(
+fun ObjectDetailScreen(
     viewModel: ObjectDetailViewModel,
     currentObjectId: String,
     onNavigationBack: () -> Unit,

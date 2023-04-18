@@ -19,8 +19,7 @@ class ObjectModelJsonAdapter constructor(
 
     override fun createEntityFromJson(json: JSONObject): ObjectModel {
         // Deserialize JSONArray into List<String> of AdditionalImages
-        val additionalImagesList =
-            deserializeAdditionalImages(json.getArrayNullable("additionalImages"))
+        val additionalImagesList = deserializeAdditionalImages(json.getArrayNullable("additionalImages"))
 
         // Deserialize JSONArray into List<Constituent>
         val constituentsList = deserializeConstituentList(json.getArrayNullable("constituents"))

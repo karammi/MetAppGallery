@@ -5,13 +5,13 @@ import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
 
-class MetSearchResponseJsonAdapterTest {
+class GalleryResponseJsonAdapterTest {
 
-    private lateinit var sut: MetSearchResponseJsonAdapter
+    private lateinit var sut: GalleryResponseJsonAdapter
 
     @Before
     fun setup() {
-        sut = MetSearchResponseJsonAdapter()
+        sut = GalleryResponseJsonAdapter()
     }
 
     @Test
