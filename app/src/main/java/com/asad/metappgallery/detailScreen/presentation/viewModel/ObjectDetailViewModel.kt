@@ -22,7 +22,8 @@ class ObjectDetailViewModel constructor(
 
     fun cancelFetchingData() = dataFetchingJob?.cancel()
 
-    private fun setLoading(value: Boolean) {
+    //    fun setShowLoading(value: Boolean) {
+    fun setLoading(value: Boolean) {
         viewModelScope.launch {
             val newState = uiState.value.copy(isRefreshing = value)
             uiState.emit(newState)
@@ -37,6 +38,7 @@ class ObjectDetailViewModel constructor(
                         uiState.value.copy(objectDetailState = UiState.Error(error = data.exception?.message))
                     uiState.emit(newState)
                 }
+
                 is DataResult.Success -> {
                     val newState =
                         uiState.value.copy(objectDetailState = UiState.Success(data = data.value))
