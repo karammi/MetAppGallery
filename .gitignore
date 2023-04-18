@@ -14,3 +14,5 @@
 .cxx
 local.properties
 /.idea/
+/keyStore.jks
+/app/release/output-metadata.json
