@@ -7,7 +7,7 @@ change the color palette
 
 
 ## Download APK
-put the apk 
+[Metropolitan Museum of Art App](https://github.com/karammi/MetAppGallery/raw/dev/app/release/app-release.apk)
 
 ## Demo
 
