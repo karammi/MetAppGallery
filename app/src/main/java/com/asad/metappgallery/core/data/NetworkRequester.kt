@@ -35,6 +35,8 @@ class NetworkRequester {
             try {
                 ensureActive()
                 urlConnection = url.openConnection() as HttpsURLConnection
+//                urlConnection.readTimeout = 60
+//                urlConnection.connectTimeout = 60
                 ensureActive()
                 when (urlConnection.responseCode) {
                     200 -> {

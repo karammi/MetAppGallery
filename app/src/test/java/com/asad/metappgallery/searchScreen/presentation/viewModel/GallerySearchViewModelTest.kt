@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
@@ -196,6 +197,28 @@ class GallerySearchViewModelTest {
         }
 
         gallerySearchViewModel.fetchGalleryList(queryString = searchedQueryText)
+
+        job.join()
+        job.cancel()
+    }
+
+    @Test
+    fun fetchObjectWhichContainError_shouldEmitErrorState(): Unit = runBlocking {
+        val searchQuery = ""
+        val response = UiState.Error("Oops!,An error occurred!")
+        val job = launch(Dispatchers.Main) {
+            gallerySearchViewModel.uiState.test {
+                skipItems(2)
+
+                val firstEmission = awaitItem()
+
+                assertThat(firstEmission.searchResult).isEqualTo(response)
+
+                cancelAndConsumeRemainingEvents()
+            }
+        }
+
+        gallerySearchViewModel.fetchGalleryList(searchQuery)
 
         job.join()
         job.cancel()

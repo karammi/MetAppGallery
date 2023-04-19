@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -14,16 +13,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.asad.metappgallery.R
 import com.asad.metappgallery.app.UiState
 import com.asad.metappgallery.core.util.ComposeUtil
 import com.asad.metappgallery.core.util.SystemUiUtil
+import com.asad.metappgallery.searchScreen.data.adapter.GalleryResponseConstant.FailedToFetchDataDefaultMessage
 import com.asad.metappgallery.searchScreen.presentation.component.CustomAppBar
 import com.asad.metappgallery.searchScreen.presentation.component.CustomBottomSearchBar
-import com.asad.metappgallery.searchScreen.presentation.component.EmptyResultContent
-import com.asad.metappgallery.searchScreen.presentation.component.ErrorResultContent
-import com.asad.metappgallery.searchScreen.presentation.component.GalleryItem
+import com.asad.metappgallery.searchScreen.presentation.component.GallerySearchData
+import com.asad.metappgallery.searchScreen.presentation.component.GallerySearchEmptyList
+import com.asad.metappgallery.searchScreen.presentation.component.GallerySearchError
 import com.asad.metappgallery.searchScreen.presentation.viewModel.GallerySearchViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -36,12 +39,16 @@ fun GallerySearchScreen(
 
     val uiState by ComposeUtil.rememberStateWithLifecycle(stateFlow = viewModel.uiState)
 
+    // This is used to close the keyboard, when navigate to detail screen
+    val localFocusManager = LocalFocusManager.current
+
     val onSearchedValueChanged: (TextFieldValue) -> Unit = { value ->
         viewModel.setSearchText(value)
     }
 
     val onItemClicked: (Int) -> Unit = { objectId ->
         onNavigationToObjectDetail.invoke(objectId)
+        localFocusManager.clearFocus()
     }
 
     val onRetiredFetchingData: () -> Unit = {
@@ -60,31 +67,21 @@ fun GallerySearchScreen(
         ) {
             when (uiState.searchResult) {
                 is UiState.Success -> {
-                    LazyColumn {
-                        if (uiState.searchResult.data?.objectIDs?.size == 0) {
-                            item {
-                                EmptyResultContent()
-                            }
-                        } else {
-                            items(uiState.searchResult.data?.objectIDs?.size ?: 0) { index ->
-                                GalleryItem(
-                                    title = uiState.searchResult.data?.objectIDs?.get(
-                                        index,
-                                    ).toString(),
-                                    onItemClicked = onItemClicked,
-                                )
-                            }
-                        }
-                    }
+                    val data = uiState.searchResult.data?.objectIDs!!
+
+                    GallerySearchData(data = data, onItemClicked = onItemClicked)
                 }
 
                 is UiState.Error -> {
-                    ErrorResultContent(errorMessage = uiState.searchResult.error ?: "Error")
-                    onRetiredFetchingData.invoke()
+                    GallerySearchError(
+                        errorMessage = uiState.searchResult.error
+                            ?: "Oops! An error occurred!\n$FailedToFetchDataDefaultMessage",
+                        tryAgain = onRetiredFetchingData,
+                    )
                 }
 
                 is UiState.Empty -> {
-                    EmptyResultContent()
+                    GallerySearchEmptyList()
                 }
 
                 is UiState.Loading -> {
@@ -100,7 +97,7 @@ fun GallerySearchScreen(
         }
 
         // App Bar
-        CustomAppBar(title = "Gallery app finder")
+        CustomAppBar(title = stringResource(id = R.string.app_name))
 
         // Bottom Search Bar
         CustomBottomSearchBar(

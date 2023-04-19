@@ -17,3 +17,7 @@ local.properties
 /keyStore.jks
 /app/release/output-metadata.json
 /app/release/
+/.idea/misc.xml
+/.idea/gradle.xml
+/.idea/vcs.xml
+/.idea/compiler.xml
