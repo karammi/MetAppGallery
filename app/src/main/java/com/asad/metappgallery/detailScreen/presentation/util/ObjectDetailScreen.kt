@@ -1,12 +1,6 @@
 package com.asad.metappgallery.detailScreen.presentation.util
 
-import com.asad.metappgallery.detailScreen.data.model.TagModel
-
 object ObjectDetailScreen {
-
-    val objectName: (String?) -> String = {
-        "Object name: ${it ?: "-"}"
-    }
 
     val artistDisplayName: (String?) -> String = {
         "Artist display name: ${it ?: "-"}"
@@ -32,14 +26,8 @@ object ObjectDetailScreen {
         "ObjectDate: ${it ?: "-"}"
     }
 
-    val tagList: (List<TagModel>?) -> String = { tags ->
-        var temp = ""
-        var result = tags?.forEach {
-            temp = "$temp, #${it.term}"
-        }
-        if (result == null) {
-            temp = "-"
-        }
-        temp
-    }
+    const val ArtistDisplayBio: String = "Artist Display Bio :"
+    const val GalleryDetail: String = "Gallery detail"
+    const val GalleryInfo: String = "Gallery Info"
+    const val GalleryErrorTitle: String = "Oops! An error occurred!"
 }

@@ -14,7 +14,7 @@ data class ObjectModel(
     val culture: String? = null,
     val portfolio: String,
     val artistDisplayName: String,
-    val artistDisplayBio: String,
+    val artistDisplayBio: String?,
     val objectDate: String,
     val objectBeginDate: Int,
     val objectEndDate: Int,
