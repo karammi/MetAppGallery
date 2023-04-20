@@ -24,6 +24,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.asad.metappgallery.core.presentation.CustomNetworkImage
 import com.asad.metappgallery.detailScreen.data.model.ObjectModel
@@ -100,7 +102,10 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
                 ),
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(horizontal = 24.dp, vertical = 16.dp),
+                    .padding(horizontal = 24.dp, vertical = 16.dp)
+                    .semantics {
+                        contentDescription = ObjectDetailScreen.ObjectContentDescriptionTitle
+                    },
             )
         }
 
@@ -119,7 +124,10 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(surfaceColor)
-                .padding(horizontal = 24.dp, vertical = 12.dp),
+                .padding(horizontal = 24.dp, vertical = 12.dp)
+                .semantics {
+                    contentDescription = ObjectDetailScreen.ArtistContentDescriptionTitle
+                },
         )
 
         Text(
@@ -130,7 +138,10 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = surfaceColor)
-                .padding(horizontal = 24.dp, vertical = 12.dp),
+                .padding(horizontal = 24.dp, vertical = 12.dp)
+                .semantics {
+                    contentDescription = ObjectDetailScreen.DepartmentContentDescriptionTitle
+                },
         )
 
         Text(
@@ -141,7 +152,10 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = surfaceColor)
-                .padding(horizontal = 24.dp, vertical = 12.dp),
+                .padding(horizontal = 24.dp, vertical = 12.dp)
+                .semantics {
+                    contentDescription = ObjectDetailScreen.ClassificationContentDescriptionTitle
+                },
         )
         Text(
             text = ObjectDetailScreen.culture(data.culture),
