@@ -32,4 +32,9 @@ object ObjectDetailScreen {
     const val GalleryErrorTitle: String = "Oops! An error occurred!"
 
     const val GalleryDataEmptyValue = "Sorry! There isn't more data to show you."
+
+    const val ObjectContentDescriptionTitle = "object_title"
+    const val ArtistContentDescriptionTitle = "artist_title"
+    const val DepartmentContentDescriptionTitle = "department_title"
+    const val ClassificationContentDescriptionTitle = "classification_title"
 }

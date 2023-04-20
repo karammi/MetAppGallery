@@ -1,8 +1,11 @@
 package com.asad.metappgallery.detailScreen.presentation.screen
 
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import com.asad.metappgallery.detailScreen.data.dataSource.FakeObjectDetailRemoteDataSourceImpl
 import com.asad.metappgallery.detailScreen.data.dataSource.ObjectDetailRemoteDataSource
+import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailScreen
 import com.asad.metappgallery.detailScreen.presentation.viewModel.ObjectDetailViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -37,7 +40,7 @@ class ObjectDetailScreenTest {
     @Test
     fun detailScreenInitialState_shouldBeEmptyState() {
         composeTestRule.apply {
-//            onNodeWithText()
+            onNodeWithContentDescription(ObjectDetailScreen.ArtistContentDescriptionTitle).assertIsDisplayed()
         }
     }
 }
