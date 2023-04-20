@@ -94,4 +94,9 @@ dependencies {
 
     testImplementation 'org.json:json:20210307'
 
+    // Test rules and transitive dependencies:
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+// Needed for createAndroidComposeRule, but not createComposeRule:
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
 }

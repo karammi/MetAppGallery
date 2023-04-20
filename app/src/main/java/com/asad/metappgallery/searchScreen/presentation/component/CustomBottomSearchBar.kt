@@ -31,6 +31,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -103,7 +104,8 @@ fun BoxScope.CustomBottomSearchBar(
                     .weight(1f)
                     .padding(4.dp)
                     .focusRequester(searchInputFocusRequester)
-                    .requiredHeight(48.dp),
+                    .requiredHeight(48.dp)
+                    .testTag("search_text_input"),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,

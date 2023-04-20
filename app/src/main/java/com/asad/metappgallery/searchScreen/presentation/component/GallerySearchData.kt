@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -13,7 +15,10 @@ import androidx.compose.ui.unit.dp
 fun GallerySearchData(data: List<Int>, onItemClicked: (Int) -> Unit) {
     LazyVerticalGrid(
         cells = GridCells.Adaptive(120.dp),
-        modifier = Modifier.padding(bottom = 80.dp),
+        modifier = Modifier.padding(bottom = 80.dp)
+            .semantics {
+                contentDescription = "gallery_search_grid"
+            },
     ) {
         items(data.size) { index ->
             GalleryItem(

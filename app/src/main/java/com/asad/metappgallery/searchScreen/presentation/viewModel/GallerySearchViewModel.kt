@@ -52,7 +52,7 @@ class GallerySearchViewModel constructor(
                 if (it.searchQuery.text.isBlank()) {
                     resetUiState()
                 } else {
-                    delay(600)
+//                    delay(100)
 
                     fetchObjectsSearchJob = fetchGalleryList(it.searchQuery.text)
                 }
