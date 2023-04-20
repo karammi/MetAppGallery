@@ -30,4 +30,6 @@ object ObjectDetailScreen {
     const val GalleryDetail: String = "Gallery detail"
     const val GalleryInfo: String = "Gallery Info"
     const val GalleryErrorTitle: String = "Oops! An error occurred!"
+
+    const val GalleryDataEmptyValue = "Sorry! There isn't more data to show you."
 }

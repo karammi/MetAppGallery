@@ -11,13 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.asad.metappgallery.core.util.Emoji
 
 @Composable
-fun BoxScope.GallerySearchEmptyList(queryString: String? = null) {
+fun BoxScope.CustomEmptyContent(body: String) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -28,14 +29,18 @@ fun BoxScope.GallerySearchEmptyList(queryString: String? = null) {
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = "Let's ${Emoji.eye} Museum of Art Gallery ${Emoji.blackCat}",
+            text = body,
             style = MaterialTheme.typography.h6,
             overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center,
             color = Color.Black,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .semantics {
+                    contentDescription = "empty_content"
+                },
+
         )
     }
 }

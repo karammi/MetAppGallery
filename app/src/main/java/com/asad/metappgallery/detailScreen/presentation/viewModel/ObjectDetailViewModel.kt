@@ -22,10 +22,9 @@ class ObjectDetailViewModel constructor(
 
     fun cancelFetchingData() = dataFetchingJob?.cancel()
 
-    //    fun setShowLoading(value: Boolean) {
-    fun setLoading(value: Boolean) {
+    fun showLoading() {
         viewModelScope.launch {
-            val newState = uiState.value.copy(isRefreshing = value)
+            val newState = uiState.value.copy(objectDetailState = UiState.Loading)
             uiState.emit(newState)
         }
     }
@@ -35,13 +34,16 @@ class ObjectDetailViewModel constructor(
             when (data) {
                 is DataResult.Error -> {
                     val newState =
-                        uiState.value.copy(objectDetailState = UiState.Error(error = data.exception?.message))
+                        uiState.value.copy(
+                            objectDetailState = UiState.Error(error = data.exception?.message),
+                        )
                     uiState.emit(newState)
                 }
 
                 is DataResult.Success -> {
-                    val newState =
-                        uiState.value.copy(objectDetailState = UiState.Success(data = data.value))
+                    val newState = uiState.value.copy(
+                        objectDetailState = UiState.Success(data = data.value),
+                    )
                     uiState.emit(newState)
                 }
             }
@@ -49,11 +51,10 @@ class ObjectDetailViewModel constructor(
     }
 
     fun fetchObjectDetail(objectId: Int): Job = viewModelScope.launch {
-        setLoading(true)
+        showLoading()
         ensureActive()
         val result = objectDetailRemoteDataSource.fetchObjectDetail(objectId)
         ensureActive()
         setObjectData(result)
-        setLoading(false)
     }
 }

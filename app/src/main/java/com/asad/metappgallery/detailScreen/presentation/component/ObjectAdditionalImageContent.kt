@@ -16,7 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.asad.metappgallery.core.presentation.NetworkImage
+import com.asad.metappgallery.core.presentation.CustomNetworkImage
 
 @Composable
 fun ObjectAdditionalImageContent(images: List<String>, backgroundColor: Color) {
@@ -39,7 +39,7 @@ fun ObjectAdditionalImageContent(images: List<String>, backgroundColor: Color) {
                 elevation = 4.dp,
                 backgroundColor = Color.LightGray,
             ) {
-                NetworkImage(
+                CustomNetworkImage(
                     url = it,
                     contentScale = ContentScale.Fit,
                     imageModifier = Modifier

@@ -22,7 +22,7 @@ import coil.request.ImageRequest
 import coil.size.Size
 
 @Composable
-fun NetworkImage(
+fun CustomNetworkImage(
     url: String,
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Fit,

@@ -24,9 +24,10 @@ import com.asad.metappgallery.core.util.SystemUiUtil
 import com.asad.metappgallery.searchScreen.data.adapter.GalleryResponseConstant.FailedToFetchDataDefaultMessage
 import com.asad.metappgallery.searchScreen.presentation.component.CustomAppBar
 import com.asad.metappgallery.searchScreen.presentation.component.CustomBottomSearchBar
+import com.asad.metappgallery.searchScreen.presentation.component.CustomEmptyContent
 import com.asad.metappgallery.searchScreen.presentation.component.GallerySearchData
-import com.asad.metappgallery.searchScreen.presentation.component.GallerySearchEmptyList
 import com.asad.metappgallery.searchScreen.presentation.component.GallerySearchError
+import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
 import com.asad.metappgallery.searchScreen.presentation.viewModel.GallerySearchViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -81,7 +82,7 @@ fun GallerySearchScreen(
                 }
 
                 is UiState.Empty -> {
-                    GallerySearchEmptyList()
+                    CustomEmptyContent(body = UiConstant.GallerySearchEmptyStateTitle)
                 }
 
                 is UiState.Loading -> {

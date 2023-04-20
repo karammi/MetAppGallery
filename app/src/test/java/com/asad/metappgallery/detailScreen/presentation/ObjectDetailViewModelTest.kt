@@ -69,7 +69,7 @@ class ObjectDetailViewModelTest {
             }
         }
 
-        objectDetailViewModel.setLoading(true)
+        objectDetailViewModel.showLoading(true)
 
         job.join()
         job.cancel()
@@ -90,7 +90,7 @@ class ObjectDetailViewModelTest {
             }
         }
 
-        objectDetailViewModel.setLoading(false)
+        objectDetailViewModel.showLoading(false)
 
         job.join()
         job.cancel()

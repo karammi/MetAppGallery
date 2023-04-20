@@ -46,7 +46,6 @@ fun BoxScope.CustomAppBar(
     onNavigateUp: (() -> Unit)? = null,
     isTransparent: Boolean = false,
 ) {
-
     /**
      * This will be updated only when [isTransparent] changes
      * with the help of [derivedStateOf] API
@@ -95,15 +94,14 @@ fun BoxScope.CustomAppBar(
                 .fillMaxSize()
                 .padding(horizontal = 16.dp), // Due to Material Design 3: https://m3.material.io/components/top-app-bar/specs#e3fd3eba-0444-437c-9a82-071ef03d85b1
         ) {
-
             onNavigateUp?.let {
-                TouchableScale(onClick = it) {
+                CustomTouchableScale(onClick = it) {
                     Icon(
                         imageVector = Icons.Rounded.ArrowBack,
                         contentDescription = null,
                         modifier = Modifier
                             .requiredWidth(24.dp)
-                            .requiredHeight(48.dp)
+                            .requiredHeight(48.dp),
                     )
                 }
 
@@ -124,13 +122,12 @@ private enum class TouchableScaleState {
 }
 
 @Composable
-fun TouchableScale(
+fun CustomTouchableScale(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
-
     val coroutineScope = rememberCoroutineScope()
 
     val currentState = remember { MutableTransitionState(TouchableScaleState.Idle) }
@@ -141,9 +138,9 @@ fun TouchableScale(
         transitionSpec = {
             spring(
                 dampingRatio = Spring.DampingRatioMediumBouncy,
-                stiffness = Spring.StiffnessLow
+                stiffness = Spring.StiffnessLow,
             )
-        }
+        },
     ) { state ->
         when (state) {
             TouchableScaleState.Pressed -> 0.9f
