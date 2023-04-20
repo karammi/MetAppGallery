@@ -1,31 +1,28 @@
 package com.asad.metappgallery.detailScreen.data.adapter
 
 import com.asad.metappgallery.core.data.JsonAdapter
-import com.asad.metappgallery.core.data.getArrayNullable
 import com.asad.metappgallery.core.data.getStringNullable
-import com.asad.metappgallery.detailScreen.data.model.ConstituentModel
 import com.asad.metappgallery.detailScreen.data.model.ObjectModel
-import com.asad.metappgallery.detailScreen.data.model.TagModel
-import org.json.JSONArray
 import org.json.JSONObject
 
 /**
- * This is used to deserialize Json Object
+ * This class is used to deserialize Object Model from JsonObject
  * */
 class ObjectModelJsonAdapter constructor(
-    private val constituentJsonAdapter: ConstituentJsonAdapter,
-    private val tagJsonAdapter: TagJsonAdapter,
+    private val constituentJsonDeserializer: ConstituentJsonDeserializer,
+    private val additionalImagesJsonDeserializer: AdditionalImagesJsonDeserializer,
+    private val tagJsonDeserializer: TagJsonDeserializer,
 ) : JsonAdapter<ObjectModel> {
 
     override fun createEntityFromJson(json: JSONObject): ObjectModel {
         // Deserialize JSONArray into List<String> of AdditionalImages
-        val additionalImagesList = deserializeAdditionalImages(json.getArrayNullable("additionalImages"))
+        val additionalImagesList = additionalImagesJsonDeserializer.deserialize(json)
 
         // Deserialize JSONArray into List<Constituent>
-        val constituentsList = deserializeConstituentList(json.getArrayNullable("constituents"))
+        val constituentsList = constituentJsonDeserializer.deserialize(json)
 
         // Deserialize JSONArray into List<Tag>
-        val tagsList = deserializeTagList(json.getArrayNullable("tags"))
+        val tagsList = tagJsonDeserializer.deserialize(json)
 
         return ObjectModel(
             objectID = json.getInt("objectID"),
@@ -52,36 +49,5 @@ class ObjectModelJsonAdapter constructor(
             objectURL = json.getString("objectURL"),
         )
     }
-
-    private fun deserializeConstituentList(jsonArray: JSONArray?): List<ConstituentModel>? {
-        return jsonArray?.let {
-            val constituentsList = mutableListOf<ConstituentModel>()
-            for (index in 0 until jsonArray.length()) {
-                constituentsList.add(
-                    constituentJsonAdapter.createEntityFromJson(jsonArray.getJSONObject(index)),
-                )
-            }
-            constituentsList
-        }
-    }
-
-    private fun deserializeTagList(jsonArray: JSONArray?): List<TagModel>? {
-        return jsonArray?.let {
-            val tagsList = mutableListOf<TagModel>()
-            for (index in 0 until jsonArray.length()) {
-                tagsList.add(tagJsonAdapter.createEntityFromJson(jsonArray.getJSONObject(index)))
-            }
-            tagsList
-        }
-    }
-
-    private fun deserializeAdditionalImages(jsonArray: JSONArray?): List<String>? {
-        return jsonArray?.let {
-            val additionalImagesList = mutableListOf<String>()
-            for (index in 0 until jsonArray.length()) {
-                additionalImagesList.add(jsonArray.getString(index))
-            }
-            additionalImagesList
-        }
-    }
 }
+

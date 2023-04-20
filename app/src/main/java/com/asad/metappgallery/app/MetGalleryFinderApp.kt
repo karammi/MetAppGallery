@@ -9,9 +9,12 @@ import androidx.navigation.navArgument
 import com.asad.metappgallery.app.navigation.NavArgs
 import com.asad.metappgallery.app.navigation.Screen
 import com.asad.metappgallery.core.data.NetworkRequester
+import com.asad.metappgallery.detailScreen.data.adapter.AdditionalImagesJsonDeserializer
 import com.asad.metappgallery.detailScreen.data.adapter.ConstituentJsonAdapter
+import com.asad.metappgallery.detailScreen.data.adapter.ConstituentJsonDeserializer
 import com.asad.metappgallery.detailScreen.data.adapter.ObjectModelJsonAdapter
 import com.asad.metappgallery.detailScreen.data.adapter.TagJsonAdapter
+import com.asad.metappgallery.detailScreen.data.adapter.TagJsonDeserializer
 import com.asad.metappgallery.detailScreen.data.dataSource.ObjectDetailRemoteDataSourceImpl
 import com.asad.metappgallery.detailScreen.presentation.screen.ObjectDetailScreen
 import com.asad.metappgallery.detailScreen.presentation.viewModel.ObjectDetailViewModel
@@ -33,10 +36,18 @@ fun MetGalleryFinderApp() {
     val gallerySearchViewModel = GallerySearchViewModel(dataSource)
 
     val tagJsonAdapter = TagJsonAdapter()
+    val tagJsonDeserializer = TagJsonDeserializer(tagJsonAdapter = tagJsonAdapter)
+
+    val additionalImagesJsonDeserializer = AdditionalImagesJsonDeserializer()
+
     val constituentJsonAdapter = ConstituentJsonAdapter()
+    val constituentJsonDeserializer =
+        ConstituentJsonDeserializer(constituentJsonAdapter = constituentJsonAdapter)
+
     val objectModelJsonAdapter = ObjectModelJsonAdapter(
-        constituentJsonAdapter = constituentJsonAdapter,
-        tagJsonAdapter = tagJsonAdapter,
+        constituentJsonDeserializer = constituentJsonDeserializer,
+        tagJsonDeserializer = tagJsonDeserializer,
+        additionalImagesJsonDeserializer = additionalImagesJsonDeserializer,
     )
 
     val objectDetailRemoteDataSource = ObjectDetailRemoteDataSourceImpl(
