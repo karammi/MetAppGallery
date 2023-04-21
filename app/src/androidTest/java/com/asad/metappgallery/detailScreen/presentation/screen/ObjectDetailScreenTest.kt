@@ -32,7 +32,7 @@ class ObjectDetailScreenTest {
             objectDetailRemoteDataSource = FakeObjectDetailRemoteDataSourceImpl()
             detailViewModel =
                 ObjectDetailViewModel(objectDetailRemoteDataSource = objectDetailRemoteDataSource)
-            val fakeCurrentObjectId = "2032"
+            val fakeCurrentObjectId = "1"
 
             ObjectDetailScreen(
                 viewModel = detailViewModel,
@@ -62,13 +62,6 @@ class ObjectDetailScreenTest {
             .onAllNodesWithContentDescription(
                 ObjectDetailScreen.ObjectContentDescriptionTitle,
             )
-
-        /*        composeTestRule.waitUntil {
-                    composeTestRule
-                        .onAllNodesWithContentDescription(CoreString.CustomNetworkImageLoadingTitle)
-                        .fetchSemanticsNodes()
-                        .size == 7
-                }*/
 
         composeTestRule
             .onAllNodesWithContentDescription(CoreString.CustomNetworkImageLoadingTitle)
