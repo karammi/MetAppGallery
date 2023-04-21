@@ -7,6 +7,7 @@ import com.asad.metappgallery.detailScreen.data.dataSource.FakeObjectDetailRemot
 import com.asad.metappgallery.detailScreen.data.dataSource.ObjectDetailRemoteDataSource
 import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailScreen
 import com.asad.metappgallery.detailScreen.presentation.viewModel.ObjectDetailViewModel
+import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -40,7 +41,7 @@ class ObjectDetailScreenTest {
     @Test
     fun detailScreenInitialState_shouldBeEmptyState() {
         composeTestRule.apply {
-            onNodeWithContentDescription(ObjectDetailScreen.ArtistContentDescriptionTitle).assertIsDisplayed()
+            onNodeWithContentDescription(UiConstant.GalleryEmptyContent).assertIsDisplayed()
         }
     }
 }

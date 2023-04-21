@@ -16,6 +16,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
 
 @Composable
 fun BoxScope.CustomEmptyContent(body: String) {
@@ -38,7 +39,7 @@ fun BoxScope.CustomEmptyContent(body: String) {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .semantics {
-                    contentDescription = "empty_content"
+                    contentDescription = UiConstant.GalleryEmptyContent
                 },
 
         )
