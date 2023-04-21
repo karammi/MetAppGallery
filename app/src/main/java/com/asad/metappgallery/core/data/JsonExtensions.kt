@@ -23,7 +23,5 @@ fun JSONObject.getArrayNullable(name: String): JSONArray? {
 
     if (this.isNull(name)) return null
 
-    if (this.getString(name) == "null") return null
-
     return this.getJSONArray(name)
 }

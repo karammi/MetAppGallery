@@ -55,6 +55,21 @@ fun ObjectDetailScreen(
                 CustomEmptyContent(body = ObjectDetailScreen.GalleryDataEmptyValue)
             }
 
+            UiState.Loading -> {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .requiredSize(48.dp)
+                        .align(Alignment.Center),
+                    color = Color.White,
+                    strokeWidth = 4.dp,
+                )
+            }
+
+            is UiState.Success -> {
+                val data = uiState.value.objectDetailState.data!!
+                ObjectDetailContent(data = data)
+            }
+
             is UiState.Error -> {
                 CustomTouchableScale(onClick = {
                     viewModel.fetchObjectDetail(currentObjectId.toInt())
@@ -73,21 +88,6 @@ fun ObjectDetailScreen(
                             .padding(horizontal = 24.dp),
                     )
                 }
-            }
-
-            UiState.Loading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .requiredSize(48.dp)
-                        .align(Alignment.Center),
-                    color = Color.White,
-                    strokeWidth = 4.dp,
-                )
-            }
-
-            is UiState.Success -> {
-                val data = uiState.value.objectDetailState.data!!
-                ObjectDetailContent(data = data)
             }
         }
 
