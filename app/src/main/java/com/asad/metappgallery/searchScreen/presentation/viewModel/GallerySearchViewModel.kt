@@ -9,7 +9,6 @@ import com.asad.metappgallery.searchScreen.data.dataSource.GalleryRemoteDataSour
 import com.asad.metappgallery.searchScreen.data.model.GalleryResponse
 import com.asad.metappgallery.searchScreen.presentation.model.GallerySearchUiState
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -29,20 +28,6 @@ class GallerySearchViewModel constructor(
 
     init {
         observedSearchText()
-//        doAutomateSearch()
-    }
-
-    // TODO should remove this function, it has side effect on my test
-    private fun doAutomateSearch() {
-        viewModelScope.launch {
-            delay(100)
-            val newState =
-                uiState.value.copy(searchQuery = uiState.value.searchQuery.copy("sunflowers"))
-            uiState.emit(newState)
-//            uiState.update {
-//                it.copy(searchQuery = it.searchQuery.copy(text = "sunflowers"))
-//            }
-        }
     }
 
     private fun observedSearchText() = viewModelScope.launch {
