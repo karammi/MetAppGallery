@@ -1,8 +1,12 @@
 package com.asad.metappgallery.detailScreen.presentation.screen
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.performScrollToNode
+import com.asad.metappgallery.core.CoreString
 import com.asad.metappgallery.detailScreen.data.dataSource.FakeObjectDetailRemoteDataSourceImpl
 import com.asad.metappgallery.detailScreen.data.dataSource.ObjectDetailRemoteDataSource
 import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailScreen
@@ -39,9 +43,67 @@ class ObjectDetailScreenTest {
     }
 
     @Test
-    fun detailScreenInitialState_shouldBeEmptyState() {
+    fun whenInitialState_thenUpdateUiStateToEmpty() {
         composeTestRule.apply {
-            onNodeWithContentDescription(UiConstant.GalleryEmptyContent).assertIsDisplayed()
+            onNodeWithContentDescription(UiConstant.GalleryEmptyContent)
+                .assertIsDisplayed()
         }
+    }
+
+    @Test
+    fun whenObjectDetailScreenFetchedData_thenUpdateUiStateToSuccess() {
+        composeTestRule
+            .onNodeWithContentDescription(UiConstant.GalleryEmptyContent)
+            .assertIsDisplayed()
+
+        composeTestRule.mainClock.advanceTimeByFrame()
+
+        composeTestRule
+            .onAllNodesWithContentDescription(
+                ObjectDetailScreen.ObjectContentDescriptionTitle,
+            )
+
+        /*        composeTestRule.waitUntil {
+                    composeTestRule
+                        .onAllNodesWithContentDescription(CoreString.CustomNetworkImageLoadingTitle)
+                        .fetchSemanticsNodes()
+                        .size == 7
+                }*/
+
+        composeTestRule
+            .onAllNodesWithContentDescription(CoreString.CustomNetworkImageLoadingTitle)
+            .fetchSemanticsNodes()
+            .isNotEmpty()
+
+        composeTestRule
+            .onNodeWithContentDescription(ObjectDetailScreen.ArtistContentDescriptionTitle)
+            .assertIsDisplayed()
+
+        composeTestRule
+            .onNodeWithContentDescription(ObjectDetailScreen.DepartmentContentDescriptionTitle)
+            .assertIsDisplayed()
+
+        composeTestRule
+            .onNodeWithContentDescription(ObjectDetailScreen.ClassificationContentDescriptionTitle)
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun whenObjectDetailScreenFetchedData_thenScrollToDown() {
+        composeTestRule
+            .onNodeWithContentDescription(UiConstant.GalleryEmptyContent)
+            .assertIsDisplayed()
+
+        composeTestRule.mainClock.advanceTimeByFrame()
+
+        composeTestRule
+            .onNodeWithContentDescription(ObjectDetailScreen.ColumnContentDescription)
+            .assertIsDisplayed()
+
+        composeTestRule
+            .onNodeWithContentDescription(ObjectDetailScreen.ColumnContentDescription)
+            .performScrollToNode(hasContentDescription("key"))
+
+        composeTestRule.mainClock.advanceTimeBy(1000)
     }
 }
