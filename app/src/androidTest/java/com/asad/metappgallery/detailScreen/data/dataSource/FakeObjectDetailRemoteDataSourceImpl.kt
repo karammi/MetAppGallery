@@ -8,7 +8,7 @@ class FakeObjectDetailRemoteDataSourceImpl : ObjectDetailRemoteDataSource {
     override suspend fun fetchObjectDetail(objectID: Int): DataResult<ObjectModel> {
         return DataResult.Success(
             value = ObjectModel(
-                objectID = 2032,
+                objectID = 1,
                 isHighlight = false,
                 isPublicDomain = true,
                 primaryImage = "https://images.metmuseum.org/CRDImages/ad/original/85I_ACF3100R5.jpg",

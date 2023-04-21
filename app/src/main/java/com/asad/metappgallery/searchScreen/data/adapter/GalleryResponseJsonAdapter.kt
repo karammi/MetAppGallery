@@ -14,11 +14,12 @@ class GalleryResponseJsonAdapter : JsonAdapter<GalleryResponse> {
             null
         }
 
+        // TODO("move to another function")
         // Convert JSONArray to a list of Int values
-        val objectIDsList = jsonArray?.let {
+        val objectIDsList = jsonArray?.let { array ->
             generateSequence(0) { it + 1 }
                 .takeWhile { it < jsonArray.length() }
-                .map { jsonArray.getInt(it) }
+                .map { array.getInt(it) }
                 .toList()
         }
 

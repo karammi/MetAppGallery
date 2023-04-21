@@ -44,6 +44,7 @@ fun CustomNetworkImage(
             .crossfade(enable = true)
             .crossfade(durationMillis = 100)
 
+        // todo recycle image and resize image
         val painter = rememberAsyncImagePainter(
             model = imageBuilder.build(),
             contentScale = ContentScale.Fit,
