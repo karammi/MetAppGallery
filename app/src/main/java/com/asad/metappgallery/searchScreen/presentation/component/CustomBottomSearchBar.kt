@@ -36,6 +36,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
 
 /**
  * A BoxScope provides a scope for the children of Box and BoxWithConstraints.
@@ -105,7 +106,7 @@ fun BoxScope.CustomBottomSearchBar(
                     .padding(4.dp)
                     .focusRequester(searchInputFocusRequester)
                     .requiredHeight(48.dp)
-                    .testTag("search_text_input"),
+                    .testTag(UiConstant.SearchGalleryTextField),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
