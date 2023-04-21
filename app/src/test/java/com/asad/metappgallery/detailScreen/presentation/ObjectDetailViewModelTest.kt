@@ -45,7 +45,7 @@ class ObjectDetailViewModelTest {
         objectDetailViewModel.uiState.test {
             val emission = awaitItem()
 
-            assertThat(emission.isRefreshing).isEqualTo(false)
+//            assertThat(emission.isRefreshing).isEqualTo(false)
             assertThat(emission.objectDetailState).isEqualTo(expectedUiState)
 
             cancelAndConsumeRemainingEvents()
@@ -54,22 +54,21 @@ class ObjectDetailViewModelTest {
 
     @Test
     fun whenSetLoading_shouldBeLoadingState(): Unit = runBlocking {
+
+        val expectedUiState = ObjectDetailUiState(objectDetailState = UiState.Loading)
+
         val job = launch(Dispatchers.Main) {
             objectDetailViewModel.uiState.test {
                 skipItems(1)
 
-                assertThat(awaitItem()).isEqualTo(
-                    ObjectDetailUiState(
-                        isRefreshing = true,
-                        objectDetailState = UiState.Empty,
-                    ),
-                )
+                assertThat(awaitItem()).isEqualTo(expectedUiState)
 
                 cancelAndIgnoreRemainingEvents()
             }
         }
 
-        objectDetailViewModel.showLoading(true)
+//        objectDetailViewModel.showLoading(true)
+        objectDetailViewModel.showLoading()
 
         job.join()
         job.cancel()
@@ -81,7 +80,7 @@ class ObjectDetailViewModelTest {
             objectDetailViewModel.uiState.test {
                 assertThat(awaitItem()).isEqualTo(
                     ObjectDetailUiState(
-                        isRefreshing = false,
+//                        isRefreshing = false,
                         objectDetailState = UiState.Empty,
                     ),
                 )
@@ -90,7 +89,8 @@ class ObjectDetailViewModelTest {
             }
         }
 
-        objectDetailViewModel.showLoading(false)
+//        objectDetailViewModel.showLoading(false)
+        objectDetailViewModel.showLoading()
 
         job.join()
         job.cancel()
@@ -109,6 +109,7 @@ class ObjectDetailViewModelTest {
 
                 val secondEmission = awaitItem()
 
+                TODO(reason = "should implement test functionality")
 //                assertThat(awaitItem())
 //                    .isEqualTo()
 

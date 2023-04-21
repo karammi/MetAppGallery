@@ -7,17 +7,33 @@ import org.junit.Test
 
 class ObjectModelJsonAdapterTest {
 
-    private lateinit var sut: ObjectModelJsonAdapter
+    // preparing dependencies
+    private lateinit var constituentJsonDeserializer: ConstituentJsonDeserializer
+    private lateinit var tagJsonDeserializer: TagJsonDeserializer
+    private lateinit var additionalImagesJsonDeserializer: AdditionalImagesJsonDeserializer
+
     private lateinit var constituentJsonAdapter: ConstituentJsonAdapter
     private lateinit var tagJsonAdapter: TagJsonAdapter
+
+    // this is the system under test
+    private lateinit var sut: ObjectModelJsonAdapter
 
     @Before
     fun setup() {
         constituentJsonAdapter = ConstituentJsonAdapter()
         tagJsonAdapter = TagJsonAdapter()
+
+        constituentJsonDeserializer =
+            ConstituentJsonDeserializer(constituentJsonAdapter = constituentJsonAdapter)
+
+        tagJsonDeserializer = TagJsonDeserializer(tagJsonAdapter = tagJsonAdapter)
+
+        additionalImagesJsonDeserializer = AdditionalImagesJsonDeserializer()
+
         sut = ObjectModelJsonAdapter(
-            constituentJsonAdapter = constituentJsonAdapter,
-            tagJsonAdapter = tagJsonAdapter,
+            constituentJsonDeserializer = constituentJsonDeserializer,
+            additionalImagesJsonDeserializer = additionalImagesJsonDeserializer,
+            tagJsonDeserializer = tagJsonDeserializer,
         )
     }
 
