@@ -29,7 +29,7 @@ class ObjectDetailViewModel constructor(
         }
     }
 
-    private fun setObjectData(data: DataResult<ObjectModel>) {
+    private fun setObjectDataResponse(data: DataResult<ObjectModel>) {
         viewModelScope.launch {
             when (data) {
                 is DataResult.Error -> {
@@ -55,6 +55,6 @@ class ObjectDetailViewModel constructor(
         ensureActive()
         val result = objectDetailRemoteDataSource.fetchObjectDetail(objectId)
         ensureActive()
-        setObjectData(result)
+        setObjectDataResponse(result)
     }
 }

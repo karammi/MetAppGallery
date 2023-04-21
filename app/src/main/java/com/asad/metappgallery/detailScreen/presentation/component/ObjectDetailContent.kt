@@ -71,7 +71,10 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(scrollState),
+            .verticalScroll(scrollState)
+            .semantics {
+                contentDescription = ObjectDetailScreen.ColumnContentDescription
+            },
     ) {
         Box(
             modifier = Modifier
@@ -222,7 +225,11 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
             modifier = Modifier
                 .requiredHeight(configuration.screenWidthDp.dp - 200.dp)
                 .fillMaxWidth()
-                .background(surfaceColor),
+                .background(surfaceColor)
+                .semantics {
+                    contentDescription = "key"
+
+                },
         )
     }
 }
