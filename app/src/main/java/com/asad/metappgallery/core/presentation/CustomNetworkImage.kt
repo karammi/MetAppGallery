@@ -15,11 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
+import com.asad.metappgallery.core.CoreString
 
 @Composable
 fun CustomNetworkImage(
@@ -62,12 +65,16 @@ fun CustomNetworkImage(
                         modifier = Modifier
                             .wrapContentWidth()
                             .padding(horizontal = 8.dp)
-                            .align(Alignment.Center),
+                            .align(Alignment.Center)
+                            .semantics {
+                                this.contentDescription = CoreString.CustomNetworkImageLoadingTitle
+                            },
                         color = Color.Black,
                         backgroundColor = Color.Black.copy(0.2f),
                     )
                 }
             }
+
             is AsyncImagePainter.State.Error -> {
                 when {
                     errorBuilder != null -> errorBuilder()
@@ -75,12 +82,18 @@ fun CustomNetworkImage(
                         Icon(
                             imageVector = Icons.Rounded.Warning,
                             tint = Color.Red,
-                            modifier = Modifier.requiredSize(24.dp),
+                            modifier = Modifier
+                                .requiredSize(24.dp)
+                                .semantics {
+                                    this.contentDescription =
+                                        CoreString.CustomNetworkImageErrorTitle
+                                },
                             contentDescription = null,
                         )
                     }
                 }
             }
+
             else -> {}
         }
     }

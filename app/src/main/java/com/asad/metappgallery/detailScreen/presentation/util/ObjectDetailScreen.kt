@@ -37,4 +37,6 @@ object ObjectDetailScreen {
     const val ArtistContentDescriptionTitle = "artist_title"
     const val DepartmentContentDescriptionTitle = "department_title"
     const val ClassificationContentDescriptionTitle = "classification_title"
+    const val CircularProgressContentDescription = "circular_progress"
+    const val ColumnContentDescription = "column"
 }

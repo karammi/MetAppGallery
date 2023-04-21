@@ -14,6 +14,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.asad.metappgallery.app.UiState
@@ -59,7 +61,11 @@ fun ObjectDetailScreen(
                 CircularProgressIndicator(
                     modifier = Modifier
                         .requiredSize(48.dp)
-                        .align(Alignment.Center),
+                        .align(Alignment.Center)
+                        .semantics {
+                            contentDescription =
+                                ObjectDetailScreen.CircularProgressContentDescription
+                        },
                     color = Color.White,
                     strokeWidth = 4.dp,
                 )
