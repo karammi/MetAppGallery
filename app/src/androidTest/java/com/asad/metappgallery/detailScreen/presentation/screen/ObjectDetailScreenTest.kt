@@ -8,7 +8,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performScrollToNode
 import com.asad.metappgallery.core.CoreString
 import com.asad.metappgallery.detailScreen.data.dataSource.FakeObjectDetailRemoteDataSourceImpl
-import com.asad.metappgallery.detailScreen.data.dataSource.ObjectDetailRemoteDataSource
+import com.asad.metappgallery.detailScreen.data.dataSource.remote.ObjectDetailRemoteDataSource
 import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailScreen
 import com.asad.metappgallery.detailScreen.presentation.viewModel.ObjectDetailViewModel
 import com.asad.metappgallery.searchScreen.presentation.util.UiConstant

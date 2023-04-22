@@ -13,7 +13,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import com.asad.metappgallery.app.theme.lightThemeColors
 import com.asad.metappgallery.searchScreen.data.dataSource.FakeGalleryRemoteDataSourceImpl
-import com.asad.metappgallery.searchScreen.data.dataSource.GalleryRemoteDataSource
+import com.asad.metappgallery.searchScreen.data.dataSource.remote.GalleryRemoteDataSource
 import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
 import com.asad.metappgallery.searchScreen.presentation.viewModel.GallerySearchViewModel
 import org.junit.Before

@@ -30,7 +30,7 @@ private const val TAG = "DetailScreen"
 
 @Composable
 fun ObjectDetailScreen(
-    viewModel: ObjectDetailViewModel,
+    viewModel: ObjectDetailViewModel = hiltViewModel(),
     currentObjectId: String,
     onNavigationBack: () -> Unit,
 ) {

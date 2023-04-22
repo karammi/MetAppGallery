@@ -5,7 +5,7 @@ import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
 
-class GalleryResponseJsonAdapterTest {
+class GalleryResponseEntityJsonAdapterTest {
 
     private lateinit var sut: GalleryResponseJsonAdapter
 

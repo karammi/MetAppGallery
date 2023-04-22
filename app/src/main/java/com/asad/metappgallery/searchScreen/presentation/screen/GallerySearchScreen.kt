@@ -46,11 +46,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.asad.metappgallery.R
 import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.core.util.ComposeUtil
 import com.asad.metappgallery.core.util.SystemUiUtil
-import com.asad.metappgallery.searchScreen.data.adapter.GallerySearchConstant.FailedToFetchDataDefaultMessage
 import com.asad.metappgallery.searchScreen.data.model.Department
 import com.asad.metappgallery.searchScreen.presentation.component.CustomAppBar
 import com.asad.metappgallery.searchScreen.presentation.component.CustomBottomSearchBar
@@ -65,7 +65,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun GallerySearchScreen(
-    viewModel: GallerySearchViewModel,
+    viewModel: GallerySearchViewModel = hiltViewModel(),
     onNavigationToObjectDetail: (Int) -> Unit,
 ) {
     SystemUiUtil.ConfigStatusBar(color = MaterialTheme.colors.primaryVariant)

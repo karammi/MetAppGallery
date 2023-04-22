@@ -3,11 +3,10 @@ package com.asad.metappgallery.searchScreen.presentation.viewModel
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.core.data.DataResult
-import com.asad.metappgallery.searchScreen.data.dataSource.GalleryRemoteDataSource
+import com.asad.metappgallery.core.presentation.UiState
+import com.asad.metappgallery.searchScreen.data.dataSource.remote.model.GalleryResponseEntity
 import com.asad.metappgallery.searchScreen.data.model.DepartmentResponse
-import com.asad.metappgallery.searchScreen.data.model.GalleryResponse
 import com.asad.metappgallery.searchScreen.presentation.model.GallerySearchUiState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -19,7 +18,8 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "GalleryFinder"
 
-class GallerySearchViewModel constructor(
+@HiltViewModel
+class GallerySearchViewModel @Inject constructor(
     private val galleryRemoteDataSource: GalleryRemoteDataSource,
 ) : ViewModel() {
 
@@ -105,7 +105,7 @@ class GallerySearchViewModel constructor(
         }
     }
 
-    fun setGallerySearchResponse(value: DataResult<GalleryResponse>) {
+    fun setGallerySearchResponse(value: DataResult<GalleryResponseEntity>) {
         viewModelScope.launch {
             when (value) {
                 is DataResult.Error -> {
@@ -150,4 +150,15 @@ class GallerySearchViewModel constructor(
             }
         }
     }
+
+    /**
+     * This method requests server to fetch the collection which contains current [queryString].
+     * */
+    fun fetchGalleryList(queryString: String): Job =
+        viewModelScope.launch {
+            setIsSearching(true)
+            val result = galleryRemoteDataSource.fetchList(queryString)
+            setSearchResponse(result)
+            setIsSearching(false)
+        }
 }

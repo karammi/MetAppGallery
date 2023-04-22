@@ -1,8 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -66,6 +66,7 @@ android {
 }
 
 dependencies {
+//  HEAD
 //    implementation 'androidx.core:core-ktx:1.9.0'
     implementation "androidx.core:core-ktx:+"
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -77,6 +78,22 @@ dependencies {
     implementation 'androidx.activity:activity-compose:1.7.0'
     implementation 'com.google.android.gms:play-services-basement:18.2.0'
     implementation 'com.google.android.gms:play-services-base:18.2.0'
+//=======
+//  implementation 'androidx.core:core-ktx:1.7.0'
+//    implementation 'androidx.appcompat:appcompat:1.4.1'
+//    implementation 'com.google.android.material:material:1.5.0'
+//    implementation "androidx.compose.ui:ui:$compose_version"
+//    implementation "androidx.compose.material:material:$compose_version"
+//    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+//    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
+////    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
+////
+//    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+//
+//    implementation 'androidx.activity:activity-compose:1.4.0'
+//    implementation 'com.google.android.gms:play-services-basement:18.0.2'
+//    implementation 'com.google.android.gms:play-services-base:18.0.1'
+//>>>>>>> 60e8248 (chore: Refactored application data layer)
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -84,11 +101,21 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling:1.5.0-alpha01'
 
     implementation "androidx.navigation:navigation-compose:$nav_version"
+//  HEAD
     implementation("io.coil-kt:coil-compose:$coil_version")
     implementation 'com.google.accompanist:accompanist-systemuicontroller:0.31.0-alpha'
 
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
     debugImplementation 'org.mockito:mockito-android:5.3.1'
+//=======
+//    implementation "io.coil-kt:coil-compose:$coil_version"
+//    implementation "com.google.accompanist:accompanist-systemuicontroller:0.24.7-alpha"
+//
+//
+//
+//    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+//    debugImplementation "org.mockito:mockito-android:3.2.4"
+//>>>>>>> 60e8248 (chore: Refactored application data layer)
 //    debugImplementation "org.mockito:mockito-inline:3.2.4"
 //    testImplementation 'org.mockito.kotlin:mockito-kotlin:3.2.4'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1'
@@ -99,7 +126,11 @@ dependencies {
     testImplementation 'org.json:json:20230227'
 
     // Test rules and transitive dependencies:
+//
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.5.0-alpha01"
+//=======
+//    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+//>>>>>>> 60e8248 (chore: Refactored application data layer)
 // Needed for createAndroidComposeRule, but not createComposeRule:
     debugImplementation 'androidx.compose.ui:ui-test-manifest:1.5.0-alpha02'
 
@@ -119,9 +150,9 @@ dependencies {
     implementation "com.squareup.moshi:moshi-adapters:$moshi_version"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
 
-    // For instrumented tests.
+//    // For instrumented tests.
     androidTestImplementation "com.google.dagger:hilt-android-testing:2.44"
-    // ...with Kotlin.
+//    // ...with Kotlin.
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.44"
     kapt "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0"
 
@@ -129,4 +160,9 @@ dependencies {
 //    androidTestImplementation "com.jakewharton.espresso:okhttp3-idling-resource:1.0.0"
 
 
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes true
 }

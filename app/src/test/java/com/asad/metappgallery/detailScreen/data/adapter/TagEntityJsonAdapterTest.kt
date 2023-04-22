@@ -5,7 +5,7 @@ import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
 
-class TagModelJsonAdapterTest {
+class TagEntityJsonAdapterTest {
 
     private lateinit var sut: TagJsonAdapter
 

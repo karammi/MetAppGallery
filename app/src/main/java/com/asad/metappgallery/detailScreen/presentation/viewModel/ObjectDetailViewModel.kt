@@ -1,19 +1,26 @@
 package com.asad.metappgallery.detailScreen.presentation.viewModel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.core.data.DataResult
-import com.asad.metappgallery.detailScreen.data.dataSource.ObjectDetailRemoteDataSource
-import com.asad.metappgallery.detailScreen.data.model.ObjectModel
+import com.asad.metappgallery.detailScreen.data.dataSource.remote.ObjectDetailRemoteDataSource
+import com.asad.metappgallery.detailScreen.data.dataSource.remote.model.ObjectEntity
 import com.asad.metappgallery.detailScreen.presentation.model.ObjectDetailUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ObjectDetailViewModel constructor(
+private const val TAG = "ObjectDetailViewModel"
+
+@HiltViewModel
+class ObjectDetailViewModel @Inject constructor(
     private val objectDetailRemoteDataSource: ObjectDetailRemoteDataSource,
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val dataFetchingJob: Job? = null
@@ -29,7 +36,7 @@ class ObjectDetailViewModel constructor(
         }
     }
 
-    private fun setObjectDataResponse(data: DataResult<ObjectModel>) {
+    private fun setObjectDataResponse(data: DataResult<ObjectEntity>) {
         viewModelScope.launch {
             when (data) {
                 is DataResult.Error -> {

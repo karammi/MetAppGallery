@@ -1,13 +1,16 @@
-package com.asad.metappgallery.detailScreen.data.model
+package com.asad.metappgallery.detailScreen.data.dataSource.remote.model
 
-data class ObjectModel(
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
+data class ObjectEntity(
     val objectID: Int,
     val isHighlight: Boolean,
     val isPublicDomain: Boolean,
     val primaryImage: String? = null,
     val primaryImageSmall: String? = null,
     val additionalImages: List<String>? = null,
-    val constituentModels: List<ConstituentModel>? = null,
+    val constituentEntities: List<ConstituentEntity>? = null,
     val department: String? = null,
     val objectName: String? = null,
     val title: String? = null,
@@ -22,5 +25,5 @@ data class ObjectModel(
     val metadataDate: String,
     val repository: String,
     val objectURL: String,
-    val tagModels: List<TagModel>? = null,
+    val tagEntities: List<TagEntity>? = null,
 )

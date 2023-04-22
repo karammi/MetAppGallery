@@ -1,4 +1,4 @@
-package com.asad.metappgallery.searchScreen.data.adapter
+package com.asad.metappgallery.searchScreen.data
 
 import com.asad.metappgallery.core.util.Emoji
 

@@ -2,12 +2,12 @@ package com.asad.metappgallery.searchScreen.presentation.viewModel
 
 import androidx.compose.ui.text.input.TextFieldValue
 import app.cash.turbine.test
-import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.core.data.DataResult
+import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.searchScreen.data.dataSource.FakeErrorGalleryRemoteDataSourceImpl
 import com.asad.metappgallery.searchScreen.data.dataSource.FakeSuccessGalleryRemoteDataSourceImpl
 import com.asad.metappgallery.searchScreen.data.dataSource.GalleryRemoteDataSource
-import com.asad.metappgallery.searchScreen.data.model.GalleryResponse
+import com.asad.metappgallery.searchScreen.data.dataSource.remote.model.GalleryResponseEntity
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -107,7 +107,7 @@ class GallerySearchViewModelTest {
         /** Arrange*/
         val queryString = "sunflower"
         val expectedSearchResult = DataResult.Success(
-            value = GalleryResponse(
+            value = GalleryResponseEntity(
                 total = 10,
                 objectIDs = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
             ),
@@ -159,7 +159,7 @@ class GallerySearchViewModelTest {
         gallerySearchViewModel = GallerySearchViewModel(mockedSuccessGalleryRemoteDataSource)
         val searchedQueryText = "sunflower"
         val response = UiState.Success(
-            GalleryResponse(
+            GalleryResponseEntity(
                 total = 10,
                 objectIDs = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
             ),

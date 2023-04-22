@@ -5,7 +5,7 @@ import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
 
-class ObjectModelJsonAdapterTest {
+class ObjectEntityJsonAdapterTest {
 
     // preparing dependencies
     private lateinit var constituentJsonDeserializer: ConstituentJsonDeserializer
