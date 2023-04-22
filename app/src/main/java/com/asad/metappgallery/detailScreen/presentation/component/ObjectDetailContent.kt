@@ -50,14 +50,6 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
                 )
                 .requiredHeight(
                     configuration.screenWidthDp.dp,
-                ),
-        /*    modifier = Modifier
-                .align(Alignment.TopCenter)
-                .requiredWidth(
-                    configuration.screenWidthDp.dp,
-                )
-                .requiredHeight(
-                    configuration.screenWidthDp.dp,
                 )
                 .drawWithCache {
                     onDrawWithContent {
@@ -70,7 +62,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
                         drawRect(topGradient)
                     }
                 }
-                .graphicsLayer(),*/
+                .graphicsLayer(),
             imageModifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillBounds,
         )
@@ -236,7 +228,6 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
                 .background(surfaceColor)
                 .semantics {
                     contentDescription = "key"
-
                 },
         )
     }
