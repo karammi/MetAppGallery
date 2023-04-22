@@ -36,7 +36,7 @@ class ObjectDetailViewModelTest {
         Dispatchers.setMain(newMainThread)
         fakeSuccessObjectDetailRemoteDataSource = FakeSuccessObjectDetailRemoteDataSourceImpl()
         fakeErrorObjectDetailRemoteDataSource = FakeErrorObjectDetailRemoteDataSourceImpl()
-        objectDetailViewModel = ObjectDetailViewModel(fakeSuccessObjectDetailRemoteDataSource)
+        objectDetailViewModel = ObjectDetailViewModel(fakeSuccessObjectDetailRemoteDataSource,)
     }
 
     @After

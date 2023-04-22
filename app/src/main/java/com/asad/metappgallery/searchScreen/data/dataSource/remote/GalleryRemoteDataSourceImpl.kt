@@ -14,8 +14,6 @@ class GalleryRemoteDataSourceImpl @Inject constructor(
 ) : GalleryRemoteDataSource {
 
     override suspend fun fetchList(query: String): DataResult<GalleryResponseEntity> {
-        return apiRunner.invokeSuspended {
-            galleryApi.fetchList(query)
-        }
+        return apiRunner.invokeSuspended { galleryApi.fetchList(query) }
     }
 }

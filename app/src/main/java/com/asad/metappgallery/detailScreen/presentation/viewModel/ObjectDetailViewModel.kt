@@ -59,9 +59,7 @@ class ObjectDetailViewModel @Inject constructor(
 
     fun fetchObjectDetail(objectId: Int): Job = viewModelScope.launch {
         showLoading()
-        ensureActive()
         val result = objectDetailRemoteDataSource.fetchObjectDetail(objectId)
-        ensureActive()
         setObjectDataResponse(result)
     }
 }

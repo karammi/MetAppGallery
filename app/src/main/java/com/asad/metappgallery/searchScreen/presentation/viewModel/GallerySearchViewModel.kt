@@ -25,7 +25,7 @@ class GallerySearchViewModel @Inject constructor(
 
     val initialState = GallerySearchUiState()
     val uiState = MutableStateFlow(initialState)
-
+    
     private var fetchObjectsSearchJob: Job? = null
 
     init {
