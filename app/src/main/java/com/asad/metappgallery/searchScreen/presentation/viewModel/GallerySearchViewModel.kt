@@ -25,7 +25,7 @@ class GallerySearchViewModel @Inject constructor(
 
     val initialState = GallerySearchUiState()
     val uiState = MutableStateFlow(initialState)
-    
+
     private var fetchObjectsSearchJob: Job? = null
 
     init {
@@ -156,9 +156,8 @@ class GallerySearchViewModel @Inject constructor(
      * */
     fun fetchGalleryList(queryString: String): Job =
         viewModelScope.launch {
-            setIsSearching(true)
+            showLoading()
             val result = galleryRemoteDataSource.fetchList(queryString)
-            setSearchResponse(result)
-            setIsSearching(false)
+            setGallerySearchResponse(result)
         }
 }
