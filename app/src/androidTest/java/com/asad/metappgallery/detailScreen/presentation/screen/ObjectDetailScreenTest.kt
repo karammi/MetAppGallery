@@ -6,6 +6,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performScrollToNode
+import androidx.lifecycle.SavedStateHandle
 import com.asad.metappgallery.core.CoreString
 import com.asad.metappgallery.detailScreen.data.dataSource.FakeObjectDetailRemoteDataSourceImpl
 import com.asad.metappgallery.detailScreen.data.dataSource.remote.ObjectDetailRemoteDataSource
@@ -31,7 +32,10 @@ class ObjectDetailScreenTest {
 
             objectDetailRemoteDataSource = FakeObjectDetailRemoteDataSourceImpl()
             detailViewModel =
-                ObjectDetailViewModel(objectDetailRemoteDataSource = objectDetailRemoteDataSource)
+                ObjectDetailViewModel(
+                    objectDetailRemoteDataSource = objectDetailRemoteDataSource,
+                    savedStateHandle = SavedStateHandle(),
+                )
             val fakeCurrentObjectId = "1"
 
             ObjectDetailScreen(

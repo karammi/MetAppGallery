@@ -8,6 +8,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import com.asad.metappgallery.app.MainActivity
+import com.asad.metappgallery.app.MetGalleryFinderApp
 import com.asad.metappgallery.core.CoreString
 import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailScreen
 import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
@@ -24,7 +25,7 @@ class MetGalleryScenarioTest {
     fun setup() {
         composeTestRule.setContent {
             composeTestRule.mainClock.autoAdvance = true
-            FakeMetGalleryFinderApp()
+            MetGalleryFinderApp()
         }
     }
 
