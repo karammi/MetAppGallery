@@ -1,6 +1,6 @@
 package com.asad.metappgallery.core.data
 
-import com.asad.metappgallery.searchScreen.data.adapter.GalleryResponseConstant
+import com.asad.metappgallery.searchScreen.data.adapter.GallerySearchConstant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
@@ -32,7 +32,7 @@ class NetworkRequesterTest {
 //        mockConnection = Mockito.mock(HttpsURLConnection::class.java)
 
         val query = "sunflower"
-        url = URL(GalleryResponseConstant.GalleryCollectionApi(query))
+        url = URL(GallerySearchConstant.GalleryCollectionApi(query))
         sut = NetworkRequester()
     }
 

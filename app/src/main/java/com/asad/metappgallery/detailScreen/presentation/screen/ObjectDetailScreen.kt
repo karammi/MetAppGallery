@@ -81,7 +81,7 @@ fun ObjectDetailScreen(
                     viewModel.fetchObjectDetail(currentObjectId.toInt())
                 }) {
                     val errorMessage =
-                        uiState.value.objectDetailState.error
+                        uiState.value.objectDetailState.message
                             ?: ObjectDetailScreen.GalleryErrorTitle
 
                     Text(
