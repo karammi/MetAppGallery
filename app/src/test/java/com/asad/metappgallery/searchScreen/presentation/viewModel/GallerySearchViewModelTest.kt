@@ -3,14 +3,16 @@ package com.asad.metappgallery.searchScreen.presentation.viewModel
 import androidx.compose.ui.text.input.TextFieldValue
 import app.cash.turbine.test
 import com.asad.metappgallery.app.UiState
-import com.asad.metappgallery.searchScreen.data.dataSource.FakeGalleryRemoteDataSourceImpl
+import com.asad.metappgallery.core.data.DataResult
+import com.asad.metappgallery.searchScreen.data.dataSource.FakeErrorGalleryRemoteDataSourceImpl
+import com.asad.metappgallery.searchScreen.data.dataSource.FakeSuccessGalleryRemoteDataSourceImpl
 import com.asad.metappgallery.searchScreen.data.dataSource.GalleryRemoteDataSource
 import com.asad.metappgallery.searchScreen.data.model.GalleryResponse
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -18,19 +20,22 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class GallerySearchViewModelTest {
 
     private val mainThread = newSingleThreadContext("UI thread")
 
-    private lateinit var galleryRemoteDataSource: GalleryRemoteDataSource
+    private lateinit var mockedSuccessGalleryRemoteDataSource: GalleryRemoteDataSource
+
+    private lateinit var mockedErrorGalleryRemoteDataSource: GalleryRemoteDataSource
 
     private lateinit var gallerySearchViewModel: GallerySearchViewModel
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher = mainThread)
-        galleryRemoteDataSource = FakeGalleryRemoteDataSourceImpl()
-        gallerySearchViewModel = GallerySearchViewModel(galleryRemoteDataSource)
+        mockedSuccessGalleryRemoteDataSource = FakeSuccessGalleryRemoteDataSourceImpl()
+        mockedErrorGalleryRemoteDataSource = FakeErrorGalleryRemoteDataSourceImpl()
     }
 
     @After
@@ -40,7 +45,8 @@ class GallerySearchViewModelTest {
     }
 
     @Test
-    fun initialUiState() = runBlocking {
+    fun initialUiState() = runTest {
+        gallerySearchViewModel = GallerySearchViewModel(mockedSuccessGalleryRemoteDataSource)
         gallerySearchViewModel.uiState.test {
             val emission = awaitItem()
 
@@ -51,7 +57,8 @@ class GallerySearchViewModelTest {
     }
 
     @Test
-    fun resetUiState_whenDifferentWithCurrentState_thenUpdateUiState() = runBlocking {
+    fun resetUiState_whenDifferentWithCurrentState_thenUpdateUiState() = runTest {
+        gallerySearchViewModel = GallerySearchViewModel(mockedSuccessGalleryRemoteDataSource)
         if (gallerySearchViewModel.uiState.value != gallerySearchViewModel.initialState) {
             val job = launch(Dispatchers.Main) {
                 gallerySearchViewModel.uiState.test {
@@ -73,45 +80,52 @@ class GallerySearchViewModelTest {
     }
 
     @Test
-    fun setIsSearching_whenDifferentWithCurrentState_thenUpdateUiState() = runBlocking {
-        val newState = true
-
-        if (gallerySearchViewModel.uiState.value.isSearching != newState) {
-            val job = launch(Dispatchers.Main) {
-                gallerySearchViewModel.uiState.test {
-                    skipItems(1)
-
-                    val emission = awaitItem()
-                    assertThat(emission.isSearching).isEqualTo(newState)
-
-                    cancelAndConsumeRemainingEvents()
-                }
-            }
-
-            gallerySearchViewModel.setIsSearching(newState)
-
-            job.join()
-            job.cancel()
-        }
-    }
-
-    @Test
-    fun setSearchResult_thenUpdateUiState() = runBlocking {
-        val queryString = "sunflower"
-        val searchResult = galleryRemoteDataSource.fetchList(query = queryString)
+    fun whenSetRefreshingTriggered_thenUpdateUiStateToLoading() = runTest {
+        gallerySearchViewModel = GallerySearchViewModel(mockedSuccessGalleryRemoteDataSource)
+        val newState = UiState.Loading
 
         val job = launch(Dispatchers.Main) {
             gallerySearchViewModel.uiState.test {
-                // skip two state
-                skipItems(2)
+                skipItems(1)
 
                 val emission = awaitItem()
-                assertThat(emission.searchResult).isEqualTo(UiState.Success(searchResult.value))
+                assertThat(emission.searchResult).isEqualTo(newState)
 
                 cancelAndConsumeRemainingEvents()
             }
         }
 
+        gallerySearchViewModel.setIsSearching()
+
+        job.join()
+        job.cancel()
+    }
+
+    @Test
+    fun whenSearchGalleryIsTriggered_thenUpdateUiStateToSuccess() = runTest {
+        gallerySearchViewModel = GallerySearchViewModel(mockedSuccessGalleryRemoteDataSource)
+        /** Arrange*/
+        val queryString = "sunflower"
+        val expectedSearchResult = DataResult.Success(
+            value = GalleryResponse(
+                total = 10,
+                objectIDs = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+            ),
+        )
+        val job = launch(Dispatchers.Main) {
+            gallerySearchViewModel.uiState.test {
+                // skip two state
+                skipItems(2)
+
+                /** Assert*/
+                val emission = awaitItem()
+                assertThat(emission.searchResult).isEqualTo(UiState.Success(expectedSearchResult.value))
+
+                cancelAndConsumeRemainingEvents()
+            }
+        }
+
+        /** Act*/
         gallerySearchViewModel.fetchGalleryList(queryString)
 
         job.join()
@@ -119,7 +133,8 @@ class GallerySearchViewModelTest {
     }
 
     @Test
-    fun setSearchText_thenUpdateUiState() = runBlocking {
+    fun whenSetSearchTextFieldIsCalled_thenUpdateUiStateWithCorrectTextField() = runTest {
+        gallerySearchViewModel = GallerySearchViewModel(mockedSuccessGalleryRemoteDataSource)
         val searchedText = TextFieldValue("sunflower")
 
         val job = launch(Dispatchers.Main) {
@@ -140,7 +155,8 @@ class GallerySearchViewModelTest {
     }
 
     @Test
-    fun fetchObjectsWhichContainsQuery_thenUpdateUiState() = runBlocking {
+    fun fetchObjectsWhichContainsQuery_thenUpdateUiStateToSuccess() = runTest {
+        gallerySearchViewModel = GallerySearchViewModel(mockedSuccessGalleryRemoteDataSource)
         val searchedQueryText = "sunflower"
         val response = UiState.Success(
             GalleryResponse(
@@ -154,16 +170,10 @@ class GallerySearchViewModelTest {
                 skipItems(1)
 
                 val firstEmission = awaitItem()
-                assertThat(firstEmission.isSearching).isEqualTo(true)
-                assertThat(firstEmission.searchResult).isEqualTo(UiState.Empty)
+                assertThat(firstEmission.searchResult).isEqualTo(UiState.Loading)
 
                 val secondEmission = awaitItem()
-                assertThat(secondEmission.isSearching).isEqualTo(true)
                 assertThat(secondEmission.searchResult).isEqualTo(response)
-
-                val thirdEmission = awaitItem()
-                assertThat(thirdEmission.isSearching).isEqualTo(false)
-                assertThat(thirdEmission.searchResult).isEqualTo(response)
 
                 cancelAndConsumeRemainingEvents()
             }
@@ -176,34 +186,29 @@ class GallerySearchViewModelTest {
     }
 
     @Test
-    fun fetchObjectsWhichContainsEmptyQuery_shouldEmitEmptyState() = runBlocking {
-        val searchedQueryText = ""
-        val response = UiState.Empty
+    fun whenSearchTextFieldIsCleared_thenUpdateUiStateToEmptyTextField() = runTest {
+        gallerySearchViewModel = GallerySearchViewModel(mockedSuccessGalleryRemoteDataSource)
+        val searchedQueryText = TextFieldValue("")
 
         val job = launch(Dispatchers.Main) {
             gallerySearchViewModel.uiState.test {
-                skipItems(1)
-
                 val firstEmission = awaitItem()
-                assertThat(firstEmission.isSearching).isEqualTo(true)
+                assertThat(firstEmission.searchQuery).isEqualTo(searchedQueryText)
                 assertThat(firstEmission.searchResult).isEqualTo(UiState.Empty)
-
-                val secondEmission = awaitItem()
-                assertThat(secondEmission.isSearching).isEqualTo(false)
-                assertThat(secondEmission.searchResult).isEqualTo(response)
 
                 cancelAndConsumeRemainingEvents()
             }
         }
 
-        gallerySearchViewModel.fetchGalleryList(queryString = searchedQueryText)
+        gallerySearchViewModel.setSearchText(value = searchedQueryText)
 
         job.join()
         job.cancel()
     }
 
     @Test
-    fun fetchObjectWhichContainError_shouldEmitErrorState(): Unit = runBlocking {
+    fun fetchObjectWhichContainError_shouldEmitErrorState(): Unit = runTest {
+        gallerySearchViewModel = GallerySearchViewModel(mockedErrorGalleryRemoteDataSource)
         val searchQuery = ""
         val response = UiState.Error("Oops!,An error occurred!")
         val job = launch(Dispatchers.Main) {
