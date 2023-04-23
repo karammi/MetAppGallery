@@ -10,6 +10,8 @@ change the color palette
 [Metropolitan Museum of Art App](https://github.com/karammi/MetAppGallery/raw/dev/app/release/app-release.apk)
 
 ## Demo
+[AppGalleryDemo.webm](https://user-images.githubusercontent.com/18300610/233842715-e0b921dd-313e-4930-be10-f41bef9403bc.webm)
+
 
 ## Technical Topics
 
