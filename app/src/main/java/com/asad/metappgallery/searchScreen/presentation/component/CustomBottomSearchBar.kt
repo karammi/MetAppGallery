@@ -111,7 +111,6 @@ fun BoxScope.CustomBottomSearchBar(
                     .semantics {
                         contentDescription = UiConstant.SearchGalleryTextField
                     },
-//                    .testTag(UiConstant.SearchGalleryTextField),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
