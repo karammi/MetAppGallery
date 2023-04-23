@@ -45,11 +45,31 @@ class GallerySearchViewModel constructor(
                 if (it.searchQuery.text.isBlank()) {
                     resetUiState()
                 } else {
-                    delay(500)
+                    delay(timeMillis = 500)
                     fetchObjectsSearchJob =
                         fetchGalleryList(queryString = it.searchQuery.text, isHighlight = true)
                 }
             }
+    }
+
+    /**
+     * This method requests server to fetch the collection which contains current [queryString].
+     * */
+    fun fetchGalleryList(queryString: String, isHighlight: Boolean? = null): Job =
+        viewModelScope.launch {
+            showLoading()
+            ensureActive() // This ensures that the coroutine is not cancelled
+            val result =
+                galleryRemoteDataSource.fetchList(query = queryString, isHighlight = isHighlight)
+            ensureActive() // This ensures that the coroutine is not cancelled
+            setGallerySearchResponse(result)
+        }
+
+    fun fetchDepartmentList() {
+        viewModelScope.launch {
+            val result = galleryRemoteDataSource.fetchDepartments()
+            setDepartmentResponse(result)
+        }
     }
 
     /**
@@ -65,21 +85,28 @@ class GallerySearchViewModel constructor(
         }
     }
 
-    fun setIsSearching() {
+    fun showLoading() {
         viewModelScope.launch {
             val newState = uiState.value.copy(searchResult = UiState.Loading)
             uiState.emit(newState)
         }
     }
 
-    fun setIsHighlight(value: Boolean) {
+    fun setIsHighlightValue(value: Boolean) {
         viewModelScope.launch {
             val newState = uiState.value.copy(isHighlightSelected = value)
             uiState.emit(newState)
         }
     }
 
-    fun setSearchResponse(value: DataResult<GalleryResponse>) {
+    fun setSearchText(value: TextFieldValue) {
+        viewModelScope.launch {
+            val newState = uiState.value.copy(searchQuery = value)
+            uiState.emit(newState)
+        }
+    }
+
+    fun setGallerySearchResponse(value: DataResult<GalleryResponse>) {
         viewModelScope.launch {
             when (value) {
                 is DataResult.Error -> {
@@ -97,13 +124,6 @@ class GallerySearchViewModel constructor(
                     uiState.emit(newState)
                 }
             }
-        }
-    }
-
-    fun setSearchText(value: TextFieldValue) {
-        viewModelScope.launch {
-            val newState = uiState.value.copy(searchQuery = value)
-            uiState.emit(newState)
         }
     }
 
@@ -134,26 +154,6 @@ class GallerySearchViewModel constructor(
                     uiState.emit(newState)
                 }
             }
-        }
-    }
-
-    /**
-     * This method requests server to fetch the collection which contains current [queryString].
-     * */
-    fun fetchGalleryList(queryString: String, isHighlight: Boolean? = null): Job =
-        viewModelScope.launch {
-            setIsSearching()
-            ensureActive() // This ensures that the coroutine is not cancelled
-            val result =
-                galleryRemoteDataSource.fetchList(query = queryString, isHighlight = isHighlight)
-            ensureActive() // This ensures that the coroutine is not cancelled
-            setSearchResponse(result)
-        }
-
-    fun fetchDepartmentList() {
-        viewModelScope.launch {
-            val result = galleryRemoteDataSource.fetchDepartments()
-            setDepartmentResponse(result)
         }
     }
 }

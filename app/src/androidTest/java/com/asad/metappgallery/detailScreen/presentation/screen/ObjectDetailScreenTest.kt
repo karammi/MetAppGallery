@@ -51,7 +51,7 @@ class ObjectDetailScreenTest {
     }
 
     @Test
-    fun whenObjectDetailScreenFetchedData_thenUpdateUiStateToSuccess() {
+    fun whenFetchedObjectDetail_thenUpdateObjectInfoOnScreen() {
         composeTestRule
             .onNodeWithContentDescription(UiConstant.GalleryEmptyContent)
             .assertIsDisplayed()
@@ -82,7 +82,7 @@ class ObjectDetailScreenTest {
     }
 
     @Test
-    fun whenObjectDetailScreenFetchedData_thenScrollToDown() {
+    fun onObjectDetailScreen_thenScrollToBottom() {
         composeTestRule
             .onNodeWithContentDescription(UiConstant.GalleryEmptyContent)
             .assertIsDisplayed()
