@@ -13,12 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.asad.metappgallery.app.UiState
+import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.core.util.ComposeUtil
 import com.asad.metappgallery.detailScreen.presentation.component.ObjectDetailContent
 import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailScreen
@@ -66,7 +65,7 @@ fun ObjectDetailScreen(
                             contentDescription =
                                 ObjectDetailScreen.CircularProgressContentDescription
                         },
-                    color = Color.White,
+                    color = MaterialTheme.colors.secondaryVariant,
                     strokeWidth = 4.dp,
                 )
             }
@@ -87,7 +86,7 @@ fun ObjectDetailScreen(
                     Text(
                         text = errorMessage,
                         style = MaterialTheme.typography.h6,
-                        color = Color.White,
+                        color = MaterialTheme.colors.onSecondary,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .align(Alignment.Center)

@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -40,7 +39,7 @@ fun TagsContent(tags: List<TagModel>) {
                 modifier = Modifier
                     .align(alignment = Alignment.CenterVertically)
                     .shadow(8.dp, shape = RoundedCornerShape(12.dp))
-                    .background(MaterialTheme.colors.onPrimary)
+                    .background(MaterialTheme.colors.primary)
                     .padding(horizontal = 8.dp),
                 contentAlignment = Alignment.Center,
             ) {
@@ -50,7 +49,10 @@ fun TagsContent(tags: List<TagModel>) {
                         .height(24.dp),
                     textAlign = TextAlign.Center,
                     text = "#${it.term}",
-                    style = TextStyle(textAlign = TextAlign.Center, color = Color.Black),
+                    style = TextStyle(
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colors.onPrimary,
+                    ),
                 )
             }
         }

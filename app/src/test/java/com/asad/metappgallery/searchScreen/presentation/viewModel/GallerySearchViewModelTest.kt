@@ -2,7 +2,7 @@ package com.asad.metappgallery.searchScreen.presentation.viewModel
 
 import androidx.compose.ui.text.input.TextFieldValue
 import app.cash.turbine.test
-import com.asad.metappgallery.app.UiState
+import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.core.data.DataResult
 import com.asad.metappgallery.searchScreen.data.dataSource.FakeErrorGalleryRemoteDataSourceImpl
 import com.asad.metappgallery.searchScreen.data.dataSource.FakeSuccessGalleryRemoteDataSourceImpl

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Icon
 import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.runtime.Composable
@@ -70,8 +71,8 @@ fun CustomNetworkImage(
                             .semantics {
                                 this.contentDescription = CoreString.CustomNetworkImageLoadingTitle
                             },
-                        color = Color.Black,
-                        backgroundColor = Color.Black.copy(0.2f),
+                        color = MaterialTheme.colors.secondaryVariant,
+                        backgroundColor = MaterialTheme.colors.surface,
                     )
                 }
             }

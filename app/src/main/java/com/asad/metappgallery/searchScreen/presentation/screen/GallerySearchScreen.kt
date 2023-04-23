@@ -47,7 +47,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.asad.metappgallery.R
-import com.asad.metappgallery.app.UiState
+import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.core.util.ComposeUtil
 import com.asad.metappgallery.core.util.SystemUiUtil
 import com.asad.metappgallery.searchScreen.data.adapter.GallerySearchConstant.FailedToFetchDataDefaultMessage
@@ -72,7 +72,6 @@ fun GallerySearchScreen(
 
     val uiState by ComposeUtil.rememberStateWithLifecycle(stateFlow = viewModel.uiState)
 
-    // This is used to close the keyboard, when navigate to detail screen
     val localFocusManager = LocalFocusManager.current
 
     val onSearchedValueChanged: (TextFieldValue) -> Unit = { value ->
@@ -122,7 +121,7 @@ fun GallerySearchScreen(
                         modifier = Modifier
                             .requiredSize(48.dp)
                             .align(Alignment.Center),
-                        color = Color.Black,
+                        color = MaterialTheme.colors.secondaryVariant,
                         strokeWidth = 4.dp,
                     )
                 }

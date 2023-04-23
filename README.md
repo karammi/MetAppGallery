@@ -3,7 +3,13 @@
 You can use this application to search for the Metropolitan Museum of Art (MET) and view its details.
 
 ## Color Palette
-change the color palette
+| Color             | Hex                                                                |
+| ----------------- | ------------------------------------------------------------------ |
+| Primary Color | ![#303F9F](http://via.placeholder.com/10/303F9F/303F9F) #303F9F |
+| Primary Variant Color | ![#1A237E](http://via.placeholder.com/10/1A237E/1A237E) #1A237E |
+| Secondary Color | ![#FFA61C](http://via.placeholder.com/10/FFA61C/FFA61C) #FFA61C |
+| Secondary Variant Color | ![#FF8741](http://via.placeholder.com/10/FF8741/FF8741) #FF8741 |
+| Surface Color | ![#FFFFFF](http://via.placeholder.com/10/FFFFFF/FFFFFF) #FFFFFF |
 
 
 ## Download APK
@@ -22,7 +28,7 @@ below.
 - Compose UiToolkit
 - String Obfuscation
 - Background Resource Usage optimization
-- Automated Test
+- Automated Test (Ui Test, Unit Test)
 
 
 ## Manual Dependency Injection
