@@ -1,10 +1,9 @@
 package com.asad.metappgallery.searchScreen.presentation.viewModel
 
-import android.util.Log
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.asad.metappgallery.app.UiState
+import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.core.data.DataResult
 import com.asad.metappgallery.searchScreen.data.dataSource.GalleryRemoteDataSource
 import com.asad.metappgallery.searchScreen.data.model.DepartmentResponse
@@ -128,12 +127,9 @@ class GallerySearchViewModel constructor(
     }
 
     fun setDepartmentResponse(value: DataResult<DepartmentResponse>) {
-        Log.d(TAG, "setDepartmentResponse: $value")
         viewModelScope.launch {
             when (value) {
                 is DataResult.Error -> {
-                    Log.d(TAG, "setDepartmentResponse: ${value.exception}")
-
                     val newState =
                         uiState.value.copy(
                             departments = UiState.Error(
@@ -144,8 +140,6 @@ class GallerySearchViewModel constructor(
                 }
 
                 is DataResult.Success -> {
-                    Log.d(TAG, "setDepartmentResponse: ${value.value}")
-
                     val newState = if (value.value.departments.isEmpty()) {
                         uiState.value.copy(departments = UiState.Empty)
                     } else {

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -39,6 +40,7 @@ fun GalleryItem(title: String, onItemClicked: (Int) -> Unit) {
                     contentDescription = "item_$title"
                 },
             textAlign = TextAlign.Center,
+            color = MaterialTheme.colors.onSecondary
         )
     }
 }

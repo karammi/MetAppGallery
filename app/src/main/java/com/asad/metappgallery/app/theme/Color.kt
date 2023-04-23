@@ -9,16 +9,16 @@ val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
 val lightThemeColors = lightColors(
-    primary = Color(0xff365479),
-    primaryVariant = Color(0xff2f4858),
-    surface = Color(0xff5a5a95),
+    primary = Color(0xff303F9F),
+    primaryVariant = Color(0xff1A237E),
+    surface = Color(0xffFFFFFF),
     background = Color.White,
-    secondary = Color(0xffc6509e), // Orange
-    secondaryVariant = Color(0xfff64685), // Vibrant Orange
+    secondary = Color(0xffFFA61C), // Orange
+    secondaryVariant = Color(0xffFF8741), // Vibrant Orange
     error = Color.Red,
     onPrimary = Color.White,
-    onSecondary = Color.White,
-    onBackground = Color.White,
-    onSurface = Color.White,
+    onSecondary = Color.Black,
+    onBackground = Color.Black,
+    onSurface = Color.Black,
     onError = Color.White,
 )

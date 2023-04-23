@@ -1,5 +1,6 @@
 package com.asad.metappgallery.detailScreen.presentation.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -24,9 +25,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import com.asad.metappgallery.R
+import com.asad.metappgallery.core.CoreString
 import com.asad.metappgallery.core.presentation.CustomNetworkImage
 import com.asad.metappgallery.detailScreen.data.model.ObjectModel
 import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailScreen
@@ -65,6 +69,18 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
                 .graphicsLayer(),
             imageModifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillBounds,
+            errorBuilder = {
+                Image(
+                    painter = painterResource(id = R.drawable.place_holder),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .semantics {
+                            this.contentDescription =
+                                CoreString.CustomNetworkImageErrorTitle
+                        },
+                    contentDescription = null,
+                )
+            },
         )
     }
 

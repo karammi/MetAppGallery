@@ -1,7 +1,7 @@
 package com.asad.metappgallery.searchScreen.presentation.model
 
 import androidx.compose.ui.text.input.TextFieldValue
-import com.asad.metappgallery.app.UiState
+import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.searchScreen.data.model.DepartmentResponse
 import com.asad.metappgallery.searchScreen.data.model.GalleryResponse
 

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
@@ -31,7 +32,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
@@ -46,11 +46,9 @@ import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BoxScope.CustomBottomSearchBar(
-    // A class holding information about the editing state
     searchedValue: TextFieldValue,
     onSearchedValueChanged: (TextFieldValue) -> Unit,
 ) {
-    // This is used to close the keyboard
     val focusManager = LocalFocusManager.current
 
     val (searchInputFocusRequester) = remember { FocusRequester.createRefs() }
@@ -65,9 +63,9 @@ fun BoxScope.CustomBottomSearchBar(
     }
 
     Card(
-        backgroundColor = MaterialTheme.colors.secondaryVariant,
+        backgroundColor = MaterialTheme.colors.surface,
         contentColor = MaterialTheme.colors.onSecondary,
-        elevation = 15.dp,
+        elevation = 8.dp,
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier
             .align(Alignment.BottomCenter)
@@ -99,7 +97,10 @@ fun BoxScope.CustomBottomSearchBar(
                 placeholder = {
                     Text(
                         text = "Start searching...",
-                        style = MaterialTheme.typography.caption.copy(color = Color.White.copy(0.6f)),
+                        style = MaterialTheme.typography.caption.copy(
+                            color = MaterialTheme.colors.onSecondary,
+                        ),
+                        modifier = Modifier.fillMaxSize(),
                     )
                 },
                 maxLines = 1,
@@ -120,12 +121,13 @@ fun BoxScope.CustomBottomSearchBar(
                     onDone = onKeyboardDonePressed,
                 ),
                 colors = TextFieldDefaults.textFieldColors(
-                    cursorColor = Color.White.copy(alpha = 0.4f),
+                    cursorColor = Color.Black,
                     focusedIndicatorColor = Color.White,
                     unfocusedIndicatorColor = Color.White.copy(alpha = 0.5f),
+                    backgroundColor = MaterialTheme.colors.surface
                 ),
                 textStyle = MaterialTheme.typography.caption.copy(
-                    color = MaterialTheme.colors.onSurface,
+                    color = MaterialTheme.colors.onSecondary,
                 ),
             )
         }
