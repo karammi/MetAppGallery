@@ -10,14 +10,14 @@ import androidx.lifecycle.SavedStateHandle
 import com.asad.metappgallery.core.CoreString
 import com.asad.metappgallery.detailScreen.data.dataSource.FakeObjectDetailRemoteDataSourceImpl
 import com.asad.metappgallery.detailScreen.data.dataSource.remote.ObjectDetailRemoteDataSource
-import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailScreen
+import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailConstants
 import com.asad.metappgallery.detailScreen.presentation.viewModel.ObjectDetailViewModel
 import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class ObjectDetailScreenTest {
+class ObjectDetailConstantsTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -64,7 +64,7 @@ class ObjectDetailScreenTest {
 
         composeTestRule
             .onAllNodesWithContentDescription(
-                ObjectDetailScreen.ObjectContentDescriptionTitle,
+                ObjectDetailConstants.ObjectContentDescriptionTitle,
             )
 
         composeTestRule
@@ -73,15 +73,15 @@ class ObjectDetailScreenTest {
             .isNotEmpty()
 
         composeTestRule
-            .onNodeWithContentDescription(ObjectDetailScreen.ArtistContentDescriptionTitle)
+            .onNodeWithContentDescription(ObjectDetailConstants.ArtistContentDescriptionTitle)
             .assertIsDisplayed()
 
         composeTestRule
-            .onNodeWithContentDescription(ObjectDetailScreen.DepartmentContentDescriptionTitle)
+            .onNodeWithContentDescription(ObjectDetailConstants.DepartmentContentDescriptionTitle)
             .assertIsDisplayed()
 
         composeTestRule
-            .onNodeWithContentDescription(ObjectDetailScreen.ClassificationContentDescriptionTitle)
+            .onNodeWithContentDescription(ObjectDetailConstants.ClassificationContentDescriptionTitle)
             .assertIsDisplayed()
     }
 
@@ -94,11 +94,11 @@ class ObjectDetailScreenTest {
         composeTestRule.mainClock.advanceTimeByFrame()
 
         composeTestRule
-            .onNodeWithContentDescription(ObjectDetailScreen.ColumnContentDescription)
+            .onNodeWithContentDescription(ObjectDetailConstants.ColumnContentDescription)
             .assertIsDisplayed()
 
         composeTestRule
-            .onNodeWithContentDescription(ObjectDetailScreen.ColumnContentDescription)
+            .onNodeWithContentDescription(ObjectDetailConstants.ColumnContentDescription)
             .performScrollToNode(hasContentDescription("key"))
 
         composeTestRule.mainClock.advanceTimeBy(1000)

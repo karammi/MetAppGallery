@@ -1,6 +1,6 @@
 package com.asad.metappgallery.detailScreen.presentation.util
 
-object ObjectDetailScreen {
+object ObjectDetailConstants {
 
     val artistDisplayName: (String?) -> String = {
         "Artist display name: ${it ?: "-"}"
@@ -39,4 +39,11 @@ object ObjectDetailScreen {
     const val ClassificationContentDescriptionTitle = "classification_title"
     const val CircularProgressContentDescription = "circular_progress"
     const val ColumnContentDescription = "column"
+
+    const val AAT_URL = "AAT_URL"
+    const val Wikidata_URL = "Wikidata_URL"
+
+    const val ConstituentID = "constituentID"
+    const val ConstituentULAN_URL = "constituentULAN_URL"
+    const val ConstituentWikidata_URL = "constituentWikidata_URL"
 }

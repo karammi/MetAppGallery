@@ -5,16 +5,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asad.metappgallery.core.data.DataResult
 import com.asad.metappgallery.core.presentation.UiState
+import com.asad.metappgallery.searchScreen.data.dataSource.remote.GalleryRemoteDataSource
 import com.asad.metappgallery.searchScreen.data.dataSource.remote.model.GalleryResponseEntity
 import com.asad.metappgallery.searchScreen.data.model.DepartmentResponse
 import com.asad.metappgallery.searchScreen.presentation.model.GallerySearchUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val TAG = "GalleryFinder"
 
@@ -29,7 +31,7 @@ class GallerySearchViewModel @Inject constructor(
     private var fetchObjectsSearchJob: Job? = null
 
     init {
-        fetchDepartmentList()
+//        fetchDepartmentList()
         observedSearchText()
     }
 
@@ -57,10 +59,11 @@ class GallerySearchViewModel @Inject constructor(
     fun fetchGalleryList(queryString: String, isHighlight: Boolean? = null): Job =
         viewModelScope.launch {
             showLoading()
-            ensureActive() // This ensures that the coroutine is not cancelled
             val result =
-                galleryRemoteDataSource.fetchList(query = queryString, isHighlight = isHighlight)
-            ensureActive() // This ensures that the coroutine is not cancelled
+                galleryRemoteDataSource.fetchGalleryList(
+                    query = queryString,
+                    isHighlight = isHighlight,
+                )
             setGallerySearchResponse(result)
         }
 
@@ -157,7 +160,7 @@ class GallerySearchViewModel @Inject constructor(
     fun fetchGalleryList(queryString: String): Job =
         viewModelScope.launch {
             showLoading()
-            val result = galleryRemoteDataSource.fetchList(queryString)
+            val result = galleryRemoteDataSource.fetchGalleryList(queryString, isHighlight = false)
             setGallerySearchResponse(result)
         }
 }

@@ -1,10 +1,11 @@
 package com.asad.metappgallery.detailScreen.data.dataSource
 
 import com.asad.metappgallery.core.data.DataResult
-import com.asad.metappgallery.detailScreen.data.model.ObjectModel
+import com.asad.metappgallery.detailScreen.data.dataSource.remote.ObjectDetailRemoteDataSource
+import com.asad.metappgallery.detailScreen.data.dataSource.remote.model.ObjectEntity
 
 class FakeErrorObjectDetailRemoteDataSourceImpl : ObjectDetailRemoteDataSource {
-    override suspend fun fetchObjectDetail(objectID: Int): DataResult<ObjectModel> {
+    override suspend fun fetchObjectDetail(objectID: Int): DataResult<ObjectEntity> {
         return DataResult.Error(exception = Exception("Oops! An error occurred!"))
     }
 }

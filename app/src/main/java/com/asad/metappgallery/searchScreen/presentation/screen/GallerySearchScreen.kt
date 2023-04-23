@@ -51,6 +51,7 @@ import com.asad.metappgallery.R
 import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.core.util.ComposeUtil
 import com.asad.metappgallery.core.util.SystemUiUtil
+import com.asad.metappgallery.searchScreen.data.GallerySearchConstant
 import com.asad.metappgallery.searchScreen.data.model.Department
 import com.asad.metappgallery.searchScreen.presentation.component.CustomAppBar
 import com.asad.metappgallery.searchScreen.presentation.component.CustomBottomSearchBar
@@ -108,7 +109,7 @@ fun GallerySearchScreen(
                     localFocusManager.clearFocus()
                     GallerySearchError(
                         errorMessage = uiState.searchResult.message
-                            ?: "Oops! An error occurred!\n$FailedToFetchDataDefaultMessage",
+                            ?: "Oops! An error occurred!\n${GallerySearchConstant.FailedToFetchDataDefaultMessage}",
                         tryAgain = onRetiredFetchingData,
                     )
                 }

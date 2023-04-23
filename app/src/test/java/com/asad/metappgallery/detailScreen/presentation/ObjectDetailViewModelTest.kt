@@ -1,5 +1,6 @@
 package com.asad.metappgallery.detailScreen.presentation
 
+import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.detailScreen.data.dataSource.FakeErrorObjectDetailRemoteDataSourceImpl
@@ -36,7 +37,10 @@ class ObjectDetailViewModelTest {
         Dispatchers.setMain(newMainThread)
         fakeSuccessObjectDetailRemoteDataSource = FakeSuccessObjectDetailRemoteDataSourceImpl()
         fakeErrorObjectDetailRemoteDataSource = FakeErrorObjectDetailRemoteDataSourceImpl()
-        objectDetailViewModel = ObjectDetailViewModel(fakeSuccessObjectDetailRemoteDataSource,)
+        objectDetailViewModel = ObjectDetailViewModel(
+            fakeSuccessObjectDetailRemoteDataSource,
+            SavedStateHandle(),
+        )
     }
 
     @After
@@ -145,7 +149,10 @@ class ObjectDetailViewModelTest {
     fun whenFetchedObjectDetailFailed_thenUpdateUiStateToError(): Unit = runTest {
         /**Arrange*/
         val fakeObjectId = 1
-        objectDetailViewModel = ObjectDetailViewModel(fakeErrorObjectDetailRemoteDataSource)
+        objectDetailViewModel = ObjectDetailViewModel(
+            fakeErrorObjectDetailRemoteDataSource,
+            savedStateHandle = SavedStateHandle(),
+        )
 
         val expectedResult = ObjectDetailUiState(
             objectDetailState = UiState.Error("Oops! An error occurred!"),

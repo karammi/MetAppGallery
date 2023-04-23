@@ -33,7 +33,7 @@ import com.asad.metappgallery.R
 import com.asad.metappgallery.core.CoreString
 import com.asad.metappgallery.core.presentation.CustomNetworkImage
 import com.asad.metappgallery.detailScreen.data.dataSource.remote.model.ObjectEntity
-import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailScreen
+import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailConstants
 
 @Composable
 fun BoxScope.ObjectDetailContent(data: ObjectEntity) {
@@ -89,7 +89,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectEntity) {
             .fillMaxSize()
             .verticalScroll(scrollState)
             .semantics {
-                contentDescription = ObjectDetailScreen.ColumnContentDescription
+                contentDescription = ObjectDetailConstants.ColumnContentDescription
             },
     ) {
         Box(
@@ -115,7 +115,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectEntity) {
             )
 
             Text(
-                text = data.title ?: data.objectName ?: ObjectDetailScreen.GalleryInfo,
+                text = data.title ?: data.objectName ?: ObjectDetailConstants.GalleryInfo,
                 style = MaterialTheme.typography.h6.copy(
                     color = MaterialTheme.colors.onSecondary,
                 ),
@@ -123,7 +123,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectEntity) {
                     .align(Alignment.BottomStart)
                     .padding(horizontal = 24.dp, vertical = 16.dp)
                     .semantics {
-                        contentDescription = ObjectDetailScreen.ObjectContentDescriptionTitle
+                        contentDescription = ObjectDetailConstants.ObjectContentDescriptionTitle
                     },
             )
         }
@@ -136,7 +136,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectEntity) {
         )
 
         Text(
-            text = ObjectDetailScreen.artistDisplayName(data.artistDisplayName),
+            text = ObjectDetailConstants.artistDisplayName(data.artistDisplayName),
             style = MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onSecondary,
             ),
@@ -145,12 +145,12 @@ fun BoxScope.ObjectDetailContent(data: ObjectEntity) {
                 .background(surfaceColor)
                 .padding(horizontal = 24.dp, vertical = 12.dp)
                 .semantics {
-                    contentDescription = ObjectDetailScreen.ArtistContentDescriptionTitle
+                    contentDescription = ObjectDetailConstants.ArtistContentDescriptionTitle
                 },
         )
 
         Text(
-            text = ObjectDetailScreen.department(data.department),
+            text = ObjectDetailConstants.department(data.department),
             style = MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onSecondary,
             ),
@@ -159,12 +159,12 @@ fun BoxScope.ObjectDetailContent(data: ObjectEntity) {
                 .background(color = surfaceColor)
                 .padding(horizontal = 24.dp, vertical = 12.dp)
                 .semantics {
-                    contentDescription = ObjectDetailScreen.DepartmentContentDescriptionTitle
+                    contentDescription = ObjectDetailConstants.DepartmentContentDescriptionTitle
                 },
         )
 
         Text(
-            text = ObjectDetailScreen.classification(data.classification),
+            text = ObjectDetailConstants.classification(data.classification),
             style = MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onSecondary,
             ),
@@ -173,11 +173,11 @@ fun BoxScope.ObjectDetailContent(data: ObjectEntity) {
                 .background(color = surfaceColor)
                 .padding(horizontal = 24.dp, vertical = 12.dp)
                 .semantics {
-                    contentDescription = ObjectDetailScreen.ClassificationContentDescriptionTitle
+                    contentDescription = ObjectDetailConstants.ClassificationContentDescriptionTitle
                 },
         )
         Text(
-            text = ObjectDetailScreen.culture(data.culture),
+            text = ObjectDetailConstants.culture(data.culture),
             style = MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onSecondary,
             ),
@@ -187,7 +187,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectEntity) {
                 .padding(horizontal = 24.dp, vertical = 12.dp),
         )
         Text(
-            text = ObjectDetailScreen.portfolio(data.portfolio),
+            text = ObjectDetailConstants.portfolio(data.portfolio),
             style = MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onSecondary,
             ),
@@ -197,7 +197,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectEntity) {
                 .padding(horizontal = 24.dp, vertical = 12.dp),
         )
         Text(
-            text = ObjectDetailScreen.objectDate(data.objectDate),
+            text = ObjectDetailConstants.objectDate(data.objectDate),
             style = MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onSecondary,
             ),
@@ -208,7 +208,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectEntity) {
         )
 
         Text(
-            text = ObjectDetailScreen.ArtistDisplayBio,
+            text = ObjectDetailConstants.ArtistDisplayBio,
             style = MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onSecondary,
             ),

@@ -3,14 +3,13 @@ package com.asad.metappgallery.detailScreen.presentation.viewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.core.data.DataResult
+import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.detailScreen.data.dataSource.remote.ObjectDetailRemoteDataSource
 import com.asad.metappgallery.detailScreen.data.dataSource.remote.model.ObjectEntity
 import com.asad.metappgallery.detailScreen.presentation.model.ObjectDetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject

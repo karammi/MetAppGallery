@@ -10,7 +10,7 @@ import androidx.compose.ui.test.performTextInput
 import com.asad.metappgallery.app.MainActivity
 import com.asad.metappgallery.app.MetGalleryFinderApp
 import com.asad.metappgallery.core.CoreString
-import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailScreen
+import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailConstants
 import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
 import org.junit.Before
 import org.junit.Rule
@@ -74,20 +74,20 @@ class MetGalleryScenarioTest {
                 .performClick()
 
             onAllNodesWithContentDescription(
-                ObjectDetailScreen.ObjectContentDescriptionTitle,
+                ObjectDetailConstants.ObjectContentDescriptionTitle,
             )
 
             onAllNodesWithContentDescription(CoreString.CustomNetworkImageLoadingTitle)
                 .fetchSemanticsNodes()
                 .isNotEmpty()
 
-            onNodeWithContentDescription(ObjectDetailScreen.ArtistContentDescriptionTitle)
+            onNodeWithContentDescription(ObjectDetailConstants.ArtistContentDescriptionTitle)
                 .assertIsDisplayed()
 
-            onNodeWithContentDescription(ObjectDetailScreen.DepartmentContentDescriptionTitle)
+            onNodeWithContentDescription(ObjectDetailConstants.DepartmentContentDescriptionTitle)
                 .assertIsDisplayed()
 
-            onNodeWithContentDescription(ObjectDetailScreen.ClassificationContentDescriptionTitle)
+            onNodeWithContentDescription(ObjectDetailConstants.ClassificationContentDescriptionTitle)
                 .assertIsDisplayed()
         }
     }

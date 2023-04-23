@@ -7,5 +7,5 @@ import retrofit2.http.Query
 interface GalleryApi {
 
     @GET("search")
-    suspend fun fetchList(@Query("q") queryString: String): GalleryResponseEntity
+    suspend fun fetchGalleryList(@Query("q") queryString: String): GalleryResponseEntity
 }
