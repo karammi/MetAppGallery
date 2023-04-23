@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
@@ -32,7 +33,8 @@ fun BoxScope.GallerySearchError(errorMessage: String, tryAgain: () -> Unit) {
         contentAlignment = Alignment.Center,
     ) {
         Column(
-            Modifier.fillMaxSize()
+            Modifier
+                .fillMaxSize()
                 .align(alignment = Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -41,7 +43,7 @@ fun BoxScope.GallerySearchError(errorMessage: String, tryAgain: () -> Unit) {
                 text = errorMessage,
                 style = MaterialTheme.typography.h6,
                 textAlign = TextAlign.Center,
-                color = Color.Black,
+                color = Color.Red,
                 modifier = Modifier
                     .padding(horizontal = 16.dp),
             )
@@ -52,8 +54,11 @@ fun BoxScope.GallerySearchError(errorMessage: String, tryAgain: () -> Unit) {
                 onClick = tryAgain,
                 shape = RoundedCornerShape(size = 12.dp),
                 border = BorderStroke(width = 1.dp, color = MaterialTheme.colors.onSecondary),
+                modifier = Modifier
+                    .width(200.dp)
+                    .padding(horizontal = 24.dp),
             ) {
-                Text(text = "RETRY", color = MaterialTheme.colors.onPrimary)
+                Text(text = "RETRY", color = MaterialTheme.colors.onSecondary)
             }
         }
     }

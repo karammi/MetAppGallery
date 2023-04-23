@@ -87,7 +87,7 @@ fun BoxScope.CustomAppBar(
             .requiredHeight(HEADER_DEFAULT_HEIGHT)
             .align(Alignment.TopCenter)
             .zIndex(1f), // zIndex is added so that card's shadow would be drawn on top of the content
-        contentColor = MaterialTheme.colors.onSurface,
+        contentColor = MaterialTheme.colors.onPrimary,
         shape = RectangleShape,
     ) {
         Row(
@@ -105,6 +105,7 @@ fun BoxScope.CustomAppBar(
                         modifier = Modifier
                             .requiredWidth(24.dp)
                             .requiredHeight(48.dp),
+                        tint = MaterialTheme.colors.onPrimary,
                     )
                 }
 
@@ -114,6 +115,7 @@ fun BoxScope.CustomAppBar(
             Text(
                 text = title,
                 style = MaterialTheme.typography.h6,
+                color = MaterialTheme.colors.onPrimary,
             )
 
             onFilterClicked?.let {
@@ -124,6 +126,7 @@ fun BoxScope.CustomAppBar(
                         modifier = Modifier
                             .requiredWidth(24.dp)
                             .requiredHeight(48.dp),
+                        tint = MaterialTheme.colors.onPrimary,
                     )
                 }
             }

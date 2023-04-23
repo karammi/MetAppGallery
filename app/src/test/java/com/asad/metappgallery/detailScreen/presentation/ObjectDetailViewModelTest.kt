@@ -1,7 +1,7 @@
 package com.asad.metappgallery.detailScreen.presentation
 
 import app.cash.turbine.test
-import com.asad.metappgallery.app.UiState
+import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.detailScreen.data.dataSource.FakeErrorObjectDetailRemoteDataSourceImpl
 import com.asad.metappgallery.detailScreen.data.dataSource.FakeSuccessObjectDetailRemoteDataSourceImpl
 import com.asad.metappgallery.detailScreen.data.dataSource.ObjectDetailRemoteDataSource

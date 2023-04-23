@@ -1,4 +1,4 @@
-package com.asad.metappgallery.app
+package com.asad.metappgallery.core.presentation
 
 sealed class UiState<out T, out R>(open val data: T? = null, open val message: R? = null) {
     data class Success<T>(override val data: T) : UiState<T, Nothing>(data = data)
