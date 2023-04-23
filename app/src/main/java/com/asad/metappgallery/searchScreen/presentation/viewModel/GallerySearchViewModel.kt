@@ -1,11 +1,13 @@
 package com.asad.metappgallery.searchScreen.presentation.viewModel
 
+import android.util.Log
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asad.metappgallery.app.UiState
 import com.asad.metappgallery.core.data.DataResult
 import com.asad.metappgallery.searchScreen.data.dataSource.GalleryRemoteDataSource
+import com.asad.metappgallery.searchScreen.data.model.DepartmentResponse
 import com.asad.metappgallery.searchScreen.data.model.GalleryResponse
 import com.asad.metappgallery.searchScreen.presentation.model.GallerySearchUiState
 import kotlinx.coroutines.Job
@@ -28,9 +30,14 @@ class GallerySearchViewModel constructor(
     private var fetchObjectsSearchJob: Job? = null
 
     init {
+        fetchDepartmentList()
         observedSearchText()
     }
 
+    /**
+     * Returns flow where all subsequent repetitions of the same value are filtered out,
+     * when compared with each other via the provided areEquivalent function.
+     */
     private fun observedSearchText() = viewModelScope.launch {
         uiState.distinctUntilChanged { old, new -> old.searchQuery.text == new.searchQuery.text }
             .collectLatest {
@@ -39,8 +46,8 @@ class GallerySearchViewModel constructor(
                     resetUiState()
                 } else {
                     delay(500)
-
-                    fetchObjectsSearchJob = fetchGalleryList(it.searchQuery.text)
+                    fetchObjectsSearchJob =
+                        fetchGalleryList(queryString = it.searchQuery.text, isHighlight = true)
                 }
             }
     }
@@ -100,15 +107,53 @@ class GallerySearchViewModel constructor(
         }
     }
 
+    fun setDepartmentResponse(value: DataResult<DepartmentResponse>) {
+        Log.d(TAG, "setDepartmentResponse: $value")
+        viewModelScope.launch {
+            when (value) {
+                is DataResult.Error -> {
+                    Log.d(TAG, "setDepartmentResponse: ${value.exception}")
+
+                    val newState =
+                        uiState.value.copy(
+                            departments = UiState.Error(
+                                message = value.exception?.message ?: "Error has happened!",
+                            ),
+                        )
+                    uiState.emit(newState)
+                }
+
+                is DataResult.Success -> {
+                    Log.d(TAG, "setDepartmentResponse: ${value.value}")
+
+                    val newState = if (value.value.departments.isEmpty()) {
+                        uiState.value.copy(departments = UiState.Empty)
+                    } else {
+                        uiState.value.copy(departments = UiState.Success(data = value.value))
+                    }
+                    uiState.emit(newState)
+                }
+            }
+        }
+    }
+
     /**
      * This method requests server to fetch the collection which contains current [queryString].
      * */
-    fun fetchGalleryList(queryString: String): Job =
+    fun fetchGalleryList(queryString: String, isHighlight: Boolean? = null): Job =
         viewModelScope.launch {
             setIsSearching()
             ensureActive() // This ensures that the coroutine is not cancelled
-            val result = galleryRemoteDataSource.fetchList(queryString)
+            val result =
+                galleryRemoteDataSource.fetchList(query = queryString, isHighlight = isHighlight)
             ensureActive() // This ensures that the coroutine is not cancelled
             setSearchResponse(result)
         }
+
+    fun fetchDepartmentList() {
+        viewModelScope.launch {
+            val result = galleryRemoteDataSource.fetchDepartments()
+            setDepartmentResponse(result)
+        }
+    }
 }

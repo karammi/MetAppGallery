@@ -35,7 +35,7 @@ class ObjectDetailViewModel constructor(
                 is DataResult.Error -> {
                     val newState =
                         uiState.value.copy(
-                            objectDetailState = UiState.Error(error = data.exception?.message),
+                            objectDetailState = UiState.Error(message = data.exception?.message),
                         )
                     uiState.emit(newState)
                 }

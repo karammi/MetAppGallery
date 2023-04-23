@@ -6,10 +6,10 @@ import org.json.JSONObject
 
 class GalleryResponseJsonAdapter : JsonAdapter<GalleryResponse> {
     override fun createEntityFromJson(json: JSONObject): GalleryResponse {
-        val jsonTotal = json.getInt(GalleryResponseConstant.Total)
+        val jsonTotal = json.getInt(GallerySearchConstant.Total)
         // Retrieve the JSONArray associated with the key "objectIDs"
-        val jsonArray = if (!json.isNull(GalleryResponseConstant.ObjectIDs)) {
-            json.getJSONArray(GalleryResponseConstant.ObjectIDs)
+        val jsonArray = if (!json.isNull(GallerySearchConstant.ObjectIDs)) {
+            json.getJSONArray(GallerySearchConstant.ObjectIDs)
         } else {
             null
         }
