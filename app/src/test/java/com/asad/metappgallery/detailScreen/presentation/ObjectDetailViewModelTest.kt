@@ -2,34 +2,41 @@ package com.asad.metappgallery.detailScreen.presentation
 
 import app.cash.turbine.test
 import com.asad.metappgallery.app.UiState
-import com.asad.metappgallery.detailScreen.data.dataSource.FakeObjectDetailRemoteDataSourceImpl
+import com.asad.metappgallery.detailScreen.data.dataSource.FakeErrorObjectDetailRemoteDataSourceImpl
+import com.asad.metappgallery.detailScreen.data.dataSource.FakeSuccessObjectDetailRemoteDataSourceImpl
 import com.asad.metappgallery.detailScreen.data.dataSource.ObjectDetailRemoteDataSource
+import com.asad.metappgallery.detailScreen.data.model.ObjectModel
+import com.asad.metappgallery.detailScreen.data.model.TagModel
 import com.asad.metappgallery.detailScreen.presentation.model.ObjectDetailUiState
 import com.asad.metappgallery.detailScreen.presentation.viewModel.ObjectDetailViewModel
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class ObjectDetailViewModelTest {
 
     private val newMainThread = newSingleThreadContext("Ui thread")
 
     private lateinit var objectDetailViewModel: ObjectDetailViewModel
 
-    private lateinit var fakeObjectDetailRemoteDataSource: ObjectDetailRemoteDataSource
+    private lateinit var fakeSuccessObjectDetailRemoteDataSource: ObjectDetailRemoteDataSource
+    private lateinit var fakeErrorObjectDetailRemoteDataSource: ObjectDetailRemoteDataSource
 
     @Before
     fun setup() {
         Dispatchers.setMain(newMainThread)
-        fakeObjectDetailRemoteDataSource = FakeObjectDetailRemoteDataSourceImpl()
-        objectDetailViewModel = ObjectDetailViewModel(fakeObjectDetailRemoteDataSource)
+        fakeSuccessObjectDetailRemoteDataSource = FakeSuccessObjectDetailRemoteDataSourceImpl()
+        fakeErrorObjectDetailRemoteDataSource = FakeErrorObjectDetailRemoteDataSourceImpl()
+        objectDetailViewModel = ObjectDetailViewModel(fakeSuccessObjectDetailRemoteDataSource)
     }
 
     @After
@@ -39,13 +46,12 @@ class ObjectDetailViewModelTest {
     }
 
     @Test
-    fun whenInitialUiState_shouldBeEmptyState() = runBlocking {
+    fun whenInitialUiState_shouldBeEmptyState() = runTest {
         val expectedUiState = UiState.Empty
 
         objectDetailViewModel.uiState.test {
             val emission = awaitItem()
 
-//            assertThat(emission.isRefreshing).isEqualTo(false)
             assertThat(emission.objectDetailState).isEqualTo(expectedUiState)
 
             cancelAndConsumeRemainingEvents()
@@ -53,8 +59,7 @@ class ObjectDetailViewModelTest {
     }
 
     @Test
-    fun whenSetLoading_shouldBeLoadingState(): Unit = runBlocking {
-
+    fun whenSetLoadingIsCalled_thenUpdateUiStateToLoading(): Unit = runTest {
         val expectedUiState = ObjectDetailUiState(objectDetailState = UiState.Loading)
 
         val job = launch(Dispatchers.Main) {
@@ -67,7 +72,6 @@ class ObjectDetailViewModelTest {
             }
         }
 
-//        objectDetailViewModel.showLoading(true)
         objectDetailViewModel.showLoading()
 
         job.join()
@@ -75,43 +79,83 @@ class ObjectDetailViewModelTest {
     }
 
     @Test
-    fun whenSetHideLoading_shouldNotBeLoadingState(): Unit = runBlocking {
+    fun whenFetchedObjectDetail_thenUpdateUiStateToSuccess(): Unit = runTest {
+        /**Arrange*/
+        val fakeObjectId = 1
+        val expectedResult = ObjectDetailUiState(
+            objectDetailState = UiState.Success(
+                data = ObjectModel(
+                    objectID = 1,
+                    isHighlight = false,
+                    isPublicDomain = true,
+                    primaryImage = "https://images.metmuseum.org/CRDImages/ad/original/85I_ACF3100R5.jpg",
+                    primaryImageSmall = " https://images.metmuseum.org/CRDImages/ad/web-large/85I_ACF3100R5.jpg",
+                    additionalImages = listOf(
+                        "https://images.metmuseum.org/CRDImages/ad/original/85P_PAINTDEC01R4.jpg",
+                        "https://images.metmuseum.org/CRDImages/ad/original/257477.jpg",
+                        "https://images.metmuseum.org/CRDImages/ad/original/258476.jpg",
+                        "https://images.metmuseum.org/CRDImages/ad/original/258475.jpg",
+                        "https://images.metmuseum.org/CRDImages/ad/original/197998.jpg",
+                        "https://images.metmuseum.org/CRDImages/ad/original/17636.jpg",
+                    ),
+                    constituentModels = null,
+                    department = "The American Wing",
+                    objectName = "Chest with drawer",
+                    title = "Chest with drawer",
+                    culture = "American",
+                    portfolio = "",
+                    artistDisplayName = "",
+                    artistDisplayBio = "",
+                    objectDate = "1705",
+                    objectBeginDate = 1705,
+                    objectEndDate = 1705,
+                    classification = "",
+                    metadataDate = "2023-02-07 T04 :46:51.34 Z",
+                    repository = "Metropolitan Museum of Art, New York, NY",
+                    objectURL = "https://www.metmuseum.org/art/collection/search/2032",
+                    tagModels = listOf(
+                        TagModel(
+                            term = "Flowers",
+                            aatUrl = "http://vocab.getty.edu/page/aat/300132399",
+                            wikidataURL = "https://www.wikidata.org/wiki/Q506",
+                        ),
+                    ),
+                ),
+            ),
+        )
+
         val job = launch(Dispatchers.Main) {
             objectDetailViewModel.uiState.test {
-                assertThat(awaitItem()).isEqualTo(
-                    ObjectDetailUiState(
-//                        isRefreshing = false,
-                        objectDetailState = UiState.Empty,
-                    ),
-                )
+                skipItems(2)
+                /**Assert*/
+                assertThat(awaitItem()).isEqualTo(expectedResult)
 
                 cancelAndIgnoreRemainingEvents()
             }
         }
 
-//        objectDetailViewModel.showLoading(false)
-        objectDetailViewModel.showLoading()
+        /**Act*/
+        objectDetailViewModel.fetchObjectDetail(fakeObjectId)
 
         job.join()
         job.cancel()
     }
 
     @Test
-    fun whenFetchedObjectDetail_thenShouldUpdateUiState(): Unit = runBlocking {
+    fun whenFetchedObjectDetailFailed_thenUpdateUiStateToError(): Unit = runTest {
         /**Arrange*/
-        val fakeObjectId = 2023
-        val fakeResponse = fakeObjectDetailRemoteDataSource.fetchObjectDetail(fakeObjectId)
+        val fakeObjectId = 1
+        objectDetailViewModel = ObjectDetailViewModel(fakeErrorObjectDetailRemoteDataSource)
+
+        val expectedResult = ObjectDetailUiState(
+            objectDetailState = UiState.Error("Oops! An error occurred!"),
+        )
 
         val job = launch(Dispatchers.Main) {
             objectDetailViewModel.uiState.test {
+                skipItems(2)
                 /**Assert*/
-                val firstEmission = awaitItem()
-
-                val secondEmission = awaitItem()
-
-                TODO(reason = "should implement test functionality")
-//                assertThat(awaitItem())
-//                    .isEqualTo()
+                assertThat(awaitItem()).isEqualTo(expectedResult)
 
                 cancelAndIgnoreRemainingEvents()
             }
