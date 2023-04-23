@@ -98,7 +98,7 @@ fun GallerySearchScreen(
         }
 
         // App Bar
-        CustomAppBar(title = stringResource(id = R.string.app_name))
+        CustomAppBar(title = stringResource(id = R.string.app_name), onFilterClicked = {})
 
         // Bottom Search Bar
         CustomBottomSearchBar(

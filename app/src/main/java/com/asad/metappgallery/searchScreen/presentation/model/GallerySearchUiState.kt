@@ -8,4 +8,5 @@ data class GallerySearchUiState(
     val searchQuery: TextFieldValue = TextFieldValue(""),
     val searchResult: UiState<GalleryResponse, String> = UiState.Empty,
     val isSearching: Boolean = false,
+    val isHighlightSelected: Boolean? = false,
 )
