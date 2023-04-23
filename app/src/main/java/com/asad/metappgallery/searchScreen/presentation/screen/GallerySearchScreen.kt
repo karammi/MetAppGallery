@@ -100,11 +100,12 @@ fun GallerySearchScreen(
             when (uiState.searchResult) {
                 is UiState.Success -> {
                     val data = uiState.searchResult.data?.objectIDs!!
-
+                    localFocusManager.clearFocus()
                     GallerySearchData(data = data, onItemClicked = onItemClicked)
                 }
 
                 is UiState.Error -> {
+                    localFocusManager.clearFocus()
                     GallerySearchError(
                         errorMessage = uiState.searchResult.message
                             ?: "Oops! An error occurred!\n$FailedToFetchDataDefaultMessage",
