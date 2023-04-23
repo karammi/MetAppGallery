@@ -133,7 +133,7 @@ fun GallerySearchScreen(
         CustomAppBar(
             title = stringResource(id = R.string.app_name),
             onFilterClicked = {
-                viewModel.setIsHighlight(true)
+                viewModel.setIsHighlightValue(true)
             },
         )
 

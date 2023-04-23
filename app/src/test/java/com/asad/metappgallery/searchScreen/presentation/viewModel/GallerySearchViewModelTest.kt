@@ -95,7 +95,7 @@ class GallerySearchViewModelTest {
             }
         }
 
-        gallerySearchViewModel.setIsSearching()
+        gallerySearchViewModel.showLoading()
 
         job.join()
         job.cancel()
