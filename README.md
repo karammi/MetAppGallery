@@ -59,3 +59,7 @@ improving code reUsability and maintainability.
 Developed unit tests for important functionalities. Note that if you want to run the tests with
 coverage, make sure that you have configured your test coverage runner to use JaCoCo.
 Used fake implementation of dataSource layers during 
+
+
+[device-2023-04-23-164426.webm](https://user-images.githubusercontent.com/18300610/233842490-83420f85-5d9e-4d09-b19e-81fa19ee9b5e.webm)
+
