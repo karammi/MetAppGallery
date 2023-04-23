@@ -1,13 +1,13 @@
 package com.asad.metappgallery.searchScreen.presentation.screen
 
 import androidx.compose.material.MaterialTheme
+import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
@@ -32,9 +32,8 @@ class GallerySearchScreenTest {
     private lateinit var gallerySearchViewModel: GallerySearchViewModel
 
     @Before
-    fun setupGallerySearchScreenForTest() {
+    fun setup() {
         composeTestRule.setContent {
-            composeTestRule.mainClock.autoAdvance = false
             MaterialTheme(colors = lightThemeColors) {
                 galleryRemoteDataSource = FakeGalleryRemoteDataSourceImpl()
 
@@ -80,51 +79,50 @@ class GallerySearchScreenTest {
     }
 
     @Test
-    fun gallerySearchScreenKeyword_shouldShowSuccessState() {
+    fun whenSearchGalleryKeyword_shouldDisplayGallerySearchResponse() {
         composeTestRule
-            .onNodeWithTag(UiConstant.SearchGalleryTextField)
+            .onNodeWithContentDescription(UiConstant.SearchGalleryTextField)
+            .assertHasClickAction()
+
+        composeTestRule
+            .onNodeWithContentDescription(UiConstant.SearchGalleryTextField)
             .performClick()
 
         composeTestRule
             .onNode(hasContentDescription(UiConstant.GalleryEmptyContent))
             .assertIsDisplayed()
 
-        composeTestRule
-            .mainClock
-            .advanceTimeBy(1000)
+        composeTestRule.mainClock.advanceTimeByFrame()
 
         composeTestRule
-            .onNodeWithTag(UiConstant.SearchGalleryTextField)
+            .onNodeWithContentDescription(UiConstant.SearchGalleryTextField)
             .assertIsDisplayed()
 
         composeTestRule
-            .onNodeWithTag(UiConstant.SearchGalleryTextField)
+            .onNodeWithContentDescription(UiConstant.SearchGalleryTextField)
             .performTextInput(UiConstant.QuerySearchText)
-
-        composeTestRule
-            .mainClock
-            .advanceTimeBy(5000)
-
-        composeTestRule
-            .waitUntil {
-                composeTestRule
-                    .onAllNodesWithContentDescription(UiConstant.GalleryGridContentDescription)
-                    .fetchSemanticsNodes().size == 1
-            }
-
-        composeTestRule
-            .onNodeWithText("1")
-            .assertIsDisplayed()
-
-        composeTestRule
-            .onNodeWithText("2")
-            .assertIsDisplayed()
 
         composeTestRule.waitUntil {
             composeTestRule
                 .onAllNodesWithContentDescription(UiConstant.GalleryCardContentDescription)
                 .fetchSemanticsNodes().size == 2
         }
+
+        composeTestRule
+            .onNodeWithContentDescription(UiConstant.ItemFirstContentDescription)
+            .assertIsDisplayed()
+
+        composeTestRule
+            .onNodeWithContentDescription(UiConstant.ItemFirstContentDescription)
+            .assertHasClickAction()
+
+        composeTestRule
+            .onNodeWithContentDescription(UiConstant.ItemSecondContentDescription)
+            .assertIsDisplayed()
+
+        composeTestRule
+            .onNodeWithContentDescription(UiConstant.ItemSecondContentDescription)
+            .assertHasClickAction()
 
         composeTestRule
             .onNodeWithContentDescription(UiConstant.ItemFirstContentDescription)

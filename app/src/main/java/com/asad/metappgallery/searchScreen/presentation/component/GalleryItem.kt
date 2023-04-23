@@ -14,6 +14,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
 
 @Composable
 fun GalleryItem(title: String, onItemClicked: (Int) -> Unit) {
@@ -24,7 +25,7 @@ fun GalleryItem(title: String, onItemClicked: (Int) -> Unit) {
             .clickable { onItemClicked.invoke(title.toInt()) }
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .semantics {
-                contentDescription = "gallery_search_card"
+                contentDescription = UiConstant.GalleryCardContentDescription
             },
         shape = RoundedCornerShape(16.dp),
         elevation = 8.dp,
