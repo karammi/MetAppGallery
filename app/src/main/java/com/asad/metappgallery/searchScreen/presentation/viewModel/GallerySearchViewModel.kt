@@ -9,6 +9,7 @@ import com.asad.metappgallery.searchScreen.data.dataSource.GalleryRemoteDataSour
 import com.asad.metappgallery.searchScreen.data.model.GalleryResponse
 import com.asad.metappgallery.searchScreen.presentation.model.GallerySearchUiState
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -37,7 +38,7 @@ class GallerySearchViewModel constructor(
                 if (it.searchQuery.text.isBlank()) {
                     resetUiState()
                 } else {
-//                    delay(100)
+                    delay(500)
 
                     fetchObjectsSearchJob = fetchGalleryList(it.searchQuery.text)
                 }
@@ -52,15 +53,14 @@ class GallerySearchViewModel constructor(
             val newState = uiState.value.copy(
                 searchQuery = TextFieldValue(""),
                 searchResult = UiState.Empty,
-                isSearching = false,
             )
             uiState.emit(newState)
         }
     }
 
-    fun setIsSearching(value: Boolean) {
+    fun setIsSearching() {
         viewModelScope.launch {
-            val newState = uiState.value.copy(isSearching = value)
+            val newState = uiState.value.copy(searchResult = UiState.Loading)
             uiState.emit(newState)
         }
     }
@@ -98,11 +98,10 @@ class GallerySearchViewModel constructor(
      * */
     fun fetchGalleryList(queryString: String): Job =
         viewModelScope.launch {
-            setIsSearching(true)
+            setIsSearching()
             ensureActive() // This ensures that the coroutine is not cancelled
             val result = galleryRemoteDataSource.fetchList(queryString)
             ensureActive() // This ensures that the coroutine is not cancelled
             setSearchResponse(result)
-            setIsSearching(false)
         }
 }
