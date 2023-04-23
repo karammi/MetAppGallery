@@ -4,7 +4,6 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
@@ -24,35 +23,28 @@ class MetGalleryScenarioTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            composeTestRule.mainClock.autoAdvance = false
+            composeTestRule.mainClock.autoAdvance = true
             FakeMetGalleryFinderApp()
         }
     }
 
     @Test
-    fun whenPressedSearchedGalleryItem_shouldNavigateObjectDetailScreen() {
+    fun whenASearchedGalleryItemClicked_shouldNavigateToDetailObjectInfoScreen() {
         composeTestRule.apply {
             onNodeWithContentDescription(UiConstant.GalleryEmptyContent)
                 .assertIsDisplayed()
 
-            onNodeWithTag(UiConstant.SearchGalleryTextField)
+            onNodeWithContentDescription(UiConstant.SearchGalleryTextField)
                 .assertIsDisplayed()
 
-            onNodeWithTag(UiConstant.SearchGalleryTextField)
+            onNodeWithContentDescription(UiConstant.SearchGalleryTextField)
                 .performClick()
 
-            mainClock
-                .advanceTimeBy(1000)
-
-            onNodeWithTag(UiConstant.SearchGalleryTextField)
+            onNodeWithContentDescription(UiConstant.SearchGalleryTextField)
                 .assertIsDisplayed()
 
-            mainClock.advanceTimeByFrame()
-
-            onNodeWithTag(UiConstant.SearchGalleryTextField)
+            onNodeWithContentDescription(UiConstant.SearchGalleryTextField)
                 .performTextInput(UiConstant.QuerySearchText)
-
-            mainClock.advanceTimeBy(5000)
 
             waitUntil {
                 composeTestRule
@@ -60,39 +52,25 @@ class MetGalleryScenarioTest {
                     .fetchSemanticsNodes().size == 1
             }
 
-            mainClock.advanceTimeByFrame()
-
             onNodeWithText("1")
                 .assertIsDisplayed()
 
-            mainClock.advanceTimeByFrame()
-
             onNodeWithText("2")
                 .assertIsDisplayed()
-
-            mainClock.advanceTimeByFrame()
 
             waitUntil {
                 onAllNodesWithContentDescription(UiConstant.GalleryCardContentDescription)
                     .fetchSemanticsNodes().size == 2
             }
 
-            mainClock.advanceTimeByFrame()
-
             onNodeWithContentDescription(UiConstant.ItemFirstContentDescription)
                 .assertIsDisplayed()
-
-            mainClock.advanceTimeByFrame()
 
             onNodeWithContentDescription(UiConstant.ItemSecondContentDescription)
                 .assertIsDisplayed()
 
-            mainClock.advanceTimeByFrame()
-
             onNodeWithText("1")
                 .performClick()
-
-            mainClock.advanceTimeBy(2000)
 
             onAllNodesWithContentDescription(
                 ObjectDetailScreen.ObjectContentDescriptionTitle,
