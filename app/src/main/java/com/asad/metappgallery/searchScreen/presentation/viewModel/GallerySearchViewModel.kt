@@ -65,6 +65,13 @@ class GallerySearchViewModel constructor(
         }
     }
 
+    fun setIsHighlight(value: Boolean) {
+        viewModelScope.launch {
+            val newState = uiState.value.copy(isHighlightSelected = value)
+            uiState.emit(newState)
+        }
+    }
+
     fun setSearchResponse(value: DataResult<GalleryResponse>) {
         viewModelScope.launch {
             when (value) {

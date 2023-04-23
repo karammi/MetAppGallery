@@ -33,8 +33,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.asad.metappgallery.R
 import com.asad.metappgallery.searchScreen.presentation.util.UiConstant.HEADER_DEFAULT_HEIGHT
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
@@ -45,6 +47,7 @@ fun BoxScope.CustomAppBar(
     title: String,
     onNavigateUp: (() -> Unit)? = null,
     isTransparent: Boolean = false,
+    onFilterClicked: (() -> Unit)? = null,
 ) {
     /**
      * This will be updated only when [isTransparent] changes
@@ -89,7 +92,7 @@ fun BoxScope.CustomAppBar(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
+            horizontalArrangement = if (onFilterClicked != null) Arrangement.SpaceBetween else Arrangement.Start,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp), // Due to Material Design 3: https://m3.material.io/components/top-app-bar/specs#e3fd3eba-0444-437c-9a82-071ef03d85b1
@@ -112,6 +115,18 @@ fun BoxScope.CustomAppBar(
                 text = title,
                 style = MaterialTheme.typography.h6,
             )
+
+            onFilterClicked?.let {
+                CustomTouchableScale(onClick = it) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_filter_alt_24),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .requiredWidth(24.dp)
+                            .requiredHeight(48.dp),
+                    )
+                }
+            }
         }
     }
 }
