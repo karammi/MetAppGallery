@@ -4,11 +4,11 @@ import com.asad.metappgallery.core.data.DataResult
 import com.asad.metappgallery.detailScreen.data.model.ObjectModel
 import com.asad.metappgallery.detailScreen.data.model.TagModel
 
-class FakeObjectDetailRemoteDataSourceImpl : ObjectDetailRemoteDataSource {
+class FakeSuccessObjectDetailRemoteDataSourceImpl : ObjectDetailRemoteDataSource {
     override suspend fun fetchObjectDetail(objectID: Int): DataResult<ObjectModel> {
         return DataResult.Success(
             ObjectModel(
-                objectID = 2032,
+                objectID = 1,
                 isHighlight = false,
                 isPublicDomain = true,
                 primaryImage = "https://images.metmuseum.org/CRDImages/ad/original/85I_ACF3100R5.jpg",
