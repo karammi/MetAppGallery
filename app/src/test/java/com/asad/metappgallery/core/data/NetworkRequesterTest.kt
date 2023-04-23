@@ -32,7 +32,7 @@ class NetworkRequesterTest {
 //        mockConnection = Mockito.mock(HttpsURLConnection::class.java)
 
         val query = "sunflower"
-        url = URL(GallerySearchConstant.GalleryCollectionApi(query))
+        url = URL(GallerySearchConstant.GalleryCollectionApi(query,false))
         sut = NetworkRequester()
     }
 
