@@ -16,10 +16,10 @@ import javax.inject.Inject
 
 private const val TAG = "ObjectDetailViewModel"
 
+/**SaveStateHandler just added to fetch object Id from it*/
 @HiltViewModel
 class ObjectDetailViewModel @Inject constructor(
     private val repository: ObjectDetailRepository,
-    /*just added to fetch object Id from saveStateHandler*/
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 

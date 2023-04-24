@@ -17,11 +17,9 @@ class GalleryRemoteDataSourceImpl @Inject constructor(
     override suspend fun fetchGalleryList(
         query: String,
         isHighlight: Boolean?,
-    ): DataResult<GalleryResponseEntity> {
-        return apiRunner.invokeSuspended { galleryApi.fetchGalleryList(query) }
-    }
+    ): DataResult<GalleryResponseEntity> =
+        apiRunner.invokeSuspended { galleryApi.fetchGalleryList(query) }
 
-    override suspend fun fetchDepartments(): DataResult<DepartmentResponseEntity> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun fetchDepartments(): DataResult<DepartmentResponseEntity> =
+        apiRunner.invokeSuspended { galleryApi.fetchDepartments() }
 }

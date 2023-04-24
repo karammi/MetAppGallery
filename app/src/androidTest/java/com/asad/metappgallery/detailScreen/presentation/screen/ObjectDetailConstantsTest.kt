@@ -8,8 +8,8 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performScrollToNode
 import androidx.lifecycle.SavedStateHandle
 import com.asad.metappgallery.core.CoreString
-import com.asad.metappgallery.detailScreen.data.dataSource.FakeObjectDetailRemoteDataSourceImpl
-import com.asad.metappgallery.detailScreen.data.dataSource.remote.ObjectDetailRemoteDataSource
+import com.asad.metappgallery.detailScreen.data.repository.FakeObjectDetailRepositoryImpl
+import com.asad.metappgallery.detailScreen.domain.repository.ObjectDetailRepository
 import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailConstants
 import com.asad.metappgallery.detailScreen.presentation.viewModel.ObjectDetailViewModel
 import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
@@ -22,7 +22,7 @@ class ObjectDetailConstantsTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    lateinit var objectDetailRemoteDataSource: ObjectDetailRemoteDataSource
+    lateinit var fakeObjectDetailRepository: ObjectDetailRepository
     lateinit var detailViewModel: ObjectDetailViewModel
 
     @Before
@@ -30,10 +30,10 @@ class ObjectDetailConstantsTest {
         composeTestRule.setContent {
             composeTestRule.mainClock.autoAdvance = false
 
-            objectDetailRemoteDataSource = FakeObjectDetailRemoteDataSourceImpl()
+            fakeObjectDetailRepository = FakeObjectDetailRepositoryImpl()
             detailViewModel =
                 ObjectDetailViewModel(
-                    objectDetailRemoteDataSource = objectDetailRemoteDataSource,
+                    repository = fakeObjectDetailRepository,
                     savedStateHandle = SavedStateHandle(),
                 )
             val fakeCurrentObjectId = "1"

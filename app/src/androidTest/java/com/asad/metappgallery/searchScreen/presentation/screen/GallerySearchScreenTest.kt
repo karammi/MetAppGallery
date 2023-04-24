@@ -12,8 +12,8 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import com.asad.metappgallery.app.theme.lightThemeColors
-import com.asad.metappgallery.searchScreen.data.dataSource.FakeGalleryRemoteDataSourceImpl
-import com.asad.metappgallery.searchScreen.data.dataSource.remote.GalleryRemoteDataSource
+import com.asad.metappgallery.searchScreen.data.repository.FakeGalleryRepositoryImpl
+import com.asad.metappgallery.searchScreen.domain.repository.GalleryRepository
 import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
 import com.asad.metappgallery.searchScreen.presentation.viewModel.GallerySearchViewModel
 import org.junit.Before
@@ -27,7 +27,7 @@ class GallerySearchScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    lateinit var galleryRemoteDataSource: GalleryRemoteDataSource
+    lateinit var fakeGalleryRepository: GalleryRepository
 
     private lateinit var gallerySearchViewModel: GallerySearchViewModel
 
@@ -35,9 +35,9 @@ class GallerySearchScreenTest {
     fun setup() {
         composeTestRule.setContent {
             MaterialTheme(colors = lightThemeColors) {
-                galleryRemoteDataSource = FakeGalleryRemoteDataSourceImpl()
+                fakeGalleryRepository = FakeGalleryRepositoryImpl()
 
-                gallerySearchViewModel = GallerySearchViewModel(galleryRemoteDataSource)
+                gallerySearchViewModel = GallerySearchViewModel(fakeGalleryRepository)
 
                 GallerySearchScreen(
                     viewModel = gallerySearchViewModel,

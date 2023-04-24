@@ -15,3 +15,10 @@ sealed class DataResult<out R>(
     class Success<T>(override val value: T) : DataResult<T>()
     class Error(override val exception: Exception?) : DataResult<Nothing>()
 }
+
+inline fun <reified R, reified T> DataResult<T>.map(transform: (value: T) -> R): DataResult<R> {
+    return when (this) {
+        is DataResult.Error -> DataResult.Success(transform.invoke(exception as T))
+        is DataResult.Success -> DataResult.Success(transform.invoke(value as T))
+    }
+}

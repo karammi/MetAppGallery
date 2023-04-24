@@ -1,6 +1,7 @@
 package com.asad.metappgallery.detailScreen.data.repository
 
 import com.asad.metappgallery.core.data.DataResult
+import com.asad.metappgallery.core.data.map
 import com.asad.metappgallery.detailScreen.data.dataSource.remote.ObjectDetailRemoteDataSource
 import com.asad.metappgallery.detailScreen.data.repository.mapper.ObjectModelMapper
 import com.asad.metappgallery.detailScreen.domain.model.ObjectModel
@@ -19,12 +20,5 @@ class ObjectDetailRepositoryImpl @Inject constructor(
             .fetchObjectDetail(objectID = objectID).map {
                 objectModelMapper.mapToModel(it)
             }
-    }
-}
-
-public inline fun <reified R, reified T> DataResult<T>.map(transform: (value: T) -> R): DataResult<R> {
-    return when (this) {
-        is DataResult.Error -> DataResult.Success(transform.invoke(exception as T))
-        is DataResult.Success -> DataResult.Success(transform.invoke(value))
     }
 }
