@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.asad.metappgallery"
-        compileSdkPreview = "UpsideDownCake"
+//        compileSdkPreview = "UpsideDownCake"
         minSdk 21
         targetSdk 33
         versionCode 11

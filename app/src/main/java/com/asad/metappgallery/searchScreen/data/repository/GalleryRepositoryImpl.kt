@@ -1,7 +1,6 @@
 package com.asad.metappgallery.searchScreen.data.repository
 
 import com.asad.metappgallery.core.data.DataResult
-import com.asad.metappgallery.core.data.map
 import com.asad.metappgallery.searchScreen.data.dataSource.remote.GalleryRemoteDataSource
 import com.asad.metappgallery.searchScreen.data.repository.mapper.DepartmentResponseModelMapper
 import com.asad.metappgallery.searchScreen.data.repository.mapper.GalleryModelMapper
@@ -21,17 +20,24 @@ class GalleryRepositoryImpl @Inject constructor(
         query: String,
         isHighlight: Boolean?,
     ): DataResult<GalleryResponseModel> {
-        return galleryRemoteDataSource
+        val response = galleryRemoteDataSource
             .fetchGalleryList(query = query, isHighlight = isHighlight)
-            .map {
-                galleryModelMapper.mapToModel(it)
-            }
+
+        return when (response) {
+            is DataResult.Error -> DataResult.Error(response.exception)
+            is DataResult.Success -> DataResult.Success(galleryModelMapper.mapToModel(response.value))
+        }
     }
 
-    override suspend fun fetchDepartments(): DataResult<DepartmentResponseModel> =
-        galleryRemoteDataSource
-            .fetchDepartments()
-            .map {
-                departmentResponseModelMapper.mapToModel(it)
-            }
+    override suspend fun fetchDepartments(): DataResult<DepartmentResponseModel> {
+        val response = galleryRemoteDataSource.fetchDepartments()
+        return when (response) {
+            is DataResult.Error -> response
+            is DataResult.Success -> DataResult.Success(
+                departmentResponseModelMapper.mapToModel(
+                    response.value,
+                ),
+            )
+        }
+    }
 }

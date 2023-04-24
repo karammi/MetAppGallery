@@ -1,7 +1,6 @@
 package com.asad.metappgallery.detailScreen.data.repository
 
 import com.asad.metappgallery.core.data.DataResult
-import com.asad.metappgallery.core.data.map
 import com.asad.metappgallery.detailScreen.data.dataSource.remote.ObjectDetailRemoteDataSource
 import com.asad.metappgallery.detailScreen.data.repository.mapper.ObjectModelMapper
 import com.asad.metappgallery.detailScreen.domain.model.ObjectModel
@@ -16,9 +15,11 @@ class ObjectDetailRepositoryImpl @Inject constructor(
 
 ) : ObjectDetailRepository {
     override suspend fun fetchObjectDetail(objectID: Int): DataResult<ObjectModel> {
-        return objectDetailRemoteDataSource
-            .fetchObjectDetail(objectID = objectID).map {
-                objectModelMapper.mapToModel(it)
-            }
+        val response = objectDetailRemoteDataSource
+            .fetchObjectDetail(objectID = objectID)
+        return when (response) {
+            is DataResult.Error -> DataResult.Error(response.exception)
+            is DataResult.Success -> DataResult.Success(objectModelMapper.mapToModel(response.value))
+        }
     }
 }
