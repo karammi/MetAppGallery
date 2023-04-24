@@ -32,11 +32,11 @@ import androidx.compose.ui.unit.dp
 import com.asad.metappgallery.R
 import com.asad.metappgallery.core.CoreString
 import com.asad.metappgallery.core.presentation.CustomNetworkImage
-import com.asad.metappgallery.detailScreen.data.dataSource.remote.model.ObjectEntity
+import com.asad.metappgallery.detailScreen.domain.model.ObjectModel
 import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailConstants
 
 @Composable
-fun BoxScope.ObjectDetailContent(data: ObjectEntity) {
+fun BoxScope.ObjectDetailContent(data: ObjectModel) {
     val configuration = LocalConfiguration.current
 
     val surfaceColor = MaterialTheme.colors.surface
@@ -229,7 +229,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectEntity) {
                 .padding(start = 24.dp, end = 24.dp, bottom = 12.dp),
         )
 
-        data.tagEntities?.let {
+        data.tagModels?.let {
             TagsContent(tags = it)
         }
 

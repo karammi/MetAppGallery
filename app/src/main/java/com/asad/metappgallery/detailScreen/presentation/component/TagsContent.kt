@@ -21,9 +21,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.asad.metappgallery.detailScreen.data.dataSource.remote.model.TagEntity
+import com.asad.metappgallery.detailScreen.domain.model.TagModel
 
 @Composable
-fun TagsContent(tags: List<TagEntity>) {
+fun TagsContent(tags: List<TagModel>) {
     val horizontalScrollState = rememberScrollState()
     val surfaceColor = MaterialTheme.colors.surface
     Row(

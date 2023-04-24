@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asad.metappgallery.core.data.DataResult
 import com.asad.metappgallery.core.presentation.UiState
-import com.asad.metappgallery.searchScreen.data.dataSource.remote.GalleryRemoteDataSource
-import com.asad.metappgallery.searchScreen.data.dataSource.remote.model.GalleryResponseEntity
-import com.asad.metappgallery.searchScreen.data.model.DepartmentResponse
+import com.asad.metappgallery.searchScreen.domain.model.DepartmentResponseModel
+import com.asad.metappgallery.searchScreen.domain.model.GalleryResponseModel
+import com.asad.metappgallery.searchScreen.domain.repository.GalleryRepository
 import com.asad.metappgallery.searchScreen.presentation.model.GallerySearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -22,7 +22,7 @@ private const val TAG = "GalleryFinder"
 
 @HiltViewModel
 class GallerySearchViewModel @Inject constructor(
-    private val galleryRemoteDataSource: GalleryRemoteDataSource,
+    private val galleryRepository: GalleryRepository,
 ) : ViewModel() {
 
     val initialState = GallerySearchUiState()
@@ -60,7 +60,7 @@ class GallerySearchViewModel @Inject constructor(
         viewModelScope.launch {
             showLoading()
             val result =
-                galleryRemoteDataSource.fetchGalleryList(
+                galleryRepository.fetchGalleryList(
                     query = queryString,
                     isHighlight = isHighlight,
                 )
@@ -69,7 +69,7 @@ class GallerySearchViewModel @Inject constructor(
 
     fun fetchDepartmentList() {
         viewModelScope.launch {
-            val result = galleryRemoteDataSource.fetchDepartments()
+            val result = galleryRepository.fetchDepartments()
             setDepartmentResponse(result)
         }
     }
@@ -108,7 +108,7 @@ class GallerySearchViewModel @Inject constructor(
         }
     }
 
-    fun setGallerySearchResponse(value: DataResult<GalleryResponseEntity>) {
+    fun setGallerySearchResponse(value: DataResult<GalleryResponseModel>) {
         viewModelScope.launch {
             when (value) {
                 is DataResult.Error -> {
@@ -129,7 +129,7 @@ class GallerySearchViewModel @Inject constructor(
         }
     }
 
-    fun setDepartmentResponse(value: DataResult<DepartmentResponse>) {
+    fun setDepartmentResponse(value: DataResult<DepartmentResponseModel>) {
         viewModelScope.launch {
             when (value) {
                 is DataResult.Error -> {
@@ -143,7 +143,7 @@ class GallerySearchViewModel @Inject constructor(
                 }
 
                 is DataResult.Success -> {
-                    val newState = if (value.value.departments.isEmpty()) {
+                    val newState = if (value.value.departmentModels.isEmpty()) {
                         uiState.value.copy(departments = UiState.Empty)
                     } else {
                         uiState.value.copy(departments = UiState.Success(data = value.value))
@@ -160,7 +160,7 @@ class GallerySearchViewModel @Inject constructor(
     fun fetchGalleryList(queryString: String): Job =
         viewModelScope.launch {
             showLoading()
-            val result = galleryRemoteDataSource.fetchGalleryList(queryString, isHighlight = false)
+            val result = galleryRepository.fetchGalleryList(queryString, isHighlight = false)
             setGallerySearchResponse(result)
         }
 }

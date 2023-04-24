@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asad.metappgallery.core.data.DataResult
 import com.asad.metappgallery.core.presentation.UiState
-import com.asad.metappgallery.detailScreen.data.dataSource.remote.ObjectDetailRemoteDataSource
-import com.asad.metappgallery.detailScreen.data.dataSource.remote.model.ObjectEntity
+import com.asad.metappgallery.detailScreen.domain.model.ObjectModel
+import com.asad.metappgallery.detailScreen.domain.repository.ObjectDetailRepository
 import com.asad.metappgallery.detailScreen.presentation.model.ObjectDetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -18,7 +18,8 @@ private const val TAG = "ObjectDetailViewModel"
 
 @HiltViewModel
 class ObjectDetailViewModel @Inject constructor(
-    private val objectDetailRemoteDataSource: ObjectDetailRemoteDataSource,
+    private val repository: ObjectDetailRepository,
+    /*just added to fetch object Id from saveStateHandler*/
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -35,7 +36,7 @@ class ObjectDetailViewModel @Inject constructor(
         }
     }
 
-    private fun setObjectDataResponse(data: DataResult<ObjectEntity>) {
+    private fun setObjectDataResponse(data: DataResult<ObjectModel>) {
         viewModelScope.launch {
             when (data) {
                 is DataResult.Error -> {
@@ -58,7 +59,7 @@ class ObjectDetailViewModel @Inject constructor(
 
     fun fetchObjectDetail(objectId: Int): Job = viewModelScope.launch {
         showLoading()
-        val result = objectDetailRemoteDataSource.fetchObjectDetail(objectId)
+        val result = repository.fetchObjectDetail(objectId)
         setObjectDataResponse(result)
     }
 }

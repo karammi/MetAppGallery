@@ -3,8 +3,8 @@ package com.asad.metappgallery.searchScreen.data.dataSource.remote
 import com.asad.metappgallery.core.data.DataResult
 import com.asad.metappgallery.core.util.ApiRunner
 import com.asad.metappgallery.searchScreen.data.dataSource.api.GalleryApi
+import com.asad.metappgallery.searchScreen.data.dataSource.remote.model.DepartmentResponseEntity
 import com.asad.metappgallery.searchScreen.data.dataSource.remote.model.GalleryResponseEntity
-import com.asad.metappgallery.searchScreen.data.model.DepartmentResponse
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
@@ -21,7 +21,7 @@ class GalleryRemoteDataSourceImpl @Inject constructor(
         return apiRunner.invokeSuspended { galleryApi.fetchGalleryList(query) }
     }
 
-    override suspend fun fetchDepartments(): DataResult<DepartmentResponse> {
+    override suspend fun fetchDepartments(): DataResult<DepartmentResponseEntity> {
         TODO("Not yet implemented")
     }
 }

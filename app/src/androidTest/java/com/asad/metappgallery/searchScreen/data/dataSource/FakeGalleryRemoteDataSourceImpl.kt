@@ -3,7 +3,7 @@ package com.asad.metappgallery.searchScreen.data.dataSource
 import com.asad.metappgallery.core.data.DataResult
 import com.asad.metappgallery.searchScreen.data.dataSource.remote.GalleryRemoteDataSource
 import com.asad.metappgallery.searchScreen.data.dataSource.remote.model.GalleryResponseEntity
-import com.asad.metappgallery.searchScreen.data.model.DepartmentResponse
+import com.asad.metappgallery.searchScreen.data.dataSource.remote.model.DepartmentResponseEntity
 
 class FakeGalleryRemoteDataSourceImpl : GalleryRemoteDataSource {
 
@@ -19,7 +19,7 @@ class FakeGalleryRemoteDataSourceImpl : GalleryRemoteDataSource {
         )
     }
 
-    override suspend fun fetchDepartments(): DataResult<DepartmentResponse> {
-        return DataResult.Success(DepartmentResponse(departments = emptyList()))
+    override suspend fun fetchDepartments(): DataResult<DepartmentResponseEntity> {
+        return DataResult.Success(DepartmentResponseEntity(departmentEntities = emptyList()))
     }
 }

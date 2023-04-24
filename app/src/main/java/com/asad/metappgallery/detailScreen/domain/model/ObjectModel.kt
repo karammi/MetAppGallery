@@ -1,0 +1,26 @@
+package com.asad.metappgallery.detailScreen.domain.model
+
+data class ObjectModel(
+    val objectID: Int,
+    val isHighlight: Boolean,
+    val isPublicDomain: Boolean,
+    val primaryImage: String? = null,
+    val primaryImageSmall: String? = null,
+    val additionalImages: List<String>? = null,
+    val constituentModels: List<ConstituentModel>? = null,
+    val department: String? = null,
+    val objectName: String? = null,
+    val title: String? = null,
+    val culture: String? = null,
+    val portfolio: String,
+    val artistDisplayName: String,
+    val artistDisplayBio: String?,
+    val objectDate: String,
+    val objectBeginDate: Int,
+    val objectEndDate: Int,
+    val classification: String,
+    val metadataDate: String,
+    val repository: String,
+    val objectURL: String,
+    val tagModels: List<TagModel>? = null,
+)

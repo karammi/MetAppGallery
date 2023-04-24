@@ -52,10 +52,11 @@ import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.core.util.ComposeUtil
 import com.asad.metappgallery.core.util.SystemUiUtil
 import com.asad.metappgallery.searchScreen.data.GallerySearchConstant
-import com.asad.metappgallery.searchScreen.data.model.Department
+import com.asad.metappgallery.searchScreen.domain.model.DepartmentModel
 import com.asad.metappgallery.searchScreen.presentation.component.CustomAppBar
 import com.asad.metappgallery.searchScreen.presentation.component.CustomBottomSearchBar
 import com.asad.metappgallery.searchScreen.presentation.component.CustomEmptyContent
+import com.asad.metappgallery.searchScreen.presentation.component.FilterContent
 import com.asad.metappgallery.searchScreen.presentation.component.GallerySearchData
 import com.asad.metappgallery.searchScreen.presentation.component.GallerySearchError
 import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
@@ -148,131 +149,11 @@ fun GallerySearchScreen(
             uiState.departments.data?.let {
                 FilterContent(
                     currentState = ModalBottomSheetValue.HalfExpanded,
-                    departments = it.departments,
+                    departmentModels = it.departmentModels,
                     onDepartmentClicked = {},
                     updateBottomSheetState = {},
                 )
             }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
-@Composable
-fun FilterContent(
-    currentState: ModalBottomSheetValue,
-    departments: List<Department>,
-    onDepartmentClicked: (Department) -> Unit,
-    updateBottomSheetState: (List<Department>) -> Unit,
-) {
-    val contextForToast = LocalContext.current.applicationContext
-
-    val coroutineScope = rememberCoroutineScope()
-
-    val bottomSheetState = rememberModalBottomSheetState(initialValue = currentState)
-
-    val onHideBottomSheet: () -> Unit = {
-        coroutineScope.launch {
-            bottomSheetState.hide()
-        }
-    }
-
-    ModalBottomSheetLayout(
-        sheetContent = {
-            LazyColumn {
-                stickyHeader {
-                    Row(
-                        modifier = Modifier.fillMaxWidth()
-                            .height(56.dp)
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        OutlinedButton(
-                            onClick = {
-                                coroutineScope.launch {
-                                    bottomSheetState.hide()
-                                }
-                            },
-                            border = BorderStroke(1.dp, color = Color.Black),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.DarkGray,
-                                contentColor = Color.White,
-                            ),
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxHeight(),
-                        ) {
-                            Text(
-                                text = "Done",
-                                modifier = Modifier
-                                    .wrapContentWidth()
-                                    .fillMaxHeight(),
-                                textAlign = TextAlign.Center,
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.width(8.dp))
-
-                        Button(
-                            onClick = onHideBottomSheet,
-                            border = BorderStroke(1.dp, color = Color.Black),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = MaterialTheme.colors.onSecondary,
-                                contentColor = Color.Black,
-                            ),
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxHeight(),
-                        ) {
-                            Text(
-                                text = "Cancel",
-                                modifier = Modifier
-                                    .wrapContentWidth()
-                                    .fillMaxHeight(),
-                                textAlign = TextAlign.Center,
-                            )
-                        }
-                    }
-                }
-
-                items(count = departments.size) { index ->
-                    ListItem(
-                        modifier = Modifier
-                            .clickable {
-                                Toast.makeText(
-                                    contextForToast,
-                                    departments[index].displayName,
-                                    Toast.LENGTH_SHORT,
-                                ).show()
-
-                                onHideBottomSheet.invoke()
-                            },
-                        text = {
-                            Text(text = departments[index].displayName)
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = Icons.Default.Check,
-                                contentDescription = "SelectedDepartment",
-                            )
-                        },
-                    )
-                }
-            }
-        },
-        sheetState = bottomSheetState,
-        scrimColor = Color.LightGray,
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .clickable {
-                    onHideBottomSheet.invoke()
-                },
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
         }
     }
 }
