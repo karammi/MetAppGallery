@@ -64,6 +64,4 @@ improving code reUsability and maintainability.
 
 ## Automated Test
 
-Developed unit tests for important functionalities. Note that if you want to run the tests with
-coverage, make sure that you have configured your test coverage runner to use JaCoCo.
-Used fake implementation of dataSource layers during 
+Developed unit tests for important functionalities. also added Ui test and scenario test.
