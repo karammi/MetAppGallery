@@ -13,7 +13,7 @@ You can use this application to search for the Metropolitan Museum of Art (MET) 
 
 
 ## Download APK
-[Metropolitan Museum of Art App](https://github.com/karammi/MetAppGallery/raw/dev/app/release/app-release.apk)
+[Metropolitan Museum of Art App](https://github.com/karammi/MetAppGallery/releases/download/untagged-160b197fb7ec49f1c77a/app-with-dependencies.apk)
 
 ## Demo
 [device-2023-04-23-233812.webm](https://user-images.githubusercontent.com/18300610/233863404-585a7757-5199-47b3-884f-0ba48c2fb934.webm)
@@ -64,6 +64,4 @@ improving code reUsability and maintainability.
 
 ## Automated Test
 
-Developed unit tests for important functionalities. Note that if you want to run the tests with
-coverage, make sure that you have configured your test coverage runner to use JaCoCo.
-Used fake implementation of dataSource layers during 
+Developed unit tests for important functionalities. also added Ui test and scenario test.
