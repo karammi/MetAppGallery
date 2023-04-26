@@ -1,13 +1,14 @@
 package com.asad.metappgallery.detailScreen.data.dataSource
 
 import com.asad.metappgallery.core.data.DataResult
-import com.asad.metappgallery.detailScreen.data.model.ObjectModel
-import com.asad.metappgallery.detailScreen.data.model.TagModel
+import com.asad.metappgallery.detailScreen.data.dataSource.remote.ObjectDetailRemoteDataSource
+import com.asad.metappgallery.detailScreen.data.dataSource.remote.model.ObjectEntity
+import com.asad.metappgallery.detailScreen.data.dataSource.remote.model.TagEntity
 
 class FakeObjectDetailRemoteDataSourceImpl : ObjectDetailRemoteDataSource {
-    override suspend fun fetchObjectDetail(objectID: Int): DataResult<ObjectModel> {
+    override suspend fun fetchObjectDetail(objectID: Int): DataResult<ObjectEntity> {
         return DataResult.Success(
-            value = ObjectModel(
+            value = ObjectEntity(
                 objectID = 1,
                 isHighlight = false,
                 isPublicDomain = true,
@@ -21,7 +22,7 @@ class FakeObjectDetailRemoteDataSourceImpl : ObjectDetailRemoteDataSource {
                     "https://images.metmuseum.org/CRDImages/ad/original/197998.jpg",
                     "https://images.metmuseum.org/CRDImages/ad/original/17636.jpg",
                 ),
-                constituentModels = null,
+                constituentEntities = null,
                 department = "The American Wing",
                 objectName = "Chest with drawer",
                 title = "Chest with drawer",
@@ -36,8 +37,8 @@ class FakeObjectDetailRemoteDataSourceImpl : ObjectDetailRemoteDataSource {
                 metadataDate = "2023-02-07 T04 :46:51.34 Z",
                 repository = "Metropolitan Museum of Art, New York, NY",
                 objectURL = "https://www.metmuseum.org/art/collection/search/2032",
-                tagModels = listOf(
-                    TagModel(
+                tagEntities = listOf(
+                    TagEntity(
                         term = "Flowers",
                         aatUrl = "http://vocab.getty.edu/page/aat/300132399",
                         wikidataURL = "https://www.wikidata.org/wiki/Q506",

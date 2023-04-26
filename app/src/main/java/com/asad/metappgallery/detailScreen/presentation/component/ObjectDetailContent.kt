@@ -28,12 +28,14 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.asad.metappgallery.R
 import com.asad.metappgallery.core.CoreString
 import com.asad.metappgallery.core.presentation.CustomNetworkImage
-import com.asad.metappgallery.detailScreen.data.model.ObjectModel
-import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailScreen
+import com.asad.metappgallery.detailScreen.domain.model.ObjectModel
+import com.asad.metappgallery.detailScreen.domain.model.TagModel
+import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailConstants
 
 @Composable
 fun BoxScope.ObjectDetailContent(data: ObjectModel) {
@@ -89,7 +91,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
             .fillMaxSize()
             .verticalScroll(scrollState)
             .semantics {
-                contentDescription = ObjectDetailScreen.ColumnContentDescription
+                contentDescription = ObjectDetailConstants.ColumnContentDescription
             },
     ) {
         Box(
@@ -115,7 +117,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
             )
 
             Text(
-                text = data.title ?: data.objectName ?: ObjectDetailScreen.GalleryInfo,
+                text = data.title ?: data.objectName ?: ObjectDetailConstants.GalleryInfo,
                 style = MaterialTheme.typography.h6.copy(
                     color = MaterialTheme.colors.onSecondary,
                 ),
@@ -123,7 +125,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
                     .align(Alignment.BottomStart)
                     .padding(horizontal = 24.dp, vertical = 16.dp)
                     .semantics {
-                        contentDescription = ObjectDetailScreen.ObjectContentDescriptionTitle
+                        contentDescription = ObjectDetailConstants.ObjectContentDescriptionTitle
                     },
             )
         }
@@ -136,7 +138,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
         )
 
         Text(
-            text = ObjectDetailScreen.artistDisplayName(data.artistDisplayName),
+            text = ObjectDetailConstants.artistDisplayName(data.artistDisplayName),
             style = MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onSecondary,
             ),
@@ -145,12 +147,12 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
                 .background(surfaceColor)
                 .padding(horizontal = 24.dp, vertical = 12.dp)
                 .semantics {
-                    contentDescription = ObjectDetailScreen.ArtistContentDescriptionTitle
+                    contentDescription = ObjectDetailConstants.ArtistContentDescriptionTitle
                 },
         )
 
         Text(
-            text = ObjectDetailScreen.department(data.department),
+            text = ObjectDetailConstants.department(data.department),
             style = MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onSecondary,
             ),
@@ -159,12 +161,12 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
                 .background(color = surfaceColor)
                 .padding(horizontal = 24.dp, vertical = 12.dp)
                 .semantics {
-                    contentDescription = ObjectDetailScreen.DepartmentContentDescriptionTitle
+                    contentDescription = ObjectDetailConstants.DepartmentContentDescriptionTitle
                 },
         )
 
         Text(
-            text = ObjectDetailScreen.classification(data.classification),
+            text = ObjectDetailConstants.classification(data.classification),
             style = MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onSecondary,
             ),
@@ -173,11 +175,11 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
                 .background(color = surfaceColor)
                 .padding(horizontal = 24.dp, vertical = 12.dp)
                 .semantics {
-                    contentDescription = ObjectDetailScreen.ClassificationContentDescriptionTitle
+                    contentDescription = ObjectDetailConstants.ClassificationContentDescriptionTitle
                 },
         )
         Text(
-            text = ObjectDetailScreen.culture(data.culture),
+            text = ObjectDetailConstants.culture(data.culture),
             style = MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onSecondary,
             ),
@@ -187,7 +189,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
                 .padding(horizontal = 24.dp, vertical = 12.dp),
         )
         Text(
-            text = ObjectDetailScreen.portfolio(data.portfolio),
+            text = ObjectDetailConstants.portfolio(data.portfolio),
             style = MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onSecondary,
             ),
@@ -197,7 +199,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
                 .padding(horizontal = 24.dp, vertical = 12.dp),
         )
         Text(
-            text = ObjectDetailScreen.objectDate(data.objectDate),
+            text = ObjectDetailConstants.objectDate(data.objectDate),
             style = MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onSecondary,
             ),
@@ -208,7 +210,7 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
         )
 
         Text(
-            text = ObjectDetailScreen.ArtistDisplayBio,
+            text = ObjectDetailConstants.ArtistDisplayBio,
             style = MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onSecondary,
             ),
@@ -245,6 +247,52 @@ fun BoxScope.ObjectDetailContent(data: ObjectModel) {
                 .semantics {
                     contentDescription = "key"
                 },
+        )
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun ObjectDetailContentPreview() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        ObjectDetailContent(
+            data = ObjectModel(
+                objectID = 1,
+                isHighlight = false,
+                isPublicDomain = true,
+                primaryImage = "https://images.metmuseum.org/CRDImages/ad/original/85I_ACF3100R5.jpg",
+                primaryImageSmall = " https://images.metmuseum.org/CRDImages/ad/web-large/85I_ACF3100R5.jpg",
+                additionalImages = listOf(
+                    "https://images.metmuseum.org/CRDImages/ad/original/85P_PAINTDEC01R4.jpg",
+                    "https://images.metmuseum.org/CRDImages/ad/original/257477.jpg",
+                    "https://images.metmuseum.org/CRDImages/ad/original/258476.jpg",
+                    "https://images.metmuseum.org/CRDImages/ad/original/258475.jpg",
+                    "https://images.metmuseum.org/CRDImages/ad/original/197998.jpg",
+                    "https://images.metmuseum.org/CRDImages/ad/original/17636.jpg",
+                ),
+                constituentModels = null,
+                department = "The American Wing",
+                objectName = "Chest with drawer",
+                title = "Chest with drawer",
+                culture = "American",
+                portfolio = "",
+                artistDisplayName = "",
+                artistDisplayBio = "",
+                objectDate = "1705",
+                objectBeginDate = 1705,
+                objectEndDate = 1705,
+                classification = "",
+                metadataDate = "2023-02-07 T04 :46:51.34 Z",
+                repository = "Metropolitan Museum of Art, New York, NY",
+                objectURL = "https://www.metmuseum.org/art/collection/search/2032",
+                tagModels = listOf(
+                    TagModel(
+                        term = "Flowers",
+                        aatUrl = "http://vocab.getty.edu/page/aat/300132399",
+                        wikidataURL = "https://www.wikidata.org/wiki/Q506",
+                    ),
+                ),
+            ),
         )
     }
 }

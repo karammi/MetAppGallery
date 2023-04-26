@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
 
@@ -29,4 +30,10 @@ fun GallerySearchData(data: List<Int>, onItemClicked: (Int) -> Unit) {
             )
         }
     }
+}
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+fun GallerySearchDataPreview() {
+    GallerySearchData(data = listOf(1, 2, 3), onItemClicked = {})
 }

@@ -3,24 +3,29 @@ package com.asad.metappgallery.searchScreen.presentation.viewModel
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.core.data.DataResult
-import com.asad.metappgallery.searchScreen.data.dataSource.GalleryRemoteDataSource
-import com.asad.metappgallery.searchScreen.data.model.DepartmentResponse
-import com.asad.metappgallery.searchScreen.data.model.GalleryResponse
+import com.asad.metappgallery.core.di.IoDispatcher
+import com.asad.metappgallery.core.presentation.UiState
+import com.asad.metappgallery.searchScreen.domain.model.DepartmentResponseModel
+import com.asad.metappgallery.searchScreen.domain.model.GalleryResponseModel
+import com.asad.metappgallery.searchScreen.domain.repository.GalleryRepository
 import com.asad.metappgallery.searchScreen.presentation.model.GallerySearchUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val TAG = "GalleryFinder"
 
-class GallerySearchViewModel constructor(
-    private val galleryRemoteDataSource: GalleryRemoteDataSource,
+@HiltViewModel
+class GallerySearchViewModel @Inject constructor(
+    private val galleryRepository: GalleryRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     val initialState = GallerySearchUiState()
@@ -29,7 +34,7 @@ class GallerySearchViewModel constructor(
     private var fetchObjectsSearchJob: Job? = null
 
     init {
-        fetchDepartmentList()
+//        fetchDepartmentList()
         observedSearchText()
     }
 
@@ -57,16 +62,17 @@ class GallerySearchViewModel constructor(
     fun fetchGalleryList(queryString: String, isHighlight: Boolean? = null): Job =
         viewModelScope.launch {
             showLoading()
-            ensureActive() // This ensures that the coroutine is not cancelled
             val result =
-                galleryRemoteDataSource.fetchList(query = queryString, isHighlight = isHighlight)
-            ensureActive() // This ensures that the coroutine is not cancelled
+                galleryRepository.fetchGalleryList(
+                    query = queryString,
+                    isHighlight = isHighlight,
+                )
             setGallerySearchResponse(result)
         }
 
     fun fetchDepartmentList() {
-        viewModelScope.launch {
-            val result = galleryRemoteDataSource.fetchDepartments()
+        viewModelScope.launch(ioDispatcher) {
+            val result = galleryRepository.fetchDepartments()
             setDepartmentResponse(result)
         }
     }
@@ -105,12 +111,12 @@ class GallerySearchViewModel constructor(
         }
     }
 
-    fun setGallerySearchResponse(value: DataResult<GalleryResponse>) {
+    fun setGallerySearchResponse(value: DataResult<GalleryResponseModel>) {
         viewModelScope.launch {
             when (value) {
                 is DataResult.Error -> {
                     val newState =
-                        uiState.value.copy(searchResult = UiState.Error(value.exception?.message))
+                        uiState.value.copy(searchResult = UiState.Error(value.errorMessage))
                     uiState.emit(newState)
                 }
 
@@ -126,21 +132,21 @@ class GallerySearchViewModel constructor(
         }
     }
 
-    fun setDepartmentResponse(value: DataResult<DepartmentResponse>) {
+    fun setDepartmentResponse(value: DataResult<DepartmentResponseModel>) {
         viewModelScope.launch {
             when (value) {
                 is DataResult.Error -> {
                     val newState =
                         uiState.value.copy(
                             departments = UiState.Error(
-                                message = value.exception?.message ?: "Error has happened!",
+                                message = value.errorMessage,
                             ),
                         )
                     uiState.emit(newState)
                 }
 
                 is DataResult.Success -> {
-                    val newState = if (value.value.departments.isEmpty()) {
+                    val newState = if (value.value.departmentModels.isEmpty()) {
                         uiState.value.copy(departments = UiState.Empty)
                     } else {
                         uiState.value.copy(departments = UiState.Success(data = value.value))

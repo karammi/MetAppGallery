@@ -1,6 +1,7 @@
 package com.asad.metappgallery.searchScreen.presentation.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,6 +38,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
 
@@ -124,12 +126,20 @@ fun BoxScope.CustomBottomSearchBar(
                     cursorColor = Color.Black,
                     focusedIndicatorColor = Color.White,
                     unfocusedIndicatorColor = Color.White.copy(alpha = 0.5f),
-                    backgroundColor = MaterialTheme.colors.surface
+                    backgroundColor = MaterialTheme.colors.surface,
                 ),
                 textStyle = MaterialTheme.typography.caption.copy(
                     color = MaterialTheme.colors.onSecondary,
                 ),
             )
         }
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun CustomBottomSearchBarPreview() {
+    Box(modifier = Modifier.fillMaxSize()){
+        CustomBottomSearchBar(searchedValue = TextFieldValue("sunflower"), onSearchedValueChanged = {})
     }
 }

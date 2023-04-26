@@ -2,17 +2,18 @@ package com.asad.metappgallery.searchScreen.presentation.viewModel
 
 import androidx.compose.ui.text.input.TextFieldValue
 import app.cash.turbine.test
-import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.core.data.DataResult
-import com.asad.metappgallery.searchScreen.data.dataSource.FakeErrorGalleryRemoteDataSourceImpl
+import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.searchScreen.data.dataSource.FakeSuccessGalleryRemoteDataSourceImpl
-import com.asad.metappgallery.searchScreen.data.dataSource.GalleryRemoteDataSource
-import com.asad.metappgallery.searchScreen.data.model.GalleryResponse
+import com.asad.metappgallery.searchScreen.data.repository.FakeErrorGalleryRepositoryImpl
+import com.asad.metappgallery.searchScreen.domain.model.GalleryResponseModel
+import com.asad.metappgallery.searchScreen.domain.repository.GalleryRepository
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -25,17 +26,18 @@ class GallerySearchViewModelTest {
 
     private val mainThread = newSingleThreadContext("UI thread")
 
-    private lateinit var mockedSuccessGalleryRemoteDataSource: GalleryRemoteDataSource
-
-    private lateinit var mockedErrorGalleryRemoteDataSource: GalleryRemoteDataSource
+    lateinit var fakeSuccessGalleryRepository: GalleryRepository
+    lateinit var fakeErrorGalleryRepository: GalleryRepository
 
     private lateinit var gallerySearchViewModel: GallerySearchViewModel
+
+    private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher = mainThread)
-        mockedSuccessGalleryRemoteDataSource = FakeSuccessGalleryRemoteDataSourceImpl()
-        mockedErrorGalleryRemoteDataSource = FakeErrorGalleryRemoteDataSourceImpl()
+        fakeSuccessGalleryRepository = FakeSuccessGalleryRemoteDataSourceImpl()
+        fakeErrorGalleryRepository = FakeErrorGalleryRepositoryImpl()
     }
 
     @After
@@ -46,7 +48,8 @@ class GallerySearchViewModelTest {
 
     @Test
     fun initialUiState() = runTest {
-        gallerySearchViewModel = GallerySearchViewModel(mockedSuccessGalleryRemoteDataSource)
+        gallerySearchViewModel =
+            GallerySearchViewModel(fakeSuccessGalleryRepository, testDispatcher)
         gallerySearchViewModel.uiState.test {
             val emission = awaitItem()
 
@@ -58,7 +61,8 @@ class GallerySearchViewModelTest {
 
     @Test
     fun resetUiState_whenDifferentWithCurrentState_thenUpdateUiState() = runTest {
-        gallerySearchViewModel = GallerySearchViewModel(mockedSuccessGalleryRemoteDataSource)
+        gallerySearchViewModel =
+            GallerySearchViewModel(fakeSuccessGalleryRepository, testDispatcher)
         if (gallerySearchViewModel.uiState.value != gallerySearchViewModel.initialState) {
             val job = launch(Dispatchers.Main) {
                 gallerySearchViewModel.uiState.test {
@@ -81,7 +85,8 @@ class GallerySearchViewModelTest {
 
     @Test
     fun whenSetRefreshingTriggered_thenUpdateUiStateToLoading() = runTest {
-        gallerySearchViewModel = GallerySearchViewModel(mockedSuccessGalleryRemoteDataSource)
+        gallerySearchViewModel =
+            GallerySearchViewModel(fakeSuccessGalleryRepository, testDispatcher)
         val newState = UiState.Loading
 
         val job = launch(Dispatchers.Main) {
@@ -103,11 +108,12 @@ class GallerySearchViewModelTest {
 
     @Test
     fun whenSearchGalleryIsTriggered_thenUpdateUiStateToSuccess() = runTest {
-        gallerySearchViewModel = GallerySearchViewModel(mockedSuccessGalleryRemoteDataSource)
+        gallerySearchViewModel =
+            GallerySearchViewModel(fakeSuccessGalleryRepository, testDispatcher)
         /** Arrange*/
         val queryString = "sunflower"
         val expectedSearchResult = DataResult.Success(
-            value = GalleryResponse(
+            value = GalleryResponseModel(
                 total = 10,
                 objectIDs = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
             ),
@@ -134,7 +140,8 @@ class GallerySearchViewModelTest {
 
     @Test
     fun whenSetSearchTextFieldIsCalled_thenUpdateUiStateWithCorrectTextField() = runTest {
-        gallerySearchViewModel = GallerySearchViewModel(mockedSuccessGalleryRemoteDataSource)
+        gallerySearchViewModel =
+            GallerySearchViewModel(fakeSuccessGalleryRepository, testDispatcher)
         val searchedText = TextFieldValue("sunflower")
 
         val job = launch(Dispatchers.Main) {
@@ -156,10 +163,11 @@ class GallerySearchViewModelTest {
 
     @Test
     fun fetchObjectsWhichContainsQuery_thenUpdateUiStateToSuccess() = runTest {
-        gallerySearchViewModel = GallerySearchViewModel(mockedSuccessGalleryRemoteDataSource)
+        gallerySearchViewModel =
+            GallerySearchViewModel(fakeSuccessGalleryRepository, testDispatcher)
         val searchedQueryText = "sunflower"
         val response = UiState.Success(
-            GalleryResponse(
+            GalleryResponseModel(
                 total = 10,
                 objectIDs = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
             ),
@@ -187,7 +195,8 @@ class GallerySearchViewModelTest {
 
     @Test
     fun whenSearchTextFieldIsCleared_thenUpdateUiStateToEmptyTextField() = runTest {
-        gallerySearchViewModel = GallerySearchViewModel(mockedSuccessGalleryRemoteDataSource)
+        gallerySearchViewModel =
+            GallerySearchViewModel(fakeSuccessGalleryRepository, testDispatcher)
         val searchedQueryText = TextFieldValue("")
 
         val job = launch(Dispatchers.Main) {
@@ -208,7 +217,7 @@ class GallerySearchViewModelTest {
 
     @Test
     fun fetchObjectWhichContainError_shouldEmitErrorState(): Unit = runTest {
-        gallerySearchViewModel = GallerySearchViewModel(mockedErrorGalleryRemoteDataSource)
+        gallerySearchViewModel = GallerySearchViewModel(fakeErrorGalleryRepository, testDispatcher)
         val searchQuery = ""
         val response = UiState.Error("Oops!,An error occurred!")
         val job = launch(Dispatchers.Main) {

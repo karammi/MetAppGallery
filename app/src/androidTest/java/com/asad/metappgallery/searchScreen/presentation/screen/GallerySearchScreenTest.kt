@@ -12,10 +12,13 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import com.asad.metappgallery.app.theme.lightThemeColors
-import com.asad.metappgallery.searchScreen.data.dataSource.FakeGalleryRemoteDataSourceImpl
-import com.asad.metappgallery.searchScreen.data.dataSource.GalleryRemoteDataSource
+import com.asad.metappgallery.searchScreen.data.repository.FakeGalleryRepositoryImpl
+import com.asad.metappgallery.searchScreen.domain.repository.GalleryRepository
 import com.asad.metappgallery.searchScreen.presentation.util.UiConstant
 import com.asad.metappgallery.searchScreen.presentation.viewModel.GallerySearchViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -27,17 +30,21 @@ class GallerySearchScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    lateinit var galleryRemoteDataSource: GalleryRemoteDataSource
+    lateinit var fakeGalleryRepository: GalleryRepository
 
     private lateinit var gallerySearchViewModel: GallerySearchViewModel
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val testDispatcher: CoroutineDispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setup() {
         composeTestRule.setContent {
             MaterialTheme(colors = lightThemeColors) {
-                galleryRemoteDataSource = FakeGalleryRemoteDataSourceImpl()
+                fakeGalleryRepository = FakeGalleryRepositoryImpl()
 
-                gallerySearchViewModel = GallerySearchViewModel(galleryRemoteDataSource)
+                gallerySearchViewModel =
+                    GallerySearchViewModel(fakeGalleryRepository, testDispatcher)
 
                 GallerySearchScreen(
                     viewModel = gallerySearchViewModel,

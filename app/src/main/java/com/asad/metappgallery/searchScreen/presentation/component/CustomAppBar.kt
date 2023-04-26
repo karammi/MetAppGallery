@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.asad.metappgallery.R
@@ -195,5 +196,18 @@ fun CustomTouchableScale(
             },
     ) {
         content()
+    }
+}
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+fun CustomAppBarPreview() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        CustomAppBar(
+            title = "App Gallery",
+            onNavigateUp = {},
+            isTransparent = false,
+            onFilterClicked = null,
+        )
     }
 }

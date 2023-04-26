@@ -20,7 +20,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.asad.metappgallery.detailScreen.data.model.TagModel
+import com.asad.metappgallery.detailScreen.data.dataSource.remote.model.TagEntity
+import com.asad.metappgallery.detailScreen.domain.model.TagModel
 
 @Composable
 fun TagsContent(tags: List<TagModel>) {

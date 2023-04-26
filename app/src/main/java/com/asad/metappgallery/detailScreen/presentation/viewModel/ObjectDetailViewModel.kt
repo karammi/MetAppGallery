@@ -1,19 +1,29 @@
 package com.asad.metappgallery.detailScreen.presentation.viewModel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.core.data.DataResult
-import com.asad.metappgallery.detailScreen.data.dataSource.ObjectDetailRemoteDataSource
-import com.asad.metappgallery.detailScreen.data.model.ObjectModel
+import com.asad.metappgallery.core.di.IoDispatcher
+import com.asad.metappgallery.core.presentation.UiState
+import com.asad.metappgallery.detailScreen.domain.model.ObjectModel
+import com.asad.metappgallery.detailScreen.domain.repository.ObjectDetailRepository
 import com.asad.metappgallery.detailScreen.presentation.model.ObjectDetailUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ObjectDetailViewModel constructor(
-    private val objectDetailRemoteDataSource: ObjectDetailRemoteDataSource,
+private const val TAG = "ObjectDetailViewModel"
+
+/**SaveStateHandler just added to fetch object Id from it*/
+@HiltViewModel
+class ObjectDetailViewModel @Inject constructor(
+    private val repository: ObjectDetailRepository,
+    private val savedStateHandle: SavedStateHandle,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val dataFetchingJob: Job? = null
@@ -35,7 +45,7 @@ class ObjectDetailViewModel constructor(
                 is DataResult.Error -> {
                     val newState =
                         uiState.value.copy(
-                            objectDetailState = UiState.Error(message = data.exception?.message),
+                            objectDetailState = UiState.Error(message = data.errorMessage),
                         )
                     uiState.emit(newState)
                 }
@@ -50,11 +60,9 @@ class ObjectDetailViewModel constructor(
         }
     }
 
-    fun fetchObjectDetail(objectId: Int): Job = viewModelScope.launch {
+    fun fetchObjectDetail(objectId: Int): Job = viewModelScope.launch(ioDispatcher) {
         showLoading()
-        ensureActive()
-        val result = objectDetailRemoteDataSource.fetchObjectDetail(objectId)
-        ensureActive()
+        val result = repository.fetchObjectDetail(objectId)
         setObjectDataResponse(result)
     }
 }

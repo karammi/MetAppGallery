@@ -6,12 +6,23 @@ package com.asad.metappgallery.core.data
  * [DataResult.Success] in case of a successful API call.
  *
  * @param value is of a generic type and is different based on each API.
- * @param exception is the one that the api have thrown.
+ * @param errorMessage is the one that the api have thrown.
  * */
 sealed class DataResult<out R>(
     open val value: R? = null,
-    open val exception: Exception? = null,
+    open val errorMessage: String? = null,
 ) {
     class Success<T>(override val value: T) : DataResult<T>()
-    class Error(override val exception: Exception?) : DataResult<Nothing>()
+    class Error(override val errorMessage: String?) : DataResult<Nothing>()
+}
+
+/**
+ * This extension mapper function is used to convert entity objects to domain models
+ * using their transform functions
+ * */
+inline fun <reified R, reified T> DataResult<T>.map(transform: (value: T) -> R): DataResult<R> {
+    return when (this) {
+        is DataResult.Success -> DataResult.Success(transform.invoke(value as T))
+        else -> DataResult.Error(this.errorMessage)
+    }
 }

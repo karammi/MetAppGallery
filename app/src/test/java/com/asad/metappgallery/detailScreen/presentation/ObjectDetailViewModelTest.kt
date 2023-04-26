@@ -1,19 +1,22 @@
 package com.asad.metappgallery.detailScreen.presentation
 
+import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.asad.metappgallery.core.presentation.UiState
-import com.asad.metappgallery.detailScreen.data.dataSource.FakeErrorObjectDetailRemoteDataSourceImpl
-import com.asad.metappgallery.detailScreen.data.dataSource.FakeSuccessObjectDetailRemoteDataSourceImpl
-import com.asad.metappgallery.detailScreen.data.dataSource.ObjectDetailRemoteDataSource
-import com.asad.metappgallery.detailScreen.data.model.ObjectModel
-import com.asad.metappgallery.detailScreen.data.model.TagModel
+import com.asad.metappgallery.detailScreen.data.repository.FakeErrorObjectDetailRepositoryImpl
+import com.asad.metappgallery.detailScreen.data.repository.FakeSuccessObjectDetailRepositoryImpl
+import com.asad.metappgallery.detailScreen.domain.model.ObjectModel
+import com.asad.metappgallery.detailScreen.domain.model.TagModel
+import com.asad.metappgallery.detailScreen.domain.repository.ObjectDetailRepository
 import com.asad.metappgallery.detailScreen.presentation.model.ObjectDetailUiState
 import com.asad.metappgallery.detailScreen.presentation.viewModel.ObjectDetailViewModel
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -28,15 +31,22 @@ class ObjectDetailViewModelTest {
 
     private lateinit var objectDetailViewModel: ObjectDetailViewModel
 
-    private lateinit var fakeSuccessObjectDetailRemoteDataSource: ObjectDetailRemoteDataSource
-    private lateinit var fakeErrorObjectDetailRemoteDataSource: ObjectDetailRemoteDataSource
+    private lateinit var fakedSuccessObjectDetailRepository: ObjectDetailRepository
+    private lateinit var fakedErrorObjectDetailRepository: ObjectDetailRepository
+
+    private val testDispatcher: CoroutineDispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setup() {
         Dispatchers.setMain(newMainThread)
-        fakeSuccessObjectDetailRemoteDataSource = FakeSuccessObjectDetailRemoteDataSourceImpl()
-        fakeErrorObjectDetailRemoteDataSource = FakeErrorObjectDetailRemoteDataSourceImpl()
-        objectDetailViewModel = ObjectDetailViewModel(fakeSuccessObjectDetailRemoteDataSource)
+        fakedErrorObjectDetailRepository = FakeErrorObjectDetailRepositoryImpl()
+        fakedSuccessObjectDetailRepository = FakeSuccessObjectDetailRepositoryImpl()
+
+        objectDetailViewModel = ObjectDetailViewModel(
+            repository = fakedSuccessObjectDetailRepository,
+            savedStateHandle = SavedStateHandle(),
+            ioDispatcher = testDispatcher,
+        )
     }
 
     @After
@@ -145,7 +155,11 @@ class ObjectDetailViewModelTest {
     fun whenFetchedObjectDetailFailed_thenUpdateUiStateToError(): Unit = runTest {
         /**Arrange*/
         val fakeObjectId = 1
-        objectDetailViewModel = ObjectDetailViewModel(fakeErrorObjectDetailRemoteDataSource)
+        objectDetailViewModel = ObjectDetailViewModel(
+            repository = fakedErrorObjectDetailRepository,
+            savedStateHandle = SavedStateHandle(),
+            ioDispatcher = testDispatcher,
+        )
 
         val expectedResult = ObjectDetailUiState(
             objectDetailState = UiState.Error("Oops! An error occurred!"),

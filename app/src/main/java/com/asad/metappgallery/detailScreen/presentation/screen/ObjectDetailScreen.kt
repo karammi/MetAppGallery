@@ -17,10 +17,11 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.asad.metappgallery.core.presentation.UiState
 import com.asad.metappgallery.core.util.ComposeUtil
 import com.asad.metappgallery.detailScreen.presentation.component.ObjectDetailContent
-import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailScreen
+import com.asad.metappgallery.detailScreen.presentation.util.ObjectDetailConstants
 import com.asad.metappgallery.detailScreen.presentation.viewModel.ObjectDetailViewModel
 import com.asad.metappgallery.searchScreen.presentation.component.CustomAppBar
 import com.asad.metappgallery.searchScreen.presentation.component.CustomEmptyContent
@@ -30,7 +31,7 @@ private const val TAG = "DetailScreen"
 
 @Composable
 fun ObjectDetailScreen(
-    viewModel: ObjectDetailViewModel,
+    viewModel: ObjectDetailViewModel = hiltViewModel(),
     currentObjectId: String,
     onNavigationBack: () -> Unit,
 ) {
@@ -53,7 +54,7 @@ fun ObjectDetailScreen(
     ) {
         when (uiState.value.objectDetailState) {
             UiState.Empty -> {
-                CustomEmptyContent(body = ObjectDetailScreen.GalleryDataEmptyValue)
+                CustomEmptyContent(body = ObjectDetailConstants.GalleryDataEmptyValue)
             }
 
             UiState.Loading -> {
@@ -63,7 +64,7 @@ fun ObjectDetailScreen(
                         .align(Alignment.Center)
                         .semantics {
                             contentDescription =
-                                ObjectDetailScreen.CircularProgressContentDescription
+                                ObjectDetailConstants.CircularProgressContentDescription
                         },
                     color = MaterialTheme.colors.secondaryVariant,
                     strokeWidth = 4.dp,
@@ -81,7 +82,7 @@ fun ObjectDetailScreen(
                 }) {
                     val errorMessage =
                         uiState.value.objectDetailState.message
-                            ?: ObjectDetailScreen.GalleryErrorTitle
+                            ?: ObjectDetailConstants.GalleryErrorTitle
 
                     Text(
                         text = errorMessage,
@@ -98,7 +99,7 @@ fun ObjectDetailScreen(
 
         CustomAppBar(
             title = uiState.value.objectDetailState.data?.objectName
-                ?: ObjectDetailScreen.GalleryDetail,
+                ?: ObjectDetailConstants.GalleryDetail,
             onNavigateUp = onNavigationBack,
             isTransparent = true,
         )

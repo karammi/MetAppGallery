@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -61,5 +62,13 @@ fun BoxScope.GallerySearchError(errorMessage: String, tryAgain: () -> Unit) {
                 Text(text = "RETRY", color = MaterialTheme.colors.onSecondary)
             }
         }
+    }
+}
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+fun GallerySearchErrorPreview() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        GallerySearchError(errorMessage = "Oops! an error occurred!", tryAgain = {})
     }
 }
