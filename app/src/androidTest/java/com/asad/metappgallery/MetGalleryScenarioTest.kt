@@ -60,7 +60,6 @@ class MetGalleryScenarioTest {
     @Before
     fun setup() {
         hiltRule.inject()
-//        mockWebServer = MockWebServer()
 
         mockWebServer.start(port = 8607)
 
@@ -106,11 +105,6 @@ class MetGalleryScenarioTest {
                     .assertAny(hasText(UiConstant.QuerySearchText))
                     .fetchSemanticsNodes().size == 1
             }
-//            waitUntil {
-//                composeTestRule
-//                    .onAllNodesWithContentDescription(UiConstant.GalleryGridContentDescription)
-//                    .fetchSemanticsNodes().size == 1
-//            }
 
             onNodeWithText("1")
                 .assertIsDisplayed()
